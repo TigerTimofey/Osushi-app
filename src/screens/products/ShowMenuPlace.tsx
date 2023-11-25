@@ -25,45 +25,44 @@ const ShowMenuPlace = ({ selectedMenu }) => {
   React.useEffect(() => {
     if (selectedMenu) {
       setItemQuantities(
-        selectedMenu.reduce((quantities, item) => {
+        selectedMenu.reduce((quantities: number, item: any) => {
           quantities[item.id] = 1;
           return quantities;
         }, {})
       );
     }
   }, [selectedMenu]);
-
-  const handleQuantityChange = (newQuantity) => {
+  const handleQuantityChange = (newQuantity, itemId) => {
     setItemQuantities((prevQuantities) => ({
       ...prevQuantities,
-      [selectedItem.id]: newQuantity,
+      [itemId]: newQuantity,
     }));
   };
 
   const handleAddToCart = () => {
     if (selectedItem) {
-      const existingCartItemIndex = cartData.findIndex(
+      const updatedCartData = [...cartData];
+
+      const existingCartItemIndex = updatedCartData.findIndex(
         (cartItem) => cartItem.id === selectedItem.id
       );
 
-      const updatedCartData = [...cartData];
+      const newQuantity = itemQuantities[selectedItem.id] || 0;
+      const totalPrice = selectedItem.numericPrice * newQuantity;
 
       if (existingCartItemIndex !== -1) {
-        // Если товар уже есть в корзине, обнови его количество
-        updatedCartData[existingCartItemIndex] = {
-          ...updatedCartData[existingCartItemIndex],
-          quantity: itemQuantities[selectedItem.id],
-          totalPrice:
-            selectedItem.numericPrice * itemQuantities[selectedItem.id],
-        };
+        // Если товар уже есть в корзине, обновим его количество
+        const existingCartItem = updatedCartData[existingCartItemIndex];
+        existingCartItem.quantity = newQuantity;
+        existingCartItem.totalPrice = totalPrice;
       } else {
-        const total =
-          selectedItem.numericPrice * itemQuantities[selectedItem.id] || 0;
+        // Если товара нет в корзине, добавим новый элемент
         const cartItem = {
           id: selectedItem.id,
           name: selectedItem.name,
-          totalPrice: total,
-          quantity: itemQuantities[selectedItem.id] || 0,
+          numericPrice: selectedItem.numericPrice,
+          totalPrice: totalPrice,
+          quantity: newQuantity,
         };
 
         updatedCartData.push(cartItem);
@@ -143,6 +142,7 @@ const ShowMenuPlace = ({ selectedMenu }) => {
           cartData={cartData}
           setCartData={setCartData}
           quantity={undefined}
+          selectedItem={selectedItem}
         />
       </View>
       <View
@@ -260,7 +260,9 @@ const ShowMenuPlace = ({ selectedMenu }) => {
                       quantity={itemQuantities[selectedItem.id] || 0}
                       min={1}
                       max={99}
-                      onQuantityChange={handleQuantityChange}
+                      onQuantityChange={(newQuantity) =>
+                        handleQuantityChange(newQuantity, selectedItem.id)
+                      }
                     />
                   </View>
                 </View>

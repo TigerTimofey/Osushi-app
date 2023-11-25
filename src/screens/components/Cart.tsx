@@ -13,8 +13,14 @@ import {
 import { BlurView } from "expo-blur";
 import { Avatar, Badge } from "@rneui/themed";
 import { COLORS, SIZES, FONTS, images } from "../../constants";
+import QuantityPicker from "./Quantity";
 
-export default function Cart({ quantity, cartData, setCartData }) {
+export default function Cart({
+  quantity,
+  cartData,
+  setCartData,
+  selectedItem,
+}) {
   const [showAddToCartModal, setShowCartModal] = useState(false);
 
   const formatPrice = (price: number) => {
@@ -27,13 +33,41 @@ export default function Cart({ quantity, cartData, setCartData }) {
   };
 
   const calculateTotal = () => {
-    return cartData.reduce((total, item) => total + item.totalPrice, 0);
+    return cartData.reduce(
+      (total: any, item: any) => total + item.totalPrice,
+      0
+    );
   };
   const totalAmount = calculateTotal();
 
   const removeItem = (index) => {
     const updatedCartData = [...cartData];
     updatedCartData.splice(index, 1);
+    setCartData(updatedCartData);
+  };
+  const updateCartItemQuantity = (index, newQuantity) => {
+    const updatedCartData = [...cartData];
+
+    if (index < 0 || index >= updatedCartData.length) {
+      console.error("Invalid index:", index);
+      return;
+    }
+
+    const item = updatedCartData[index];
+
+    if (!item || typeof item.numericPrice !== "number") {
+      console.error("Invalid item or numericPrice:", item);
+      return;
+    }
+
+    const totalPrice = item.numericPrice * newQuantity;
+
+    updatedCartData[index] = {
+      ...item,
+      quantity: newQuantity,
+      totalPrice: totalPrice,
+    };
+
     setCartData(updatedCartData);
   };
 
@@ -103,6 +137,14 @@ export default function Cart({ quantity, cartData, setCartData }) {
             <View style={{ display: "flex", alignItems: "center" }}>
               {cartData.map((item, index) => (
                 <View key={index} style={{ flexDirection: "row" }}>
+                  <QuantityPicker
+                    quantity={item.quantity || 0}
+                    min={1}
+                    max={99}
+                    onQuantityChange={(newQuantity) =>
+                      updateCartItemQuantity(index, newQuantity)
+                    }
+                  />
                   <Text
                     style={
                       {
@@ -116,6 +158,7 @@ export default function Cart({ quantity, cartData, setCartData }) {
                     {item.name} ({item.quantity}tk.) -{" "}
                     {formatPrice(item.totalPrice)}
                   </Text>
+
                   <TouchableOpacity onPress={() => removeItem(index)}>
                     <Text
                       style={
