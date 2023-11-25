@@ -56,34 +56,69 @@ const QuantityPicker: React.FC<QuantityPickerProps> = ({
   };
 
   return (
-    <View style={{ flexDirection: "row", alignItems: "center" }}>
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: COLORS.lightGray,
+        borderRadius: 10,
+      }}
+    >
       <TouchableOpacity
         style={{
-          padding: 5,
           margin: 5,
-          borderRadius: 5,
-          backgroundColor: disableDec ? COLORS.gray : COLORS.red,
+          borderRadius: 10,
+          backgroundColor: disableDec && COLORS.gray,
         }}
         onPress={decrement}
         disabled={disableDec}
       >
-        <Text style={{ color: COLORS.white, fontSize: SIZES.h5 }}>-</Text>
+        <Text
+          style={
+            {
+              paddingHorizontal: 6,
+              color: COLORS.darknessGray,
+              fontSize: SIZES.h3,
+              ...FONTS.h3,
+            } as StyleProp<TextStyle>
+          }
+        >
+          -
+        </Text>
       </TouchableOpacity>
-      <Text style={{ fontSize: SIZES.h2, ...FONTS.h2 } as StyleProp<TextStyle>}>
+      <Text
+        style={
+          {
+            marginHorizontal: 13,
+            fontSize: SIZES.h2,
+            ...FONTS.h3,
+          } as StyleProp<TextStyle>
+        }
+      >
         {value}
       </Text>
       <TouchableOpacity
         style={{
-          padding: 4,
-          paddingVertical: 5.4,
+          paddingHorizontal: 6,
           margin: 5,
-          borderRadius: 5,
-          backgroundColor: disableInc ? COLORS.gray : COLORS.green,
+          borderRadius: 10,
+          backgroundColor: disableDec && COLORS.gray,
         }}
         onPress={increment}
         disabled={disableInc}
       >
-        <Text style={{ color: COLORS.white, fontSize: SIZES.h5 }}>+</Text>
+        <Text
+          style={
+            {
+              color: COLORS.darknessGray,
+              fontSize: SIZES.h3,
+              marginBottom: 1,
+              ...FONTS.h3,
+            } as StyleProp<TextStyle>
+          }
+        >
+          +
+        </Text>
       </TouchableOpacity>
     </View>
   );

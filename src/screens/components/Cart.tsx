@@ -116,7 +116,7 @@ export default function Cart({
           <ScrollView
             style={{
               borderRadius: 10,
-              width: "85%",
+              width: "100%",
               backgroundColor: COLORS.white,
               maxHeight: 700,
             }}
@@ -134,9 +134,12 @@ export default function Cart({
               />
             </View>
 
-            <View style={{ display: "flex", alignItems: "center" }}>
+            <View style={{ display: "flex", margin: 20 }}>
               {cartData.map((item, index) => (
-                <View key={index} style={{ flexDirection: "row" }}>
+                <View
+                  key={index}
+                  style={{ flexDirection: "row", marginBottom: 8 }}
+                >
                   <QuantityPicker
                     quantity={item.quantity || 0}
                     min={1}
@@ -148,23 +151,22 @@ export default function Cart({
                   <Text
                     style={
                       {
-                        marginBottom: 20,
+                        marginTop: 4,
                         marginLeft: 10,
                         color: COLORS.black,
-                        ...FONTS.h3,
+                        ...FONTS.h4,
                       } as StyleProp<TextStyle>
                     }
                   >
-                    {item.name} ({item.quantity}tk.) -{" "}
-                    {formatPrice(item.totalPrice)}
+                    {item.name} - {formatPrice(item.totalPrice)}
                   </Text>
 
                   <TouchableOpacity onPress={() => removeItem(index)}>
                     <Text
                       style={
                         {
-                          marginLeft: 4,
-                          marginTop: 7,
+                          marginLeft: 5,
+                          marginTop: 10,
                           color: COLORS.red,
                           ...FONTS.h3,
                         } as StyleProp<TextStyle>
@@ -246,7 +248,7 @@ export default function Cart({
                       } as StyleProp<TextStyle>
                     }
                   >
-                    Tühistada
+                    Menüüs
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -264,7 +266,7 @@ export default function Cart({
                       } as StyleProp<TextStyle>
                     }
                   >
-                    Kinnita
+                    Kinnita tellimus
                   </Text>
                 </TouchableOpacity>
               </View>
