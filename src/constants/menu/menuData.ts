@@ -229,7 +229,7 @@ export const hotMaki = [
   {
     id: 27,
     name: "California hot (8tk)",
-    img: images?.california,
+    img: images?.californiaHot,
     bgColor: "#fff",
     numericPrice: 9.9,
     type: "lumekrabi, avokaado, kurk, majonees, seesamiseemned",
