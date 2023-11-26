@@ -14,6 +14,7 @@ import { BlurView } from "expo-blur";
 import { Avatar, Badge } from "@rneui/themed";
 import { COLORS, SIZES, FONTS, images } from "../../constants";
 import QuantityPicker from "./Quantity";
+import { lisad } from "../../constants/menu/menuData";
 
 export default function Cart({
   quantity,
@@ -22,6 +23,17 @@ export default function Cart({
   selectedItem,
 }) {
   const [showAddToCartModal, setShowCartModal] = useState(false);
+  const [cartQuantities, setCartQuantities] = useState({});
+
+  // ... (existing functions)
+
+  // Callback function to update cart quantities
+  const updateCartQuantities = (itemId, newQuantity) => {
+    setCartQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [itemId]: newQuantity,
+    }));
+  };
 
   const formatPrice = (price: number) => {
     return price.toLocaleString("en-US", {
@@ -135,6 +147,57 @@ export default function Cart({
             </View>
 
             <View style={{ display: "flex", margin: 20 }}>
+              {lisad.map((item, index) => (
+                <View
+                  key={index}
+                  style={{ flexDirection: "row", marginBottom: 8 }}
+                >
+                  <QuantityPicker
+                    quantity={cartQuantities[item.id] || 0}
+                    min={1}
+                    max={99}
+                    onQuantityChange={(newQuantity) =>
+                      updateCartQuantities(item.id, newQuantity)
+                    }
+                  />
+                  <Text
+                    style={
+                      {
+                        marginTop: 4,
+                        marginLeft: 10,
+                        color: COLORS.black,
+                        ...FONTS.h4,
+                      } as StyleProp<TextStyle>
+                    }
+                  >
+                    {item.name} -{" "}
+                    {formatPrice(
+                      item.numericPrice * (cartQuantities[item.id] || 0)
+                    )}
+                  </Text>
+
+                  <TouchableOpacity onPress={() => removeItem(index)}>
+                    <Text
+                      style={
+                        {
+                          marginLeft: 5,
+                          marginTop: 10,
+                          color: COLORS.red,
+                          ...FONTS.h3,
+                        } as StyleProp<TextStyle>
+                      }
+                    >
+                      <Image
+                        source={images.x}
+                        style={{
+                          width: 15,
+                          height: 15,
+                        }}
+                      />
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              ))}
               {cartData.map((item, index) => (
                 <View
                   key={index}
@@ -184,6 +247,7 @@ export default function Cart({
                 </View>
               ))}
             </View>
+
             <View
               style={{
                 alignItems: "center",
@@ -281,7 +345,7 @@ export default function Cart({
 const styles = StyleSheet.create({
   buttonConfirm: {
     flex: 2,
-    marginLeft: 5,
+    marginHorizontal: 10,
     height: 40,
     justifyContent: "center",
     alignItems: "center",
@@ -290,7 +354,7 @@ const styles = StyleSheet.create({
   },
   shopButton: {
     flex: 1,
-    marginLeft: 5,
+    marginHorizontal: 10,
     height: 40,
     justifyContent: "center",
     alignItems: "center",

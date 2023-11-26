@@ -393,6 +393,40 @@ export const joogid = [
     type: "Mineraalvesi S.Pellegrino 50cl",
   },
 ];
+export const lisad = [
+  {
+    id: 47,
+    name: "Soja kaste",
+    img: images?.sojakaste,
+    bgColor: "#fff",
+    numericPrice: 0.3,
+    type: "soja kaste",
+  },
+  {
+    id: 48,
+    name: "Ingver",
+    img: images?.ingver,
+    bgColor: "#fff",
+    numericPrice: 0.2,
+    type: "roosa ingver",
+  },
+  {
+    id: 49,
+    name: "Wasabi",
+    img: images?.wasabi,
+    bgColor: "#fff",
+    numericPrice: 0.1,
+    type: "wasabi",
+  },
+  {
+    id: 50,
+    name: "Pulgad",
+    img: images?.pulgad,
+    bgColor: "#fff",
+    numericPrice: 0.1,
+    type: "wasabi",
+  },
+];
 export default {
   assortii,
   uraMaki,
@@ -401,4 +435,5 @@ export default {
   tempuraMaki,
   supisted,
   joogid,
+  lisad,
 };

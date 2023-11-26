@@ -68,7 +68,7 @@ const QuantityPicker: React.FC<QuantityPickerProps> = ({
         style={{
           margin: 5,
           borderRadius: 10,
-          backgroundColor: disableDec && COLORS.gray,
+          backgroundColor: COLORS.gray,
         }}
         onPress={decrement}
         disabled={disableDec}
@@ -102,7 +102,7 @@ const QuantityPicker: React.FC<QuantityPickerProps> = ({
           paddingHorizontal: 6,
           margin: 5,
           borderRadius: 10,
-          backgroundColor: disableDec && COLORS.gray,
+          backgroundColor: COLORS.gray,
         }}
         onPress={increment}
         disabled={disableInc}

@@ -66,6 +66,12 @@ export const fanta = require("../../assets/images/joogid/fanta.jpg");
 export const sprite = require("../../assets/images/joogid/sprite.jpg");
 export const pellegrino = require("../../assets/images/joogid/pellegrino.jpg");
 
+//Lisad
+export const pulgad = require("../../assets/images/lisad/pulgad.png");
+export const sojakaste = require("../../assets/images/lisad/sojakaste.jpg");
+export const ingver = require("../../assets/images/lisad/ingver.jpg");
+export const wasabi = require("../../assets/images/lisad/wasabi.jpg");
+
 //Campaign
 export const kampaania = require("../../assets/images/kampaania/kampaania.jpg");
 export const delivery = require("../../assets/images/kampaania/delivery.png");
@@ -139,6 +145,12 @@ export default {
   merevetika,
   unagikaste,
   teravkaste,
+
+  //Lisad
+  pulgad,
+  sojakaste,
+  ingver,
+  wasabi,
 
   kampaania,
   delivery,

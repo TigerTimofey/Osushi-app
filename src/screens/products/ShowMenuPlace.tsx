@@ -16,11 +16,18 @@ import QuantityPicker from "../components/Quantity";
 
 import { images, COLORS, SIZES, FONTS } from "../../constants";
 
-const ShowMenuPlace = ({ selectedMenu }) => {
+const ShowMenuPlace = ({
+  selectedMenu,
+
+  cartData,
+  setCartData,
+  itemQuantities,
+  setItemQuantities,
+}) => {
   const [selectedItem, setSelectedItem] = React.useState(null);
   const [showAddToCartModal, setShowAddToCartModal] = React.useState(false);
-  const [itemQuantities, setItemQuantities] = React.useState({});
-  const [cartData, setCartData] = React.useState([]);
+  // const [itemQuantities, setItemQuantities] = React.useState({});
+  // const [cartData, setCartData] = React.useState([]);
 
   React.useEffect(() => {
     if (selectedMenu) {

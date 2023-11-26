@@ -27,6 +27,7 @@ import {
   tempuraMaki,
   supisted,
   joogid,
+  lisad,
 } from "../../constants/menu/menuData";
 
 const CampaignSlider = () => {
@@ -35,6 +36,18 @@ const CampaignSlider = () => {
   const [selectedSize, setSelectedSize] = React.useState("");
   const [showAddToCartModal, setShowAddToCartModal] = React.useState(false);
   const [featured, setFeatured] = React.useState(campaignData);
+
+  const [cartData, setCartData] = React.useState([]);
+  const [itemQuantities, setItemQuantities] = React.useState({});
+
+  const formatPrice = (price: number) => {
+    return price.toLocaleString("en-US", {
+      style: "currency",
+      currency: "EUR",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  };
 
   const menuItems = [
     { menuType: assortii, label: "Assortii" },
@@ -45,11 +58,42 @@ const CampaignSlider = () => {
     { menuType: nigiri, label: "Nigiri" },
     { menuType: supisted, label: "Supisted" },
     { menuType: joogid, label: "Joogid" },
+    { menuType: lisad, label: "Lisad" },
 
     // Add more menu items as needed
   ];
 
   // const [quantity, setQuantity] = React.useState(0);
+  const handleAddToCart = () => {
+    if (selectedItem) {
+      const updatedCartData = [...cartData];
+
+      const existingCartItemIndex = updatedCartData.findIndex(
+        (cartItem) => cartItem.id === selectedItem.id
+      );
+
+      const newQuantity = itemQuantities[selectedItem.id] || 1;
+      const totalPrice = selectedItem.numericPrice;
+
+      if (existingCartItemIndex !== -1) {
+        // Если товар уже есть в корзине, обновим его количество
+      } else {
+        // Если товара нет в корзине, добавим новый элемент
+        const cartItem = {
+          id: selectedItem.id,
+          name: selectedItem.name,
+          numericPrice: selectedItem.numericPrice,
+          totalPrice: totalPrice,
+          quantity: newQuantity,
+        };
+
+        updatedCartData.push(cartItem);
+      }
+
+      setCartData(updatedCartData);
+      setShowAddToCartModal(false);
+    }
+  };
 
   function renderFeaturedItems(item, index) {
     return (
@@ -87,11 +131,6 @@ const CampaignSlider = () => {
           ]}
         >
           <View style={style.featuredDetails}>
-            {/* <Text
-              style={{ color: COLORS.white, ...FONTS.body4, marginTop: 15 }}
-            >
-              {item.name}
-            </Text> */}
             <Text
               style={
                 {
@@ -167,7 +206,13 @@ const CampaignSlider = () => {
         />
       </View>
       {/* <Cart quantity={quantity} /> */}
-      <ShowMenuPlace selectedMenu={selectedMenu} />
+      <ShowMenuPlace
+        selectedMenu={selectedMenu}
+        cartData={cartData}
+        setCartData={setCartData}
+        itemQuantities={itemQuantities}
+        setItemQuantities={setItemQuantities}
+      />
 
       {/* Modal */}
       {selectedItem && (
@@ -223,15 +268,28 @@ const CampaignSlider = () => {
                   {selectedItem.name}
                 </Text>
                 <Text
+                  style={
+                    {
+                      textAlign: "center",
+                      marginTop: SIZES.base / 2,
+                      marginHorizontal: SIZES.padding,
+                      color: COLORS.white,
+                      ...FONTS.h3,
+                    } as StyleProp<TextStyle>
+                  }
+                >
+                  {selectedItem.info}
+                </Text>
+                <Text
                   style={{
                     textAlign: "center",
                     marginTop: SIZES.base / 2,
                     marginHorizontal: SIZES.padding,
                     color: COLORS.white,
-                    ...FONTS.body4,
+                    ...FONTS.body5,
                   }}
                 >
-                  {selectedItem.info}
+                  {selectedItem?.extraInfo}
                 </Text>
                 <Text
                   style={
@@ -243,8 +301,9 @@ const CampaignSlider = () => {
                     } as StyleProp<TextStyle>
                   }
                 >
-                  {selectedItem.price}
+                  {formatPrice(selectedItem?.numericPrice)}
                 </Text>
+
                 <View
                   style={{
                     flexDirection: "row",
@@ -269,6 +328,7 @@ const CampaignSlider = () => {
                     setSelectedItem(null);
                     setSelectedSize("");
                     setShowAddToCartModal(false);
+                    handleAddToCart();
                   }}
                 >
                   <Text
