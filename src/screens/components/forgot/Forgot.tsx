@@ -16,12 +16,9 @@ const Forgot = ({
   shouldShowLisadButton,
   forgotLisad,
 }) => {
-  // Your modal content here
-
   return (
     <View>
       {/* Modal content */}
-      {/* ... */}
       <TouchableOpacity onPress={() => console.log("test")}>
         <Modal animationType="slide" transparent={true}>
           {/* Modal content */}
@@ -29,7 +26,6 @@ const Forgot = ({
             <ScrollView
               style={{
                 marginTop: 140,
-
                 borderRadius: 10,
                 width: 380,
                 backgroundColor: COLORS.yellow,

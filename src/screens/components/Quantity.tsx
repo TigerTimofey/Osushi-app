@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -21,11 +21,11 @@ const QuantityPicker: React.FC<QuantityPickerProps> = ({
   quantity,
   onQuantityChange,
 }) => {
-  const [value, setValue] = useState(quantity);
-  const [disableDec, setDisableDec] = useState(quantity <= min);
-  const [disableInc, setDisableInc] = useState(quantity >= max);
+  const [value, setValue] = React.useState(quantity);
+  const [disableDec, setDisableDec] = React.useState(quantity <= min);
+  const [disableInc, setDisableInc] = React.useState(quantity >= max);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setValue(quantity);
     setDisableDec(quantity <= min);
     setDisableInc(quantity >= max);
@@ -42,7 +42,6 @@ const QuantityPicker: React.FC<QuantityPickerProps> = ({
       setDisableInc(true);
     }
   };
-
   const decrement = () => {
     const newValue = value - 1;
     if (newValue >= min) {

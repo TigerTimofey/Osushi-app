@@ -1,8 +1,5 @@
 import React from "react";
-
 import ShowMenuPlace from "../products/ShowMenuPlace";
-import Cart from "../components/Cart";
-
 import {
   StyleSheet,
   View,
@@ -13,10 +10,9 @@ import {
   Modal,
   TextStyle,
   StyleProp,
-  Button,
 } from "react-native";
 import { BlurView } from "expo-blur";
-import { images, COLORS, SIZES, FONTS } from "../../constants";
+import { COLORS, SIZES, FONTS } from "../../constants";
 import campaignData from "../../constants/menu/campaignData";
 import {
   assortii,
@@ -36,7 +32,6 @@ const CampaignSlider = () => {
   const [selectedSize, setSelectedSize] = React.useState("");
   const [showAddToCartModal, setShowAddToCartModal] = React.useState(false);
   const [featured, setFeatured] = React.useState(campaignData);
-
   const [cartData, setCartData] = React.useState([]);
   const [itemQuantities, setItemQuantities] = React.useState({});
 
@@ -48,7 +43,6 @@ const CampaignSlider = () => {
       maximumFractionDigits: 2,
     });
   };
-
   const menuItems = [
     { menuType: assortii, label: "Assortii" },
     { menuType: hotMaki, label: "Küpsetatud" },
@@ -62,8 +56,6 @@ const CampaignSlider = () => {
 
     // Add more menu items as needed
   ];
-
-  // const [quantity, setQuantity] = React.useState(0);
   const handleAddToCart = () => {
     if (selectedItem) {
       const updatedCartData = [...cartData];
@@ -94,7 +86,6 @@ const CampaignSlider = () => {
       setShowAddToCartModal(false);
     }
   };
-
   function renderFeaturedItems(item, index) {
     return (
       <TouchableOpacity
@@ -158,10 +149,9 @@ const CampaignSlider = () => {
       </TouchableOpacity>
     );
   }
-
   return (
     <View style={style.container}>
-      {/* Featured */}
+      {/* Slider news */}
       <View style={{ height: 200, marginTop: SIZES.radius }}>
         <FlatList
           horizontal
@@ -171,8 +161,6 @@ const CampaignSlider = () => {
           renderItem={({ item, index }) => renderFeaturedItems(item, index)}
         />
       </View>
-
-      {/* Recent Searches */}
 
       <View style={style.buttonContainer}>
         <FlatList
@@ -200,12 +188,10 @@ const CampaignSlider = () => {
               >
                 {item.label}
               </Text>
-              {/* <Text style={style.textButton}> {item.label}</Text> */}
             </TouchableOpacity>
           )}
         />
       </View>
-      {/* <Cart quantity={quantity} /> */}
       <ShowMenuPlace
         selectedMenu={selectedMenu}
         cartData={cartData}
@@ -357,7 +343,6 @@ const style = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    // paddingHorizontal: SIZES.padding,
     backgroundColor: COLORS.white,
     padding: 0,
   },
@@ -389,9 +374,6 @@ const style = StyleSheet.create({
     elevation: 7,
   },
   featuredDetails: {
-    // position: "absolute",
-    // top: 130,
-    // left: 45,
     flexDirection: "column",
     display: "flex",
     textAlign: "center",

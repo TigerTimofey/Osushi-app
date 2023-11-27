@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   StyleSheet,
   View,
@@ -19,29 +19,12 @@ import OrderConfirmationModal from "./delivery/OrderConfirmationModal";
 
 import Forgot from "./forgot/Forgot";
 
-export default function Cart({
-  quantity,
-  cartData,
-  setCartData,
-  selectedItem,
-  setSelectedMenu,
-}) {
-  const [showAddToCartModal, setShowCartModal] = useState(false);
-  const [cartQuantities, setCartQuantities] = useState({});
+export default function Cart({ cartData, setCartData, setSelectedMenu }) {
+  const [showAddToCartModal, setShowCartModal] = React.useState(false);
   const [showOrderConfirmationModal, setShowOrderConfirmationModal] =
-    useState(false);
-  const [showConfirmationModal, setShowConfirmationModal] =
     React.useState(false);
-
-  const [showMissingLisadSection, setShowMissingLisadSection] = useState(true);
-
-  // Callback function to update cart quantities
-  const updateCartQuantities = (itemId, newQuantity) => {
-    setCartQuantities((prevQuantities) => ({
-      ...prevQuantities,
-      [itemId]: newQuantity,
-    }));
-  };
+  const [showMissingLisadSection, setShowMissingLisadSection] =
+    React.useState(true);
 
   const formatPrice = (price: number) => {
     return price.toLocaleString("en-US", {
@@ -51,7 +34,6 @@ export default function Cart({
       maximumFractionDigits: 2,
     });
   };
-
   const calculateTotal = () => {
     return cartData.reduce(
       (total: any, item: any) => total + item.totalPrice,
@@ -59,7 +41,6 @@ export default function Cart({
     );
   };
   const totalAmount = calculateTotal();
-
   const removeItem = (index) => {
     const updatedCartData = [...cartData];
     updatedCartData.splice(index, 1);
@@ -80,23 +61,18 @@ export default function Cart({
 
     setCartData(updatedCartData);
   };
-
   const forgotLisad = () => {
     setShowCartModal(false);
     setSelectedMenu(lisad);
   };
   const shouldShowLisadButton = () => {
-    // Check if any lisad item is missing in the cart
     const missingLisadItems = lisad.filter(
       (item) => !cartData.some((cartItem) => cartItem.id === item.id)
     );
-
-    // Return an array of missing item names
     const missingItemNames = missingLisadItems.map((item) => item.name);
-
     return {
       showButton: missingItemNames.length > 0,
-      missingItemNames: missingItemNames.join(", "), // Join the names for display
+      missingItemNames: missingItemNames.join(", "),
     };
   };
 
@@ -305,7 +281,6 @@ export default function Cart({
                   style={styles.buttonConfirm}
                   onPress={() => {
                     // order logic
-                    // setShowCartModal(false);
                     setShowOrderConfirmationModal(true);
                   }}
                 >
@@ -347,7 +322,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   shopButton: {
-    // marginTop: 20,
     marginBottom: 20,
     flex: 1,
     marginHorizontal: 10,

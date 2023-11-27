@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { View } from "react-native";
 import { Avatar, Badge } from "@rneui/themed";
 import { images } from "../../constants";
@@ -6,8 +6,8 @@ import { images } from "../../constants";
 type BadgeStatus = "success" | "error" | "primary" | "warning";
 
 export default function AvatarOnline() {
-  const [badgeStatus, setBadgeStatus] = useState<BadgeStatus>("success");
-  useEffect(() => {
+  const [badgeStatus, setBadgeStatus] = React.useState<BadgeStatus>("success");
+  React.useEffect(() => {
     const currentTime = new Date().getHours();
     const isBetween10AMand10PM = currentTime >= 10 && currentTime < 22;
 

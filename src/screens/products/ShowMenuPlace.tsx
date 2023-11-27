@@ -37,13 +37,13 @@ const ShowMenuPlace = ({
       );
     }
   }, [selectedMenu]);
+
   const handleQuantityChange = (newQuantity, itemId) => {
     setItemQuantities((prevQuantities) => ({
       ...prevQuantities,
       [itemId]: newQuantity,
     }));
   };
-
   const handleAddToCart = () => {
     if (selectedItem) {
       const updatedCartData = [...cartData];
@@ -77,7 +77,6 @@ const ShowMenuPlace = ({
       setShowAddToCartModal(false);
     }
   };
-
   const formatPrice = (price: number) => {
     return price.toLocaleString("en-US", {
       style: "currency",
@@ -86,7 +85,6 @@ const ShowMenuPlace = ({
       maximumFractionDigits: 2,
     });
   };
-
   function renderRecentSearches(item, index) {
     return (
       <TouchableOpacity
@@ -146,8 +144,6 @@ const ShowMenuPlace = ({
         <Cart
           cartData={cartData}
           setCartData={setCartData}
-          quantity={undefined}
-          selectedItem={selectedItem}
           setSelectedMenu={setSelectedMenu}
         />
       </View>
