@@ -29,10 +29,11 @@ const Forgot = ({
             <ScrollView
               style={{
                 marginTop: 140,
+
                 borderRadius: 10,
                 width: 380,
                 backgroundColor: COLORS.yellow,
-                maxHeight: 200,
+                maxHeight: 280,
               }}
               contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
               showsVerticalScrollIndicator={false}
@@ -42,8 +43,8 @@ const Forgot = ({
                   source={images.logoQuestion}
                   resizeMode="contain"
                   style={{
-                    width: 50,
-                    height: 50,
+                    width: 70,
+                    height: 70,
                     margin: 10,
                     marginLeft: 175,
                     alignItems: "center",
@@ -59,18 +60,19 @@ const Forgot = ({
                     marginBottom: 15,
 
                     color: COLORS.darknessGray,
-                    ...FONTS.h4,
+                    ...FONTS.h2,
                   } as StyleProp<TextStyle>
                 }
               >
                 <Text style={{ textAlign: "center" }}>
-                  Kas teil on vaja {shouldShowLisadButton().missingItemNames}?
+                  Kas soovite tellimusele lisada{" "}
+                  {shouldShowLisadButton().missingItemNames}?
                 </Text>
               </Text>
               <View style={{ flexDirection: "row" }}>
                 <TouchableOpacity
                   style={{
-                    marginLeft: 127,
+                    marginLeft: 115,
                     borderRadius: 12,
                     backgroundColor: COLORS.gray,
                     padding: 10,
@@ -82,9 +84,10 @@ const Forgot = ({
                   <Text
                     style={
                       {
-                        marginHorizontal: 7,
+                        marginHorizontal: 11,
                         color: COLORS.darknessGray,
-                        ...FONTS.h4,
+
+                        ...FONTS.h2,
                       } as StyleProp<TextStyle>
                     }
                   >
@@ -106,7 +109,7 @@ const Forgot = ({
                     style={
                       {
                         color: COLORS.darknessGray,
-                        ...FONTS.h4,
+                        ...FONTS.h2,
                       } as StyleProp<TextStyle>
                     }
                   >

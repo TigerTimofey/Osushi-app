@@ -14,7 +14,7 @@ import { BlurView } from "expo-blur";
 import Cart from "../components/Cart";
 import QuantityPicker from "../components/Quantity";
 
-import { images, COLORS, SIZES, FONTS } from "../../constants";
+import { COLORS, SIZES, FONTS } from "../../constants";
 
 const ShowMenuPlace = ({
   selectedMenu,
@@ -26,8 +26,6 @@ const ShowMenuPlace = ({
 }) => {
   const [selectedItem, setSelectedItem] = React.useState(null);
   const [showAddToCartModal, setShowAddToCartModal] = React.useState(false);
-  // const [itemQuantities, setItemQuantities] = React.useState({});
-  // const [cartData, setCartData] = React.useState([]);
 
   React.useEffect(() => {
     if (selectedMenu) {

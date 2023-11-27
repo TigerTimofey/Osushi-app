@@ -164,57 +164,6 @@ export default function Cart({
             </View>
 
             <View style={{ display: "flex", margin: 20 }}>
-              {/* {lisad.map((item, index) => (
-                <View
-                  key={index}
-                  style={{ flexDirection: "row", marginBottom: 8 }}
-                >
-                  <QuantityPicker
-                    quantity={cartQuantities[item.id] || 0}
-                    min={0}
-                    max={99}
-                    onQuantityChange={(newQuantity) =>
-                      updateCartQuantities(item.id, newQuantity)
-                    }
-                  />
-                  <Text
-                    style={
-                      {
-                        marginTop: 4,
-                        marginLeft: 10,
-                        color: COLORS.black,
-                        ...FONTS.h4,
-                      } as StyleProp<TextStyle>
-                    }
-                  >
-                    {item.name} -{" "}
-                    {formatPrice(
-                      item.numericPrice * (cartQuantities[item.id] || 0)
-                    )}
-                  </Text>
-
-                  <TouchableOpacity onPress={() => removeItem(index)}>
-                    <Text
-                      style={
-                        {
-                          marginLeft: 5,
-                          marginTop: 10,
-                          color: COLORS.red,
-                          ...FONTS.h3,
-                        } as StyleProp<TextStyle>
-                      }
-                    >
-                      <Image
-                        source={images.x}
-                        style={{
-                          width: 15,
-                          height: 15,
-                        }}
-                      />
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              ))} */}
               {cartData.map((item, index) => (
                 <View
                   key={index}
@@ -307,71 +256,6 @@ export default function Cart({
                               setShowMissingLisadSection
                             }
                           />
-
-                          // <>
-                          //   <Text
-                          //     style={
-                          //       {
-                          //         backgroundColor: COLORS.yellow,
-                          //         padding: 10,
-                          //         // marginBottom: 10,
-
-                          //         color: COLORS.black,
-                          //         ...FONTS.h5,
-                          //       } as StyleProp<TextStyle>
-                          //     }
-                          //   >
-                          //     <Text>
-                          //       Kas teil on vaja{" "}
-                          //       {shouldShowLisadButton().missingItemNames}?
-                          //     </Text>
-                          //   </Text>
-                          //   <View style={{ flexDirection: "row" }}>
-                          //     <TouchableOpacity
-                          //       style={{
-                          //         marginLeft: 0,
-                          //         backgroundColor: COLORS.gray,
-                          //         padding: 10,
-                          //       }}
-                          //       onPress={() => {
-                          //         setShowMissingLisadSection(false);
-                          //       }}
-                          //     >
-                          //       <Text
-                          //         style={
-                          //           {
-                          //             color: COLORS.black,
-                          //             ...FONTS.h5,
-                          //           } as StyleProp<TextStyle>
-                          //         }
-                          //       >
-                          //         Ei!
-                          //       </Text>
-                          //     </TouchableOpacity>
-                          //     <TouchableOpacity
-                          //       style={{
-                          //         marginLeft: 250,
-
-                          //         backgroundColor: COLORS.gray,
-                          //         padding: 10,
-                          //       }}
-                          //       onPress={() => {
-                          //         forgotLisad();
-                          //       }}
-                          //     >
-                          //       <Text
-                          //         style={
-                          //           {
-                          //             color: COLORS.black,
-                          //             ...FONTS.h5,
-                          //           } as StyleProp<TextStyle>
-                          //         }
-                          //       >
-                          //         Jah!
-                          //       </Text>
-                          //     </TouchableOpacity>
-                          //   </View>
-                          // </>
                         )}
                       </View>
                     )}
@@ -453,7 +337,7 @@ export default function Cart({
 
 const styles = StyleSheet.create({
   buttonConfirm: {
-    marginTop: 20,
+    marginBottom: 20,
     flex: 2,
     marginHorizontal: 10,
     height: 40,
@@ -463,7 +347,8 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   shopButton: {
-    marginTop: 20,
+    // marginTop: 20,
+    marginBottom: 20,
     flex: 1,
     marginHorizontal: 10,
     height: 40,
