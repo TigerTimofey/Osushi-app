@@ -14,6 +14,7 @@ export const COLORS: Colors = {
   red: "#c73036",
   green: "#8ca93d",
   purple: "#a681de",
+  yellow: "#f0d45d",
 };
 
 export const SIZES: Sizes = {

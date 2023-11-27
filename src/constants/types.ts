@@ -15,6 +15,7 @@ export interface Colors {
   red: string;
   green: string;
   purple: string;
+  yellow: string;
 }
 
 export interface Fonts {

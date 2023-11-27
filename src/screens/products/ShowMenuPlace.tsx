@@ -18,7 +18,7 @@ import { images, COLORS, SIZES, FONTS } from "../../constants";
 
 const ShowMenuPlace = ({
   selectedMenu,
-
+  setSelectedMenu,
   cartData,
   setCartData,
   itemQuantities,
@@ -150,6 +150,7 @@ const ShowMenuPlace = ({
           setCartData={setCartData}
           quantity={undefined}
           selectedItem={selectedItem}
+          setSelectedMenu={setSelectedMenu}
         />
       </View>
       <View

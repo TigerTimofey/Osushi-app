@@ -15,17 +15,25 @@ import { Avatar, Badge } from "@rneui/themed";
 import { COLORS, SIZES, FONTS, images } from "../../constants";
 import QuantityPicker from "./Quantity";
 import { lisad } from "../../constants/menu/menuData";
+import OrderConfirmationModal from "./delivery/OrderConfirmationModal";
+
+import Forgot from "./forgot/Forgot";
 
 export default function Cart({
   quantity,
   cartData,
   setCartData,
   selectedItem,
+  setSelectedMenu,
 }) {
   const [showAddToCartModal, setShowCartModal] = useState(false);
   const [cartQuantities, setCartQuantities] = useState({});
+  const [showOrderConfirmationModal, setShowOrderConfirmationModal] =
+    useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] =
+    React.useState(false);
 
-  // ... (existing functions)
+  const [showMissingLisadSection, setShowMissingLisadSection] = useState(true);
 
   // Callback function to update cart quantities
   const updateCartQuantities = (itemId, newQuantity) => {
@@ -60,17 +68,7 @@ export default function Cart({
   const updateCartItemQuantity = (index, newQuantity) => {
     const updatedCartData = [...cartData];
 
-    if (index < 0 || index >= updatedCartData.length) {
-      console.error("Invalid index:", index);
-      return;
-    }
-
     const item = updatedCartData[index];
-
-    if (!item || typeof item.numericPrice !== "number") {
-      console.error("Invalid item or numericPrice:", item);
-      return;
-    }
 
     const totalPrice = item.numericPrice * newQuantity;
 
@@ -81,6 +79,25 @@ export default function Cart({
     };
 
     setCartData(updatedCartData);
+  };
+
+  const forgotLisad = () => {
+    setShowCartModal(false);
+    setSelectedMenu(lisad);
+  };
+  const shouldShowLisadButton = () => {
+    // Check if any lisad item is missing in the cart
+    const missingLisadItems = lisad.filter(
+      (item) => !cartData.some((cartItem) => cartItem.id === item.id)
+    );
+
+    // Return an array of missing item names
+    const missingItemNames = missingLisadItems.map((item) => item.name);
+
+    return {
+      showButton: missingItemNames.length > 0,
+      missingItemNames: missingItemNames.join(", "), // Join the names for display
+    };
   };
 
   return (
@@ -130,7 +147,7 @@ export default function Cart({
               borderRadius: 10,
               width: "100%",
               backgroundColor: COLORS.white,
-              maxHeight: 700,
+              maxHeight: "100%",
             }}
             contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
             showsVerticalScrollIndicator={false}
@@ -147,14 +164,14 @@ export default function Cart({
             </View>
 
             <View style={{ display: "flex", margin: 20 }}>
-              {lisad.map((item, index) => (
+              {/* {lisad.map((item, index) => (
                 <View
                   key={index}
                   style={{ flexDirection: "row", marginBottom: 8 }}
                 >
                   <QuantityPicker
                     quantity={cartQuantities[item.id] || 0}
-                    min={1}
+                    min={0}
                     max={99}
                     onQuantityChange={(newQuantity) =>
                       updateCartQuantities(item.id, newQuantity)
@@ -197,7 +214,7 @@ export default function Cart({
                     </Text>
                   </TouchableOpacity>
                 </View>
-              ))}
+              ))} */}
               {cartData.map((item, index) => (
                 <View
                   key={index}
@@ -271,8 +288,93 @@ export default function Cart({
                       } as StyleProp<TextStyle>
                     }
                   >
-                    KOKKU: {formatPrice(calculateTotal())}
+                    {totalAmount === 0 ? (
+                      <Text>Ostukorv on tühi</Text>
+                    ) : (
+                      <Text>KOKKU: {formatPrice(calculateTotal())}</Text>
+                    )}
                   </Text>
+                  {shouldShowLisadButton().showButton &&
+                    showMissingLisadSection && (
+                      <View>
+                        {totalAmount === 0 ? (
+                          <Text></Text>
+                        ) : (
+                          <Forgot
+                            forgotLisad={forgotLisad}
+                            shouldShowLisadButton={shouldShowLisadButton}
+                            setShowMissingLisadSection={
+                              setShowMissingLisadSection
+                            }
+                          />
+
+                          // <>
+                          //   <Text
+                          //     style={
+                          //       {
+                          //         backgroundColor: COLORS.yellow,
+                          //         padding: 10,
+                          //         // marginBottom: 10,
+
+                          //         color: COLORS.black,
+                          //         ...FONTS.h5,
+                          //       } as StyleProp<TextStyle>
+                          //     }
+                          //   >
+                          //     <Text>
+                          //       Kas teil on vaja{" "}
+                          //       {shouldShowLisadButton().missingItemNames}?
+                          //     </Text>
+                          //   </Text>
+                          //   <View style={{ flexDirection: "row" }}>
+                          //     <TouchableOpacity
+                          //       style={{
+                          //         marginLeft: 0,
+                          //         backgroundColor: COLORS.gray,
+                          //         padding: 10,
+                          //       }}
+                          //       onPress={() => {
+                          //         setShowMissingLisadSection(false);
+                          //       }}
+                          //     >
+                          //       <Text
+                          //         style={
+                          //           {
+                          //             color: COLORS.black,
+                          //             ...FONTS.h5,
+                          //           } as StyleProp<TextStyle>
+                          //         }
+                          //       >
+                          //         Ei!
+                          //       </Text>
+                          //     </TouchableOpacity>
+                          //     <TouchableOpacity
+                          //       style={{
+                          //         marginLeft: 250,
+
+                          //         backgroundColor: COLORS.gray,
+                          //         padding: 10,
+                          //       }}
+                          //       onPress={() => {
+                          //         forgotLisad();
+                          //       }}
+                          //     >
+                          //       <Text
+                          //         style={
+                          //           {
+                          //             color: COLORS.black,
+                          //             ...FONTS.h5,
+                          //           } as StyleProp<TextStyle>
+                          //         }
+                          //       >
+                          //         Jah!
+                          //       </Text>
+                          //     </TouchableOpacity>
+                          //   </View>
+                          // </>
+                        )}
+                      </View>
+                    )}
                 </View>
               </View>
             </View>
@@ -319,9 +421,16 @@ export default function Cart({
                   style={styles.buttonConfirm}
                   onPress={() => {
                     // order logic
-                    setShowCartModal(false);
+                    // setShowCartModal(false);
+                    setShowOrderConfirmationModal(true);
                   }}
                 >
+                  {showOrderConfirmationModal && (
+                    <OrderConfirmationModal
+                      cartData={cartData}
+                      onClose={() => setShowOrderConfirmationModal(false)}
+                    />
+                  )}
                   <Text
                     style={
                       {
@@ -344,6 +453,7 @@ export default function Cart({
 
 const styles = StyleSheet.create({
   buttonConfirm: {
+    marginTop: 20,
     flex: 2,
     marginHorizontal: 10,
     height: 40,
@@ -353,6 +463,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   shopButton: {
+    marginTop: 20,
     flex: 1,
     marginHorizontal: 10,
     height: 40,

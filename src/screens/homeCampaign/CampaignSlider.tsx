@@ -212,6 +212,7 @@ const CampaignSlider = () => {
         setCartData={setCartData}
         itemQuantities={itemQuantities}
         setItemQuantities={setItemQuantities}
+        setSelectedMenu={setSelectedMenu}
       />
 
       {/* Modal */}

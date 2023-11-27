@@ -79,6 +79,7 @@ export const free = require("../../assets/images/kampaania/free.jpg");
 export const uks = require("../../assets/images/kampaania/uks.jpg");
 
 export const logo = require("../../assets/adaptive-icon.png");
+export const logoQuestion = require("../../assets/adaptive-icon-question.png");
 export const cart = require("../../assets/cart.png");
 export const x = require("../../assets/x.png");
 
@@ -158,6 +159,7 @@ export default {
   uks,
 
   logo,
+  logoQuestion,
   cart,
   x,
 };
