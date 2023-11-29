@@ -1,5 +1,3 @@
-// OrderConfirmationModal.js
-
 import React from "react";
 import {
   StyleSheet,
@@ -10,11 +8,12 @@ import {
   ScrollView,
 } from "react-native";
 import { View, Text, TouchableOpacity } from "react-native";
-import { COLORS, SIZES, images } from "../../../constants";
+import { COLORS, SIZES, images, FONTS } from "../../../../constants";
+// import GooglePlacesInput from "./form/GooglePlacesInput";
 
-const OrderConfirmationModal = ({ cartData, onClose }) => {
+const Delivery = ({ cartData, onClose, setShowDelivery }) => {
   // Your modal content here
-
+  console.log("cartData DELIVERY", cartData);
   return (
     <View>
       {/* Modal content */}
@@ -22,16 +21,31 @@ const OrderConfirmationModal = ({ cartData, onClose }) => {
       <TouchableOpacity onPress={onClose}>
         <Modal animationType="slide" transparent={true}>
           {/* Modal content */}
+
           <ScrollView
             style={{
               borderRadius: 10,
               width: "100%",
-              backgroundColor: COLORS.white,
-              maxHeight: 700,
+              backgroundColor: COLORS.yellow,
+              maxHeight: "100%",
             }}
             contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
             showsVerticalScrollIndicator={false}
           >
+            {/* "Tagasi" button at the top left */}
+            <TouchableOpacity
+              style={[styles.buttonBack, styles.absolute]}
+              onPress={() => setShowDelivery(false)}
+            >
+              <Text
+                style={
+                  { color: COLORS.white, ...FONTS.h3 } as StyleProp<TextStyle>
+                }
+              >
+                Tagasi
+              </Text>
+            </TouchableOpacity>
+
             <View>
               <Image
                 source={images.logo}
@@ -58,8 +72,24 @@ const OrderConfirmationModal = ({ cartData, onClose }) => {
                   marginHorizontal: SIZES.padding,
                 }}
               >
-                <Text>ORDER LOGIC MODAL</Text>
+                <Text>Delivery LOGIC MODAL</Text>
               </View>
+
+              <TouchableOpacity
+                style={[styles.buttonBack, styles.absolute]}
+                onPress={() => setShowDelivery(false)}
+              >
+                <View>
+                  <Image
+                    source={images.back}
+                    resizeMode="contain"
+                    style={{
+                      width: 55,
+                      height: 55,
+                    }}
+                  />
+                </View>
+              </TouchableOpacity>
             </View>
           </ScrollView>
         </Modal>
@@ -67,48 +97,25 @@ const OrderConfirmationModal = ({ cartData, onClose }) => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
-  buttonConfirm: {
+  buttonBack: {
     flex: 2,
     marginHorizontal: 10,
     height: 40,
+    width: 60,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(5, 180, 37, 0.58)",
-    borderRadius: 16,
-  },
-  shopButton: {
-    flex: 1,
-    marginHorizontal: 10,
-    height: 40,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: COLORS.red,
-    borderRadius: 16,
-  },
 
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContent: {
-    backgroundColor: COLORS.white,
-    padding: 20,
-    borderRadius: 10,
-    width: "80%",
-    maxHeight: "80%",
-  },
-  closeButton: {
-    marginTop: 20,
+    borderRadius: 16,
   },
   absolute: {
     position: "absolute",
-    top: 0,
+    top: -450,
     left: 0,
     right: 0,
     bottom: 0,
+    zIndex: 1,
   },
   recentSearchShadow: {
     shadowColor: "#000",
@@ -131,4 +138,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OrderConfirmationModal;
+export default Delivery;

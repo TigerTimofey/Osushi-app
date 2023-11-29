@@ -15,7 +15,7 @@ import { Avatar, Badge } from "@rneui/themed";
 import { COLORS, SIZES, FONTS, images } from "../../constants";
 import QuantityPicker from "./Quantity";
 import { lisad } from "../../constants/menu/menuData";
-import OrderConfirmationModal from "./delivery/OrderConfirmationModal";
+import OrderConfirmationModal from "./takeawayOption/OrderConfirmationModal";
 
 import Forgot from "./forgot/Forgot";
 
@@ -128,6 +128,22 @@ export default function Cart({ cartData, setCartData, setSelectedMenu }) {
             contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
             showsVerticalScrollIndicator={false}
           >
+            <TouchableOpacity
+              style={[styles.buttonBack, styles.absoluteChoose]}
+              onPress={() => setShowCartModal(false)}
+            >
+              <View>
+                <Image
+                  source={images.back}
+                  resizeMode="contain"
+                  style={{
+                    width: 55,
+                    height: 55,
+                  }}
+                />
+              </View>
+            </TouchableOpacity>
+
             <View>
               <Image
                 source={images.logo}
@@ -260,7 +276,7 @@ export default function Cart({ cartData, setCartData, setSelectedMenu }) {
               </View>
             ) : (
               <View style={{ flexDirection: "row" }}>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   style={styles.shopButton}
                   onPress={() => {
                     setShowCartModal(false);
@@ -276,7 +292,7 @@ export default function Cart({ cartData, setCartData, setSelectedMenu }) {
                   >
                     Menüüs
                   </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity
                   style={styles.buttonConfirm}
                   onPress={() => {
@@ -288,6 +304,9 @@ export default function Cart({ cartData, setCartData, setSelectedMenu }) {
                     <OrderConfirmationModal
                       cartData={cartData}
                       onClose={() => setShowOrderConfirmationModal(false)}
+                      setShowOrderConfirmationModal={
+                        setShowOrderConfirmationModal
+                      }
                     />
                   )}
                   <Text
@@ -311,6 +330,22 @@ export default function Cart({ cartData, setCartData, setSelectedMenu }) {
 }
 
 const styles = StyleSheet.create({
+  absoluteChoose: {
+    position: "absolute",
+    top: 80,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  buttonBack: {
+    flex: 2,
+    marginHorizontal: 10,
+    height: 40,
+    width: 60,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 16,
+  },
   buttonConfirm: {
     marginBottom: 20,
     flex: 2,
