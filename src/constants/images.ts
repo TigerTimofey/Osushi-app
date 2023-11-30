@@ -83,6 +83,7 @@ export const logoQuestion = require("../../assets/adaptive-icon-question.png");
 export const cart = require("../../assets/cart.png");
 export const x = require("../../assets/x.png");
 export const back = require("../../assets/back.png");
+export const clock = require("../../assets/clock.png");
 
 export default {
   //Nigiri
@@ -164,4 +165,5 @@ export default {
   cart,
   x,
   back,
+  clock,
 };

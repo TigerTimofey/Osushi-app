@@ -26,10 +26,11 @@ const Forgot = ({
             <ScrollView
               style={{
                 marginTop: 140,
-                borderRadius: 10,
-                width: 380,
+                width: 400,
                 backgroundColor: COLORS.yellow,
                 maxHeight: 280,
+
+                borderRadius: 10,
               }}
               contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
               showsVerticalScrollIndicator={false}
@@ -54,6 +55,7 @@ const Forgot = ({
                     backgroundColor: COLORS.yellow,
                     padding: 10,
                     marginBottom: 15,
+                    marginHorizontal: 5,
 
                     color: COLORS.darknessGray,
                     ...FONTS.h2,

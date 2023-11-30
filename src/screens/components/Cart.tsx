@@ -276,23 +276,6 @@ export default function Cart({ cartData, setCartData, setSelectedMenu }) {
               </View>
             ) : (
               <View style={{ flexDirection: "row" }}>
-                {/* <TouchableOpacity
-                  style={styles.shopButton}
-                  onPress={() => {
-                    setShowCartModal(false);
-                  }}
-                >
-                  <Text
-                    style={
-                      {
-                        color: COLORS.white,
-                        ...FONTS.h3,
-                      } as StyleProp<TextStyle>
-                    }
-                  >
-                    Menüüs
-                  </Text>
-                </TouchableOpacity> */}
                 <TouchableOpacity
                   style={styles.buttonConfirm}
                   onPress={() => {

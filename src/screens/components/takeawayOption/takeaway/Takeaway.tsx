@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-
-import DatePicker from "react-native-date-picker";
 import {
   StyleSheet,
   Image,
@@ -8,28 +6,72 @@ import {
   ScrollView,
   View,
   Text,
-  TextStyle,
   TouchableOpacity,
   TextInput,
+  TextStyle,
   StyleProp,
-  Button,
 } from "react-native";
 
-import { COLORS, SIZES, FONTS, images } from "../../../../constants";
+import { COLORS, FONTS, images } from "../../../../constants";
+import Time from "../timeDate/Time";
+import DateChoose from "../timeDate/DateChoose";
 
 const Takeaway = ({ cartData, onClose, setShowTakeAway }) => {
-  const [date, setDate] = useState(new Date());
-  const [open, setOpen] = useState(false);
+  const [openTime, setOpenTime] = useState(false);
+  const [openDate, setOpenDate] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [userNumber, setUserNumber] = useState("");
+  const [order, setOrder] = useState(null);
 
-  const chosenDate = new Date();
-  const isToday = chosenDate.toDateString() === date.toDateString();
-  const adjustedTime = new Date(date);
-  adjustedTime.setHours(date.getHours() + 1);
+  const currentDate = new Date();
+  const formattedTime = `${String(currentDate.getHours()).padStart(
+    2,
+    "0"
+  )}:${String(currentDate.getMinutes()).padStart(2, "0")}`;
+  const formattedDate = `${String(currentDate.getDate()).padStart(
+    2,
+    "0"
+  )}.${String(currentDate.getMonth() + 1).padStart(2, "0")}.${String(
+    currentDate.getFullYear()
+  ).slice(-2)}`;
 
-  const maxDate = new Date();
-  maxDate.setDate(maxDate.getDate() + 15);
+  const [selectedTime, setSelectedTime] = useState("VALI KELL");
+  const [selectedDate, setSelectedDate] = useState("VALI PÄEV");
 
-  console.log("cartData TAKEAWAY", cartData);
+  const handleTimeSelection = (time) => {
+    setSelectedTime(time);
+    setOpenTime(false);
+  };
+
+  const handleDateSelection = (date) => {
+    setSelectedDate(date);
+    setOpenDate(false);
+  };
+
+  const handleSendData = () => {
+    if (!userName || !userNumber || !selectedDate || !selectedTime) {
+      // Validate that all fields are filled
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    const orderDetails = {
+      userName,
+      userNumber,
+      selectedDate,
+      selectedTime,
+      cartData,
+    };
+
+    // Log the order details to the console
+    console.log("Order", orderDetails);
+
+    // You can further use or send the orderDetails as needed
+
+    // Set the order state for UI or other purposes
+    setOrder(orderDetails);
+  };
+
   return (
     <View>
       <Modal animationType="slide" transparent={true}>
@@ -53,48 +95,95 @@ const Takeaway = ({ cartData, onClose, setShowTakeAway }) => {
               }}
             />
           </View>
-          <View style={styles.container}>
-            <Text style={styles.infoText}>
-              {" "}
-              {isToday
-                ? `VALMIS TÄNA ${adjustedTime.toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}`
-                : `${date.getDate()}.${date.getMonth() + 1} `}
-            </Text>
-            {/* <TouchableOpacity onPress={() => setOpen(true)}>
-              <Text style={styles.textStyle}>
-                {`Päev: ${date.getDate()}.${
-                  date.getMonth() + 1
-                } \n Aeg: ${date.toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}`}
-              </Text>
-            </TouchableOpacity> */}
-            <TouchableOpacity onPress={() => setOpen(true)}>
-              <Text style={styles.buttonInText}>Muuta</Text>
-            </TouchableOpacity>
+          {/* Form for User's Name */}
+          <View style={styles.formContainer}>
+            <Text style={styles.infoText}>NIMI</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your name"
+              value={userName}
+              onChangeText={(text) => setUserName(text)}
+            />
           </View>
 
-          <DatePicker
-            locale="et"
-            mode="datetime"
-            modal={true}
-            minimumDate={date}
-            maximumDate={maxDate}
-            minuteInterval={30}
-            open={open}
-            date={date}
-            onConfirm={(date) => {
-              setOpen(false);
-              setDate(date);
-            }}
-            onCancel={() => {
-              setOpen(false);
-            }}
-          />
+          {/* Form for User's Number */}
+          <View style={styles.formContainer}>
+            <Text style={styles.infoText}>TELEFOON</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter your number"
+              keyboardType="numeric"
+              value={userNumber}
+              onChangeText={(text) =>
+                setUserNumber(text.replace(/[^0-9]/g, ""))
+              }
+            />
+          </View>
+
+          {/* Date and Time Selection */}
+          <View style={styles.container}>
+            <TouchableOpacity onPress={() => setOpenDate(true)}>
+              <Text style={styles.buttonInText}>
+                {selectedDate === "VALI PÄEV"
+                  ? "VALI PÄEV"
+                  : selectedDate === formattedDate
+                  ? "TÄNA"
+                  : ` ${selectedDate}`}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setOpenTime(true)}>
+              <Text style={styles.buttonInText}>
+                {" "}
+                {selectedTime === "VALI KELL"
+                  ? "VALI KELL"
+                  : `KELL ${selectedTime}`}
+              </Text>
+            </TouchableOpacity>
+
+            <Time
+              openTime={openTime}
+              onSelectTime={(selectedTime) => handleTimeSelection(selectedTime)}
+              selectedDate={selectedDate}
+              formattedDate={formattedDate}
+              setOpenDate={setOpenDate}
+            />
+            <DateChoose
+              formattedDate={formattedDate}
+              openDate={openDate}
+              onSelectDate={(selectedDate) => handleDateSelection(selectedDate)}
+            />
+          </View>
+          {/* Button to Send Data */}
+          <TouchableOpacity
+            onPress={handleSendData}
+            style={[
+              styles.buttonConfirm,
+              // Apply disabledButtonStyle if the button is disabled
+              !userName ||
+              !userNumber ||
+              selectedDate === "VALI PÄEV" ||
+              selectedTime === "VALI KELL"
+                ? styles.disabledButtonStyle
+                : null,
+            ]}
+            disabled={
+              !userName ||
+              !userNumber ||
+              selectedDate === "VALI PÄEV" ||
+              selectedTime === "VALI KELL"
+            }
+          >
+            <Text
+              style={
+                {
+                  color: COLORS.white,
+                  ...FONTS.h2,
+                } as StyleProp<TextStyle>
+              }
+            >
+              SAADA TELLIMUS
+            </Text>
+          </TouchableOpacity>
 
           {/* Close button */}
           <TouchableOpacity
@@ -111,7 +200,7 @@ const Takeaway = ({ cartData, onClose, setShowTakeAway }) => {
                 }}
               />
             </View>
-            <View style={styles.container}></View>
+            {/* <View style={styles.container}></View> */}
           </TouchableOpacity>
         </ScrollView>
       </Modal>
@@ -120,37 +209,44 @@ const Takeaway = ({ cartData, onClose, setShowTakeAway }) => {
 };
 
 const styles = StyleSheet.create({
-  // Add your existing styles here
-
-  container: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
+  buttonConfirm: {
+    marginTop: 20,
+    flex: 2,
+    marginHorizontal: 10,
+    maxHeight: 40,
+    justifyContent: "center",
     alignItems: "center",
-  },
-
-  positionStyle: {
-    padding: 10,
-    // marginHorizontal: 40,
-    color: COLORS.darknessGray,
+    backgroundColor: "rgba(5, 180, 37, 0.58)",
+    borderRadius: 16,
+    color: COLORS.white,
     ...FONTS.h3,
-    textAlign: "center",
   },
-
-  dateTimeText: {
+  disabledButtonStyle: {
+    marginTop: 20,
+    flex: 2,
+    marginHorizontal: 10,
+    maxHeight: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: COLORS.gray,
+    borderRadius: 16,
+    color: COLORS.white,
+    ...FONTS.h3,
+  },
+  formContainer: {
     padding: 10,
-    backgroundColor: COLORS.darkGray,
-    marginHorizontal: 40,
-    color: COLORS.lightGray,
-    ...FONTS.h2,
-    textAlign: "center",
   },
-
   input: {
     borderWidth: 1,
     borderColor: COLORS.gray,
     borderRadius: 8,
     padding: 8,
     marginBottom: 16,
+  },
+  container: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
   },
   buttonBack: {
     flex: 2,
@@ -169,27 +265,17 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 1,
   },
-  textStyle: {
-    backgroundColor: COLORS.mediumGray,
+  infoText: {
     padding: 10,
-
     color: COLORS.darknessGray,
-    ...FONTS.h3,
+    ...FONTS.h2,
     textAlign: "center",
   },
   buttonInText: {
     backgroundColor: COLORS.yellow,
     padding: 10,
-
     color: COLORS.darknessGray,
     ...FONTS.h3,
-    textAlign: "center",
-  },
-  infoText: {
-    padding: 10,
-
-    color: COLORS.darknessGray,
-    ...FONTS.h2,
     textAlign: "center",
   },
 });
