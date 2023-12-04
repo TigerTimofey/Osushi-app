@@ -28,12 +28,15 @@ const Time = ({
       const timeIntervals = [];
       for (
         let hour = nextWholeHour;
-        hour <= restoranWorkData[0].workEndTIme;
+        hour <= restoranWorkData[0].workEndTime;
         hour++
       ) {
         for (let minute = 0; minute < 60; minute += 30) {
-          // Check if the time is before 22:00
-          if (!(hour === 22 && minute === 30)) {
+          // Check if the time is before 22:00 and after 10:00
+          if (
+            !(hour === 22 && minute === 30) &&
+            !(hour === 10 && minute === 0)
+          ) {
             const formattedHour = hour.toString().padStart(2, "0");
             const formattedMinute = minute.toString().padStart(2, "0");
             timeIntervals.push(`${formattedHour}:${formattedMinute}`);
@@ -45,9 +48,10 @@ const Time = ({
       const timeIntervals = [];
       for (let hour = 10; hour <= 22; hour++) {
         for (let minute = 0; minute < 60; minute += 30) {
+          // Check if the time is before 22:00 and after 10:00
           if (
-            !(hour === 22 && minute === 30) &&
-            !(hour === 10 && minute === 0)
+            !(hour === restoranWorkData[0].workEndTime && minute === 30) &&
+            !(hour === restoranWorkData[0].workStartTime && minute === 0)
           ) {
             const formattedHour = hour.toString().padStart(2, "0");
             const formattedMinute = minute.toString().padStart(2, "0");

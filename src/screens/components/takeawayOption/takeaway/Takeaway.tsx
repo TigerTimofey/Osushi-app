@@ -16,8 +16,8 @@ import { COLORS, FONTS, images } from "../../../../constants";
 import Time from "../timeDate/Time";
 import DateChoose from "../timeDate/DateChoose";
 import LottieView from "lottie-react-native";
-import Success from "../success/done.json";
-import Congratuations from "../success/cong.json";
+import Success from "../../../../../assets/success/done.json";
+import Congratuations from "../../../../../assets/success/cong.json";
 
 const Takeaway = ({
   cartData,
@@ -183,13 +183,18 @@ const Takeaway = ({
                 source={Success}
                 autoPlay
                 loop={false}
-                style={{ width: "100%", height: 300 }}
+                style={{
+                  width: "100%",
+                  height: 300,
+                  bottom: 5,
+                  position: "absolute",
+                }}
                 onAnimationFinish={() => setLottieAnimationFinished(true)}
               />
               <LottieView
                 source={Congratuations}
                 autoPlay
-                loop={false}
+                // loop={false}
                 style={{ width: "160%", height: 2000, position: "absolute" }}
               />
             </View>
@@ -202,20 +207,21 @@ const Takeaway = ({
                   {
                     ...FONTS.h2,
                     color: COLORS.darknessGray,
-                    marginTop: 20,
+                    top: 50,
+                    position: "absolute",
                   } as StyleProp<TextStyle>
                 }
               >
                 Tellimus vastu võetud
               </Text>
               <TouchableOpacity
-                style={[
-                  {
-                    backgroundColor: COLORS.darknessGray,
-                    marginTop: 100,
-                    borderRadius: 10,
-                  },
-                ]}
+                style={{
+                  backgroundColor: COLORS.darknessGray,
+                  marginTop: 600,
+                  borderRadius: 10,
+                  position: "absolute",
+                  bottom: -350,
+                }}
                 onPress={() => {
                   // Add logic to close all modals and reset state as needed
                   setShowTakeAway(false);
@@ -241,6 +247,7 @@ const Takeaway = ({
               </TouchableOpacity>
             </View>
           )}
+
           {showContent && (
             <>
               {/* Button to Send Data */}

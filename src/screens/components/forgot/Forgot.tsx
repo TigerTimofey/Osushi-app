@@ -54,7 +54,7 @@ const Forgot = ({
                   {
                     backgroundColor: COLORS.yellow,
                     padding: 10,
-                    marginBottom: 15,
+                    marginBottom: 30,
                     marginHorizontal: 5,
 
                     color: COLORS.darknessGray,
@@ -67,12 +67,12 @@ const Forgot = ({
                   {shouldShowLisadButton().missingItemNames}?
                 </Text>
               </Text>
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: "row", marginBottom: 20 }}>
                 <TouchableOpacity
                   style={{
                     marginLeft: 115,
-                    borderRadius: 12,
-                    backgroundColor: COLORS.gray,
+                    borderRadius: 5,
+                    backgroundColor: "rgba(99, 88, 88, 0.5)",
                     padding: 10,
                   }}
                   onPress={() => {
@@ -83,7 +83,7 @@ const Forgot = ({
                     style={
                       {
                         marginHorizontal: 11,
-                        color: COLORS.darknessGray,
+                        color: COLORS.white,
 
                         ...FONTS.h2,
                       } as StyleProp<TextStyle>
@@ -95,8 +95,8 @@ const Forgot = ({
                 <TouchableOpacity
                   style={{
                     marginLeft: 50,
-                    borderRadius: 12,
-                    backgroundColor: COLORS.gray,
+                    borderRadius: 5,
+                    backgroundColor: "rgba(99, 88, 88, 0.5)",
                     padding: 10,
                   }}
                   onPress={() => {
@@ -106,7 +106,7 @@ const Forgot = ({
                   <Text
                     style={
                       {
-                        color: COLORS.darknessGray,
+                        color: COLORS.white,
                         ...FONTS.h2,
                       } as StyleProp<TextStyle>
                     }

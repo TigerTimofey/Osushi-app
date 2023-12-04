@@ -4,7 +4,7 @@ export const restoranWorkData = [
     takeAwayTime: 1,
     maxDaysPreOrder: 5,
     workStartTime: 10,
-    workEndTIme: 22,
+    workEndTime: 22,
     closeForOrderTimeStart: 22,
     closeForOrderTimeEnd: 1,
     preOrderDays: 6,

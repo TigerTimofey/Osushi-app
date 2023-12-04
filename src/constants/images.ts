@@ -67,6 +67,7 @@ export const sprite = require("../../assets/images/joogid/sprite.jpg");
 export const pellegrino = require("../../assets/images/joogid/pellegrino.jpg");
 
 //Lisad
+export const lisadset = require("../../assets/images/lisad/lisadset.png");
 export const pulgad = require("../../assets/images/lisad/pulgad.png");
 export const sojakaste = require("../../assets/images/lisad/sojakaste.jpg");
 export const ingver = require("../../assets/images/lisad/ingver.jpg");
@@ -150,6 +151,7 @@ export default {
   teravkaste,
 
   //Lisad
+  lisadset,
   pulgad,
   sojakaste,
   ingver,

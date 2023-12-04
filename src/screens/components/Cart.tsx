@@ -94,13 +94,19 @@ export default function Cart({
       >
         <TouchableOpacity onPress={() => setShowCartModal(true)}>
           <Avatar source={images.cart} size={40} />
+
+          <Badge
+            value={formatPrice(calculateTotal())}
+            containerStyle={{
+              position: "absolute",
+              top: 10,
+              right: 35,
+              width: 50,
+            }}
+            badgeStyle={{ backgroundColor: COLORS.lightGray }}
+            textStyle={{ color: COLORS.darkGray }}
+          />
         </TouchableOpacity>
-        <Badge
-          value={formatPrice(calculateTotal())}
-          containerStyle={{ position: "absolute", top: 10, right: 35 }}
-          badgeStyle={{ backgroundColor: COLORS.lightGray }}
-          textStyle={{ color: COLORS.darkGray }}
-        />
       </View>
       <TouchableOpacity
         style={styles.absolute}
