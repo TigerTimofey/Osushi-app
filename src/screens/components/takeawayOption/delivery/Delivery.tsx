@@ -11,7 +11,14 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { COLORS, SIZES, images, FONTS } from "../../../../constants";
 // import GooglePlacesInput from "./form/GooglePlacesInput";
 
-const Delivery = ({ cartData, onClose, setShowDelivery }) => {
+const Delivery = ({
+  cartData,
+  onClose,
+  setShowDelivery,
+  setShowOrderConfirmationModal,
+  setShowAddToCartModal,
+  setShowCartModal,
+}) => {
   // Your modal content here
   console.log("cartData DELIVERY", cartData);
   return (

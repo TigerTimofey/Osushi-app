@@ -145,6 +145,7 @@ const ShowMenuPlace = ({
           cartData={cartData}
           setCartData={setCartData}
           setSelectedMenu={setSelectedMenu}
+          setShowAddToCartModal={setShowAddToCartModal}
         />
       </View>
       <View

@@ -19,7 +19,12 @@ import OrderConfirmationModal from "./takeawayOption/OrderConfirmationModal";
 
 import Forgot from "./forgot/Forgot";
 
-export default function Cart({ cartData, setCartData, setSelectedMenu }) {
+export default function Cart({
+  cartData,
+  setCartData,
+  setSelectedMenu,
+  setShowAddToCartModal,
+}) {
   const [showAddToCartModal, setShowCartModal] = React.useState(false);
   const [showOrderConfirmationModal, setShowOrderConfirmationModal] =
     React.useState(false);
@@ -290,6 +295,8 @@ export default function Cart({ cartData, setCartData, setSelectedMenu }) {
                       setShowOrderConfirmationModal={
                         setShowOrderConfirmationModal
                       }
+                      setShowCartModal={setShowCartModal}
+                      setShowAddToCartModal={setShowAddToCartModal}
                     />
                   )}
                   <Text

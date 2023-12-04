@@ -17,6 +17,8 @@ const OrderConfirmationModal = ({
   cartData,
   onClose,
   setShowOrderConfirmationModal,
+  setShowAddToCartModal,
+  setShowCartModal,
 }) => {
   const [showDelivery, setShowDelivery] = React.useState(false);
   const [showTakeAway, setShowTakeAway] = React.useState(false);
@@ -24,7 +26,7 @@ const OrderConfirmationModal = ({
   return (
     <View>
       {/* Modal content */}
-      {/* ... */}
+
       <TouchableOpacity onPress={onClose}>
         <Modal
           animationType="slide"
@@ -95,8 +97,8 @@ const OrderConfirmationModal = ({
                   <Text
                     style={
                       {
-                        backgroundColor: COLORS.mediumGray,
-                        padding: 10,
+                        backgroundColor: COLORS.yellow,
+                        padding: 15,
                         marginHorizontal: 40,
                         color: COLORS.darknessGray,
                         ...FONTS.h2,
@@ -115,8 +117,8 @@ const OrderConfirmationModal = ({
                   <Text
                     style={
                       {
-                        backgroundColor: COLORS.mediumGray,
-                        padding: 10,
+                        backgroundColor: COLORS.yellow,
+                        padding: 15,
                         marginHorizontal: 40,
                         color: COLORS.darknessGray,
                         ...FONTS.h2,
@@ -135,6 +137,9 @@ const OrderConfirmationModal = ({
                   cartData={cartData}
                   onClose={undefined}
                   setShowDelivery={setShowDelivery}
+                  setShowOrderConfirmationModal={setShowOrderConfirmationModal}
+                  setShowAddToCartModal={setShowAddToCartModal}
+                  setShowCartModal={setShowCartModal}
                 />
               )}
               {showTakeAway && (
@@ -142,6 +147,9 @@ const OrderConfirmationModal = ({
                   cartData={cartData}
                   onClose={undefined}
                   setShowTakeAway={setShowTakeAway}
+                  setShowOrderConfirmationModal={setShowOrderConfirmationModal}
+                  setShowAddToCartModal={setShowAddToCartModal}
+                  setShowCartModal={setShowCartModal}
                 />
               )}
             </View>

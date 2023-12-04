@@ -15,13 +15,24 @@ import {
 import { COLORS, FONTS, images } from "../../../../constants";
 import Time from "../timeDate/Time";
 import DateChoose from "../timeDate/DateChoose";
+import LottieView from "lottie-react-native";
+import Success from "../success/done.json";
+import Congratuations from "../success/cong.json";
 
-const Takeaway = ({ cartData, onClose, setShowTakeAway }) => {
+const Takeaway = ({
+  cartData,
+  onClose,
+  setShowTakeAway,
+  setShowOrderConfirmationModal,
+  setShowAddToCartModal,
+  setShowCartModal,
+}) => {
   const [openTime, setOpenTime] = useState(false);
   const [openDate, setOpenDate] = useState(false);
   const [userName, setUserName] = useState("");
   const [userNumber, setUserNumber] = useState("");
   const [order, setOrder] = useState(null);
+  const [lottieAnimationFinished, setLottieAnimationFinished] = useState(false);
 
   const currentDate = new Date();
   const formattedTime = `${String(currentDate.getHours()).padStart(
@@ -35,8 +46,10 @@ const Takeaway = ({ cartData, onClose, setShowTakeAway }) => {
     currentDate.getFullYear()
   ).slice(-2)}`;
 
-  const [selectedTime, setSelectedTime] = useState("VALI KELL");
+  const [selectedTime, setSelectedTime] = useState("VALI AEG");
   const [selectedDate, setSelectedDate] = useState("VALI PÄEV");
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
+  const [showContent, setShowContent] = useState(true);
 
   const handleTimeSelection = (time) => {
     setSelectedTime(time);
@@ -46,15 +59,10 @@ const Takeaway = ({ cartData, onClose, setShowTakeAway }) => {
   const handleDateSelection = (date) => {
     setSelectedDate(date);
     setOpenDate(false);
+    setOpenTime(true);
   };
 
   const handleSendData = () => {
-    if (!userName || !userNumber || !selectedDate || !selectedTime) {
-      // Validate that all fields are filled
-      alert("Please fill in all fields.");
-      return;
-    }
-
     const orderDetails = {
       userName,
       userNumber,
@@ -63,13 +71,10 @@ const Takeaway = ({ cartData, onClose, setShowTakeAway }) => {
       cartData,
     };
 
-    // Log the order details to the console
     console.log("Order", orderDetails);
-
-    // You can further use or send the orderDetails as needed
-
-    // Set the order state for UI or other purposes
     setOrder(orderDetails);
+    setIsSuccessModalVisible(true);
+    setShowContent(false);
   };
 
   return (
@@ -85,123 +90,212 @@ const Takeaway = ({ cartData, onClose, setShowTakeAway }) => {
           contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
           showsVerticalScrollIndicator={false}
         >
-          <View>
-            <Image
-              source={images.logo}
-              resizeMode="contain"
-              style={{
-                width: "100%",
-                height: 200,
-              }}
-            />
-          </View>
-          {/* Form for User's Name */}
-          <View style={styles.formContainer}>
-            <Text style={styles.infoText}>NIMI</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your name"
-              value={userName}
-              onChangeText={(text) => setUserName(text)}
-            />
-          </View>
-
-          {/* Form for User's Number */}
-          <View style={styles.formContainer}>
-            <Text style={styles.infoText}>TELEFOON</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your number"
-              keyboardType="numeric"
-              value={userNumber}
-              onChangeText={(text) =>
-                setUserNumber(text.replace(/[^0-9]/g, ""))
-              }
-            />
-          </View>
-
-          {/* Date and Time Selection */}
-          <View style={styles.container}>
-            <TouchableOpacity onPress={() => setOpenDate(true)}>
-              <Text style={styles.buttonInText}>
-                {selectedDate === "VALI PÄEV"
-                  ? "VALI PÄEV"
-                  : selectedDate === formattedDate
-                  ? "TÄNA"
-                  : ` ${selectedDate}`}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => setOpenTime(true)}>
-              <Text style={styles.buttonInText}>
-                {" "}
-                {selectedTime === "VALI KELL"
-                  ? "VALI KELL"
-                  : `KELL ${selectedTime}`}
-              </Text>
-            </TouchableOpacity>
-
-            <Time
-              openTime={openTime}
-              onSelectTime={(selectedTime) => handleTimeSelection(selectedTime)}
-              selectedDate={selectedDate}
-              formattedDate={formattedDate}
-              setOpenDate={setOpenDate}
-            />
-            <DateChoose
-              formattedDate={formattedDate}
-              openDate={openDate}
-              onSelectDate={(selectedDate) => handleDateSelection(selectedDate)}
-            />
-          </View>
-          {/* Button to Send Data */}
-          <TouchableOpacity
-            onPress={handleSendData}
-            style={[
-              styles.buttonConfirm,
-              // Apply disabledButtonStyle if the button is disabled
-              !userName ||
-              !userNumber ||
-              selectedDate === "VALI PÄEV" ||
-              selectedTime === "VALI KELL"
-                ? styles.disabledButtonStyle
-                : null,
-            ]}
-            disabled={
-              !userName ||
-              !userNumber ||
-              selectedDate === "VALI PÄEV" ||
-              selectedTime === "VALI KELL"
-            }
-          >
-            <Text
-              style={
-                {
-                  color: COLORS.white,
-                  ...FONTS.h2,
-                } as StyleProp<TextStyle>
-              }
-            >
-              SAADA TELLIMUS
-            </Text>
-          </TouchableOpacity>
-
-          {/* Close button */}
-          <TouchableOpacity
-            style={[styles.buttonBack, styles.absolute]}
-            onPress={() => setShowTakeAway(false)}
-          >
+          {showContent && (
             <View>
               <Image
-                source={images.back}
+                source={images.logo}
                 resizeMode="contain"
                 style={{
-                  width: 55,
-                  height: 55,
+                  width: "100%",
+                  height: 200,
                 }}
               />
             </View>
-            {/* <View style={styles.container}></View> */}
-          </TouchableOpacity>
+          )}
+
+          {showContent && (
+            <>
+              {/* Form for User's Name */}
+              <View style={styles.formContainer}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Teie nimi"
+                  placeholderTextColor={COLORS.darkGray}
+                  autoCapitalize="words"
+                  textAlign="center"
+                  value={userName}
+                  onChangeText={(text) => setUserName(text)}
+                />
+              </View>
+
+              {/* Form for User's Number */}
+              <View style={styles.formContainer}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Telefoninumber"
+                  placeholderTextColor={COLORS.darkGray}
+                  textAlign="center"
+                  autoComplete="tel"
+                  maxLength={8}
+                  keyboardType="numeric"
+                  value={userNumber}
+                  onChangeText={(text) =>
+                    setUserNumber(text.replace(/[^0-9]/g, ""))
+                  }
+                />
+              </View>
+
+              {/* Date and Time Selection */}
+              <View style={styles.container}>
+                <TouchableOpacity onPress={() => setOpenDate(true)}>
+                  <Text
+                    style={
+                      {
+                        backgroundColor: COLORS.yellow,
+                        padding: 10,
+                        color: COLORS.darknessGray,
+                        ...FONTS.h3,
+                        textAlign: "center",
+                      } as StyleProp<TextStyle>
+                    }
+                  >
+                    {selectedDate === "VALI PÄEV"
+                      ? "VALI PÄEV"
+                      : selectedDate === formattedDate
+                      ? `TÄNA KELL ${selectedTime}`
+                      : ` ${selectedDate} KELL ${selectedTime}`}
+                  </Text>
+                </TouchableOpacity>
+
+                <Time
+                  openTime={openTime}
+                  onSelectTime={(selectedTime) =>
+                    handleTimeSelection(selectedTime)
+                  }
+                  selectedDate={selectedDate}
+                  formattedDate={formattedDate}
+                  setOpenDate={setOpenDate}
+                />
+                <DateChoose
+                  openDate={openDate}
+                  onSelectDate={(selectedDate) =>
+                    handleDateSelection(selectedDate)
+                  }
+                />
+              </View>
+            </>
+          )}
+
+          {/* Lottie */}
+          {isSuccessModalVisible && (
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <LottieView
+                source={Success}
+                autoPlay
+                loop={false}
+                style={{ width: "100%", height: 300 }}
+                onAnimationFinish={() => setLottieAnimationFinished(true)}
+              />
+              <LottieView
+                source={Congratuations}
+                autoPlay
+                loop={false}
+                style={{ width: "160%", height: 2000, position: "absolute" }}
+              />
+            </View>
+          )}
+          {lottieAnimationFinished && (
+            // Show additional button and message
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <Text
+                style={
+                  {
+                    ...FONTS.h2,
+                    color: COLORS.darknessGray,
+                    marginTop: 20,
+                  } as StyleProp<TextStyle>
+                }
+              >
+                Tellimus vastu võetud
+              </Text>
+              <TouchableOpacity
+                style={[
+                  {
+                    backgroundColor: COLORS.darknessGray,
+                    marginTop: 100,
+                    borderRadius: 10,
+                  },
+                ]}
+                onPress={() => {
+                  // Add logic to close all modals and reset state as needed
+                  setShowTakeAway(false);
+                  setLottieAnimationFinished(false);
+                  setShowOrderConfirmationModal(false);
+                  setShowAddToCartModal(false);
+                  setShowCartModal(false);
+                  // Add any additional logic you need here
+                }}
+              >
+                <Text
+                  style={
+                    {
+                      color: COLORS.white,
+                      ...FONTS.h1,
+                      alignContent: "center",
+                      margin: 10,
+                    } as StyleProp<TextStyle>
+                  }
+                >
+                  CLOSE
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
+          {showContent && (
+            <>
+              {/* Button to Send Data */}
+              <TouchableOpacity
+                onPress={handleSendData}
+                style={[
+                  styles.buttonConfirm,
+                  (!userName ||
+                    !userNumber ||
+                    selectedDate === "VALI PÄEV" ||
+                    selectedTime === "VALI KELL" ||
+                    userNumber.length < 8) &&
+                    styles.disabledButtonStyle,
+                ]}
+                disabled={
+                  !userName ||
+                  !userNumber ||
+                  selectedDate === "VALI PÄEV" ||
+                  selectedTime === "VALI KELL" ||
+                  userNumber.length < 8
+                }
+              >
+                <Text
+                  style={
+                    {
+                      color: COLORS.white,
+                      ...FONTS.h2,
+                    } as StyleProp<TextStyle>
+                  }
+                >
+                  SAADA TELLIMUS
+                </Text>
+              </TouchableOpacity>
+            </>
+          )}
+
+          {/* Close button */}
+          {showContent && (
+            /* Close button */
+            <TouchableOpacity
+              style={[styles.buttonBack, styles.absolute]}
+              onPress={() => setShowTakeAway(false)}
+            >
+              <View>
+                <Image
+                  source={images.back}
+                  resizeMode="contain"
+                  style={{
+                    width: 55,
+                    height: 55,
+                  }}
+                />
+              </View>
+            </TouchableOpacity>
+          )}
         </ScrollView>
       </Modal>
     </View>
@@ -235,18 +329,23 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     padding: 10,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
   },
   input: {
     borderWidth: 1,
     borderColor: COLORS.gray,
-    borderRadius: 8,
-    padding: 8,
-    marginBottom: 16,
+    borderRadius: 6,
+    padding: 10,
+    marginBottom: 15,
+    width: 280,
   },
   container: {
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
+    marginVertical: 15,
   },
   buttonBack: {
     flex: 2,
@@ -264,19 +363,6 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     zIndex: 1,
-  },
-  infoText: {
-    padding: 10,
-    color: COLORS.darknessGray,
-    ...FONTS.h2,
-    textAlign: "center",
-  },
-  buttonInText: {
-    backgroundColor: COLORS.yellow,
-    padding: 10,
-    color: COLORS.darknessGray,
-    ...FONTS.h3,
-    textAlign: "center",
   },
 });
 

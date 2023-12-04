@@ -1,6 +1,5 @@
 import { Dimensions } from "react-native";
 import { Colors, Fonts, Sizes, Theme } from "./types";
-import { useState } from "react";
 const { width, height } = Dimensions.get("window");
 
 export const COLORS: Colors = {
