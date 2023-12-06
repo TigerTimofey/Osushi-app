@@ -15,10 +15,11 @@ import Delivery from "./delivery/Delivery";
 
 const OrderConfirmationModal = ({
   cartData,
+  setCartData,
   onClose,
   setShowOrderConfirmationModal,
-  setShowAddToCartModal,
   setShowCartModal,
+  showCartModal,
 }) => {
   const [showDelivery, setShowDelivery] = React.useState(false);
   const [showTakeAway, setShowTakeAway] = React.useState(false);
@@ -30,7 +31,7 @@ const OrderConfirmationModal = ({
       <TouchableOpacity onPress={onClose}>
         <Modal
           animationType="slide"
-          transparent={true}
+          // transparent={true}
           style={{ width: "100%", height: "100%" }}
         >
           {/* Modal content */}
@@ -57,7 +58,7 @@ const OrderConfirmationModal = ({
 
             <TouchableOpacity
               style={[styles.buttonBack, styles.absoluteChoose]}
-              onPress={() => setShowOrderConfirmationModal(false)}
+              onPress={() => onClose()}
             >
               <View>
                 <Image
@@ -135,20 +136,21 @@ const OrderConfirmationModal = ({
               {showDelivery && (
                 <Delivery
                   cartData={cartData}
-                  onClose={undefined}
+                  setCartData={setCartData}
+                  onClose={onClose}
                   setShowDelivery={setShowDelivery}
                   setShowOrderConfirmationModal={setShowOrderConfirmationModal}
-                  setShowAddToCartModal={setShowAddToCartModal}
                   setShowCartModal={setShowCartModal}
                 />
               )}
               {showTakeAway && (
                 <Takeaway
+                  showCartModal={showCartModal}
                   cartData={cartData}
-                  onClose={undefined}
+                  setCartData={setCartData}
+                  onClose={onClose}
                   setShowTakeAway={setShowTakeAway}
                   setShowOrderConfirmationModal={setShowOrderConfirmationModal}
-                  setShowAddToCartModal={setShowAddToCartModal}
                   setShowCartModal={setShowCartModal}
                 />
               )}

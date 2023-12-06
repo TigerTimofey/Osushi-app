@@ -23,9 +23,11 @@ export default function Cart({
   cartData,
   setCartData,
   setSelectedMenu,
-  setShowAddToCartModal,
+  setShowItemCartModal,
+  showCartModal,
+  setShowCartModal,
 }) {
-  const [showAddToCartModal, setShowCartModal] = React.useState(false);
+  // const [showCartModal, setShowCartModal] = React.useState(false);
   const [showOrderConfirmationModal, setShowOrderConfirmationModal] =
     React.useState(false);
   const [showMissingLisadSection, setShowMissingLisadSection] =
@@ -101,7 +103,7 @@ export default function Cart({
               position: "absolute",
               top: 10,
               right: 35,
-              width: 50,
+              width: 60,
             }}
             badgeStyle={{ backgroundColor: COLORS.lightGray }}
             textStyle={{ color: COLORS.darkGray }}
@@ -116,11 +118,7 @@ export default function Cart({
       ></TouchableOpacity>
 
       {/* Cart Modal */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={showAddToCartModal}
-      >
+      <Modal animationType="slide" transparent={true} visible={showCartModal}>
         <BlurView style={styles.blur} tint="light" intensity={20}>
           <TouchableOpacity
             style={styles.absolute}
@@ -281,7 +279,7 @@ export default function Cart({
                       } as StyleProp<TextStyle>
                     }
                   >
-                    Tagasi menüüsse
+                    Menüüsse
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -297,12 +295,13 @@ export default function Cart({
                   {showOrderConfirmationModal && (
                     <OrderConfirmationModal
                       cartData={cartData}
+                      setCartData={setCartData}
                       onClose={() => setShowOrderConfirmationModal(false)}
                       setShowOrderConfirmationModal={
                         setShowOrderConfirmationModal
                       }
+                      showCartModal={showCartModal}
                       setShowCartModal={setShowCartModal}
-                      setShowAddToCartModal={setShowAddToCartModal}
                     />
                   )}
                   <Text

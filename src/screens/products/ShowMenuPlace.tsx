@@ -25,7 +25,8 @@ const ShowMenuPlace = ({
   setItemQuantities,
 }) => {
   const [selectedItem, setSelectedItem] = React.useState(null);
-  const [showAddToCartModal, setShowAddToCartModal] = React.useState(false);
+  const [showItemCartModal, setShowItemCartModal] = React.useState(false);
+  const [showCartModal, setShowCartModal] = React.useState(false);
 
   React.useEffect(() => {
     if (selectedMenu) {
@@ -74,7 +75,7 @@ const ShowMenuPlace = ({
       }
 
       setCartData(updatedCartData);
-      setShowAddToCartModal(false);
+      setShowItemCartModal(false);
     }
   };
   const formatPrice = (price: number) => {
@@ -91,7 +92,7 @@ const ShowMenuPlace = ({
         style={{ flex: 1, flexDirection: "row" }}
         onPress={() => {
           setSelectedItem(item);
-          setShowAddToCartModal(true);
+          setShowItemCartModal(true);
         }}
       >
         <View
@@ -145,7 +146,9 @@ const ShowMenuPlace = ({
           cartData={cartData}
           setCartData={setCartData}
           setSelectedMenu={setSelectedMenu}
-          setShowAddToCartModal={setShowAddToCartModal}
+          setShowItemCartModal={setShowItemCartModal}
+          showCartModal={showCartModal}
+          setShowCartModal={setShowCartModal}
         />
       </View>
       <View
@@ -179,14 +182,14 @@ const ShowMenuPlace = ({
         <Modal
           animationType="slide"
           transparent={true}
-          visible={showAddToCartModal}
+          visible={showItemCartModal}
         >
           <BlurView style={style.blur} tint="light" intensity={20}>
             <TouchableOpacity
               style={style.absolute}
               onPress={() => {
                 setSelectedItem(null);
-                setShowAddToCartModal(false);
+                setShowItemCartModal(false);
               }}
             ></TouchableOpacity>
             {/* Modal content */}

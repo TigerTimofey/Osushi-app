@@ -30,7 +30,7 @@ const CampaignSlider = () => {
   const [selectedMenu, setSelectedMenu] = React.useState(assortii);
   const [selectedItem, setSelectedItem] = React.useState(null);
   const [selectedSize, setSelectedSize] = React.useState("");
-  const [showAddToCartModal, setShowAddToCartModal] = React.useState(false);
+  const [showCartModal, setshowCartModal] = React.useState(false);
   const [featured, setFeatured] = React.useState(campaignData);
   const [cartData, setCartData] = React.useState([]);
   const [itemQuantities, setItemQuantities] = React.useState({});
@@ -83,7 +83,7 @@ const CampaignSlider = () => {
       }
 
       setCartData(updatedCartData);
-      setShowAddToCartModal(false);
+      setshowCartModal(false);
     }
   };
   function renderFeaturedItems(item, index) {
@@ -98,7 +98,7 @@ const CampaignSlider = () => {
         }}
         onPress={() => {
           setSelectedItem(item);
-          setShowAddToCartModal(true);
+          setshowCartModal(true);
         }}
       >
         <Text
@@ -203,18 +203,14 @@ const CampaignSlider = () => {
 
       {/* Modal */}
       {selectedItem && (
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={showAddToCartModal}
-        >
+        <Modal animationType="slide" transparent={true} visible={showCartModal}>
           <BlurView style={style.blur} tint="light" intensity={20}>
             <TouchableOpacity
               style={style.absolute}
               onPress={() => {
                 setSelectedItem(null);
                 setSelectedSize("");
-                setShowAddToCartModal(false);
+                setshowCartModal(false);
               }}
             ></TouchableOpacity>
             {/* Modal content */}
@@ -314,7 +310,7 @@ const CampaignSlider = () => {
                   onPress={() => {
                     setSelectedItem(null);
                     setSelectedSize("");
-                    setShowAddToCartModal(false);
+                    setshowCartModal(false);
                     handleAddToCart();
                   }}
                 >

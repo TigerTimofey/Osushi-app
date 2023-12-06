@@ -8,6 +8,7 @@ export const restoranWorkData = [
     closeForOrderTimeStart: 22,
     closeForOrderTimeEnd: 1,
     preOrderDays: 6,
+    countryTax: 22,
   },
 ];
 

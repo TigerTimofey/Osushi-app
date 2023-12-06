@@ -20,7 +20,6 @@ const Time = ({
 }) => {
   const generateTimeIntervals = () => {
     if (formattedDate === selectedDate) {
-      // Use existing logic if the dates are the same
       const currentHour = new Date().getHours();
       const currentMinute = new Date().getMinutes();
       const nextWholeHour =
@@ -32,10 +31,12 @@ const Time = ({
         hour++
       ) {
         for (let minute = 0; minute < 60; minute += 30) {
-          // Check if the time is before 22:00 and after 10:00
+          const isBefore10_30 =
+            hour < restoranWorkData[0].workStartTime ||
+            (hour === restoranWorkData[0].workStartTime && minute === 0);
           if (
-            !(hour === 22 && minute === 30) &&
-            !(hour === 10 && minute === 0)
+            !isBefore10_30 &&
+            !(hour === restoranWorkData[0].workEndTime && minute === 30)
           ) {
             const formattedHour = hour.toString().padStart(2, "0");
             const formattedMinute = minute.toString().padStart(2, "0");
@@ -46,12 +47,23 @@ const Time = ({
       return timeIntervals;
     } else {
       const timeIntervals = [];
-      for (let hour = 10; hour <= 22; hour++) {
+      for (
+        let hour = restoranWorkData[0].workStartTime;
+        hour <= restoranWorkData[0].workEndTime;
+        hour++
+      ) {
         for (let minute = 0; minute < 60; minute += 30) {
-          // Check if the time is before 22:00 and after 10:00
+          const isBefore10_30 =
+            hour === 10 &&
+            minute === 0 &&
+            restoranWorkData[0].workStartTime !==
+              restoranWorkData[0].workStartTime;
+          const isAfter10_30 =
+            hour === restoranWorkData[0].workStartTime && minute === 0;
           if (
-            !(hour === restoranWorkData[0].workEndTime && minute === 30) &&
-            !(hour === restoranWorkData[0].workStartTime && minute === 0)
+            !isBefore10_30 &&
+            !isAfter10_30 &&
+            !(hour === restoranWorkData[0].workEndTime && minute === 30)
           ) {
             const formattedHour = hour.toString().padStart(2, "0");
             const formattedMinute = minute.toString().padStart(2, "0");

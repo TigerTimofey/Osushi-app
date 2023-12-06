@@ -13,10 +13,11 @@ import { COLORS, SIZES, images, FONTS } from "../../../../constants";
 
 const Delivery = ({
   cartData,
+  setCartData,
   onClose,
   setShowDelivery,
   setShowOrderConfirmationModal,
-  setShowAddToCartModal,
+
   setShowCartModal,
 }) => {
   // Your modal content here
