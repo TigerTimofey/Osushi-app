@@ -1,8 +1,5 @@
 import React from "react";
-
 import ShowMenuPlace from "../products/ShowMenuPlace";
-import Cart from "../components/Cart";
-
 import {
   StyleSheet,
   View,
@@ -13,10 +10,9 @@ import {
   Modal,
   TextStyle,
   StyleProp,
-  Button,
 } from "react-native";
 import { BlurView } from "expo-blur";
-import { images, COLORS, SIZES, FONTS } from "../../constants";
+import { COLORS, SIZES, FONTS } from "../../constants";
 import campaignData from "../../constants/menu/campaignData";
 import {
   assortii,
@@ -27,15 +23,26 @@ import {
   tempuraMaki,
   supisted,
   joogid,
+  lisad,
 } from "../../constants/menu/menuData";
 
 const CampaignSlider = () => {
   const [selectedMenu, setSelectedMenu] = React.useState(assortii);
   const [selectedItem, setSelectedItem] = React.useState(null);
   const [selectedSize, setSelectedSize] = React.useState("");
-  const [showAddToCartModal, setShowAddToCartModal] = React.useState(false);
+  const [showCartModal, setshowCartModal] = React.useState(false);
   const [featured, setFeatured] = React.useState(campaignData);
+  const [cartData, setCartData] = React.useState([]);
+  const [itemQuantities, setItemQuantities] = React.useState({});
 
+  const formatPrice = (price: number) => {
+    return price.toLocaleString("en-US", {
+      style: "currency",
+      currency: "EUR",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  };
   const menuItems = [
     { menuType: assortii, label: "Assortii" },
     { menuType: hotMaki, label: "Küpsetatud" },
@@ -45,12 +52,40 @@ const CampaignSlider = () => {
     { menuType: nigiri, label: "Nigiri" },
     { menuType: supisted, label: "Supisted" },
     { menuType: joogid, label: "Joogid" },
+    { menuType: lisad, label: "Lisad" },
 
     // Add more menu items as needed
   ];
+  const handleAddToCart = () => {
+    if (selectedItem) {
+      const updatedCartData = [...cartData];
 
-  // const [quantity, setQuantity] = React.useState(0);
+      const existingCartItemIndex = updatedCartData.findIndex(
+        (cartItem) => cartItem.id === selectedItem.id
+      );
 
+      const newQuantity = itemQuantities[selectedItem.id] || 1;
+      const totalPrice = selectedItem.numericPrice;
+
+      if (existingCartItemIndex !== -1) {
+        // Если товар уже есть в корзине, обновим его количество
+      } else {
+        // Если товара нет в корзине, добавим новый элемент
+        const cartItem = {
+          id: selectedItem.id,
+          name: selectedItem.name,
+          numericPrice: selectedItem.numericPrice,
+          totalPrice: totalPrice,
+          quantity: newQuantity,
+        };
+
+        updatedCartData.push(cartItem);
+      }
+
+      setCartData(updatedCartData);
+      setshowCartModal(false);
+    }
+  };
   function renderFeaturedItems(item, index) {
     return (
       <TouchableOpacity
@@ -63,7 +98,7 @@ const CampaignSlider = () => {
         }}
         onPress={() => {
           setSelectedItem(item);
-          setShowAddToCartModal(true);
+          setshowCartModal(true);
         }}
       >
         <Text
@@ -87,11 +122,6 @@ const CampaignSlider = () => {
           ]}
         >
           <View style={style.featuredDetails}>
-            {/* <Text
-              style={{ color: COLORS.white, ...FONTS.body4, marginTop: 15 }}
-            >
-              {item.name}
-            </Text> */}
             <Text
               style={
                 {
@@ -119,10 +149,9 @@ const CampaignSlider = () => {
       </TouchableOpacity>
     );
   }
-
   return (
     <View style={style.container}>
-      {/* Featured */}
+      {/* Slider news */}
       <View style={{ height: 200, marginTop: SIZES.radius }}>
         <FlatList
           horizontal
@@ -132,8 +161,6 @@ const CampaignSlider = () => {
           renderItem={({ item, index }) => renderFeaturedItems(item, index)}
         />
       </View>
-
-      {/* Recent Searches */}
 
       <View style={style.buttonContainer}>
         <FlatList
@@ -161,28 +188,29 @@ const CampaignSlider = () => {
               >
                 {item.label}
               </Text>
-              {/* <Text style={style.textButton}> {item.label}</Text> */}
             </TouchableOpacity>
           )}
         />
       </View>
-      {/* <Cart quantity={quantity} /> */}
-      <ShowMenuPlace selectedMenu={selectedMenu} />
+      <ShowMenuPlace
+        selectedMenu={selectedMenu}
+        cartData={cartData}
+        setCartData={setCartData}
+        itemQuantities={itemQuantities}
+        setItemQuantities={setItemQuantities}
+        setSelectedMenu={setSelectedMenu}
+      />
 
       {/* Modal */}
       {selectedItem && (
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={showAddToCartModal}
-        >
+        <Modal animationType="slide" transparent={true} visible={showCartModal}>
           <BlurView style={style.blur} tint="light" intensity={20}>
             <TouchableOpacity
               style={style.absolute}
               onPress={() => {
                 setSelectedItem(null);
                 setSelectedSize("");
-                setShowAddToCartModal(false);
+                setshowCartModal(false);
               }}
             ></TouchableOpacity>
             {/* Modal content */}
@@ -223,15 +251,28 @@ const CampaignSlider = () => {
                   {selectedItem.name}
                 </Text>
                 <Text
+                  style={
+                    {
+                      textAlign: "center",
+                      marginTop: SIZES.base / 2,
+                      marginHorizontal: SIZES.padding,
+                      color: COLORS.white,
+                      ...FONTS.h3,
+                    } as StyleProp<TextStyle>
+                  }
+                >
+                  {selectedItem.info}
+                </Text>
+                <Text
                   style={{
                     textAlign: "center",
                     marginTop: SIZES.base / 2,
                     marginHorizontal: SIZES.padding,
                     color: COLORS.white,
-                    ...FONTS.body4,
+                    ...FONTS.body5,
                   }}
                 >
-                  {selectedItem.info}
+                  {selectedItem?.extraInfo}
                 </Text>
                 <Text
                   style={
@@ -243,8 +284,9 @@ const CampaignSlider = () => {
                     } as StyleProp<TextStyle>
                   }
                 >
-                  {selectedItem.price}
+                  {formatPrice(selectedItem?.numericPrice)}
                 </Text>
+
                 <View
                   style={{
                     flexDirection: "row",
@@ -268,7 +310,8 @@ const CampaignSlider = () => {
                   onPress={() => {
                     setSelectedItem(null);
                     setSelectedSize("");
-                    setShowAddToCartModal(false);
+                    setshowCartModal(false);
+                    handleAddToCart();
                   }}
                 >
                   <Text
@@ -296,7 +339,6 @@ const style = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    // paddingHorizontal: SIZES.padding,
     backgroundColor: COLORS.white,
     padding: 0,
   },
@@ -328,9 +370,6 @@ const style = StyleSheet.create({
     elevation: 7,
   },
   featuredDetails: {
-    // position: "absolute",
-    // top: 130,
-    // left: 45,
     flexDirection: "column",
     display: "flex",
     textAlign: "center",

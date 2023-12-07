@@ -61,7 +61,7 @@ export const assortii = [
 ];
 export const nigiri = [
   {
-    id: 0,
+    id: 7,
     name: "Ebi nigiri",
     img: images.ebiNigiri,
     bgColor: "#fff",
@@ -69,7 +69,7 @@ export const nigiri = [
     type: "Tiigerkrevett",
   },
   {
-    id: 1,
+    id: 8,
     name: "Unagi nigiri",
     img: images.eelNigiri,
     bgColor: "#fff",
@@ -77,7 +77,7 @@ export const nigiri = [
     type: "Angerjas",
   },
   {
-    id: 2,
+    id: 9,
     name: "Lõhe nigiri",
     img: images.salmonNigiri,
     bgColor: "#fff",
@@ -85,7 +85,7 @@ export const nigiri = [
     type: "Lõhe",
   },
   {
-    id: 3,
+    id: 10,
     name: "Lõhe set nigiri",
     img: images.salmonSetNigiri,
     bgColor: "#fff",
@@ -95,7 +95,7 @@ export const nigiri = [
 ];
 export const uraMaki = [
   {
-    id: 0,
+    id: 11,
     name: "Akita (10tk)",
     img: images?.akitaMaki,
     bgColor: "#fff",
@@ -103,7 +103,7 @@ export const uraMaki = [
     type: "angerjas, tiigerkrevett, avokaado, toorjuust, unagi kaste, seesamiseemned",
   },
   {
-    id: 1,
+    id: 12,
     name: "Dragon (10tk)",
     img: images.dragon,
     bgColor: "#fff",
@@ -111,7 +111,7 @@ export const uraMaki = [
     numericPrice: 15.5,
   },
   {
-    id: 2,
+    id: 13,
     name: "Ebi (10tk)",
     img: images.ebi,
     type: "tempura tiigerkrevett, toorjuust, jääsalat, mango-ingveri kaste, seesamiseemned",
@@ -119,7 +119,7 @@ export const uraMaki = [
     numericPrice: 8.5,
   },
   {
-    id: 3,
+    id: 14,
     name: "California (10tk)",
     img: images?.california,
     bgColor: "#fff",
@@ -127,7 +127,7 @@ export const uraMaki = [
     numericPrice: 8.9,
   },
   {
-    id: 4,
+    id: 15,
     name: "Philadelphia (10tk)",
     img: images.phila,
     type: "lõhefilee, toorjuust, kurk, avokaado, seesamiseemned",
@@ -135,7 +135,7 @@ export const uraMaki = [
     numericPrice: 10.9,
   },
   {
-    id: 6,
+    id: 16,
     name: "Veggie (10tk)",
     img: images?.veggieMaki,
     type: "kurk, avokaado, tomat, frillis salat, nori, riis, mango kaste, seesamiseemned",
@@ -143,7 +143,7 @@ export const uraMaki = [
     numericPrice: 7.9,
   },
   {
-    id: 7,
+    id: 17,
     name: "Spicy (10tk)",
     img: images?.spicy,
     type: "kurk, avokaado, tomat, frillis salat, nori, riis, mango kaste, seesamiseemned",
@@ -153,7 +153,7 @@ export const uraMaki = [
 ];
 export const hosoMaki = [
   {
-    id: 0,
+    id: 18,
     name: "Unagi (10tk)",
     img: images?.unagiHoso,
     bgColor: "#fff",
@@ -161,7 +161,7 @@ export const hosoMaki = [
     type: "angerjas,  unagi kaste, seesamiseemned",
   },
   {
-    id: 1,
+    id: 19,
     name: "Ebi (10tk)",
     img: images?.ebiHoso,
     bgColor: "#fff",
@@ -169,7 +169,7 @@ export const hosoMaki = [
     type: "tempura tiigerkrevett,  unagi kaste, seesamiseemned",
   },
   {
-    id: 2,
+    id: 20,
     name: "Kappa (10tk)",
     img: images?.kappaHoso,
     bgColor: "#fff",
@@ -177,7 +177,7 @@ export const hosoMaki = [
     type: "kurk, seesamiseemned",
   },
   {
-    id: 3,
+    id: 21,
     name: "Avokaado (10tk)",
     img: images?.avokaadoHoso,
     bgColor: "#fff",
@@ -185,7 +185,7 @@ export const hosoMaki = [
     type: "avokaado",
   },
   {
-    id: 4,
+    id: 22,
     name: "Lõhe (10tk)",
     img: images?.salmonHoso,
     bgColor: "#fff",
@@ -193,7 +193,7 @@ export const hosoMaki = [
     type: "lõhefilee",
   },
   {
-    id: 5,
+    id: 23,
     name: "Wakame (10tk)",
     img: images?.wakameHoso,
     bgColor: "#fff",
@@ -203,7 +203,7 @@ export const hosoMaki = [
 ];
 export const hotMaki = [
   {
-    id: 0,
+    id: 24,
     name: "Philadelphia Hot (8tk)",
     img: images?.philadelphiaHot,
     bgColor: "#fff",
@@ -211,7 +211,7 @@ export const hotMaki = [
     type: "lõhe, kurk, avokaado, toorjuust, riivjuust, majonees, seesamiseemned",
   },
   {
-    id: 1,
+    id: 25,
     name: "Makao (8tk)",
     img: images?.makao,
     bgColor: "#fff",
@@ -219,7 +219,7 @@ export const hotMaki = [
     type: "angerjas, avokaado, toorjuust, tiigerkrevett, terav kaste, unagi kaste, seesamiseemned",
   },
   {
-    id: 2,
+    id: 26,
     name: "Nagasima (8tk)",
     img: images?.nagasima,
     bgColor: "#fff",
@@ -227,15 +227,15 @@ export const hotMaki = [
     type: "lõhe, tiigerkrevett, lumekrabi, toorjuust, avokaado, unagi kaste, seesamiseemned",
   },
   {
-    id: 3,
+    id: 27,
     name: "California hot (8tk)",
-    img: images?.california,
+    img: images?.californiaHot,
     bgColor: "#fff",
     numericPrice: 9.9,
     type: "lumekrabi, avokaado, kurk, majonees, seesamiseemned",
   },
   {
-    id: 4,
+    id: 28,
     name: "Shiitake (8tk)",
     img: images?.shiitake,
     bgColor: "#fff",
@@ -243,7 +243,7 @@ export const hotMaki = [
     type: "shiitake seened (praetud), angerjas, avokaado, toorjuust, tiigerkrevett, unagi kaste, seesamiseemned",
   },
   {
-    id: 5,
+    id: 29,
     name: "Kyoto Surimi (8tk)",
     img: images?.kyoto,
     bgColor: "#fff",
@@ -253,7 +253,7 @@ export const hotMaki = [
 ];
 export const tempuraMaki = [
   {
-    id: 0,
+    id: 30,
     name: "California (10tk)",
     img: images?.californiaTempura,
     bgColor: "#fff",
@@ -261,7 +261,7 @@ export const tempuraMaki = [
     type: "toorjuust, jääsalat, lumekrabi, unagi kaste, seesamiseemned",
   },
   {
-    id: 1,
+    id: 31,
     name: "Golden (10tk)",
     img: images?.goldenTempura,
     bgColor: "#fff",
@@ -269,7 +269,7 @@ export const tempuraMaki = [
     type: "lõhe, lumekrabi, avokaado, nori, riis, spicy kaste, seesamiseemned",
   },
   {
-    id: 2,
+    id: 32,
     name: "Veggie (10tk)",
     img: images?.veggieTempura,
     bgColor: "#fff",
@@ -277,7 +277,7 @@ export const tempuraMaki = [
     type: "kurk, avokaado, tomat, frillis salat, nori, riis, mango kaste, seesamiseemned",
   },
   {
-    id: 3,
+    id: 33,
     name: "Kana (10tk)",
     img: images?.kanaTempura,
     bgColor: "#fff",
@@ -285,7 +285,7 @@ export const tempuraMaki = [
     type: "kanafilee, jääsalat, juust, majonees, terav kaste,, seesamiseemned",
   },
   {
-    id: 4,
+    id: 34,
     name: "Akita (10tk)",
     img: images?.akitaTempura,
     bgColor: "#fff",
@@ -295,7 +295,7 @@ export const tempuraMaki = [
 ];
 export const supisted = [
   {
-    id: 0,
+    id: 35,
     name: "Tempura Krevett (5 tk)",
     img: images.tempuraShrimps,
     bgColor: "#fff",
@@ -303,7 +303,7 @@ export const supisted = [
     type: "tiiger krevett panko ja tempura taignas, unagi kaste",
   },
   {
-    id: 1,
+    id: 36,
     name: "Kalmaarirõngad (5 tk)",
     img: images.squid,
     bgColor: "#fff",
@@ -311,7 +311,7 @@ export const supisted = [
     type: "kalmaarirõngad",
   },
   {
-    id: 2,
+    id: 37,
     name: "Juustupallid (6tk)",
     img: images.cheeseballs,
     bgColor: "#fff",
@@ -319,7 +319,7 @@ export const supisted = [
     type: "juust, tempura, panko",
   },
   {
-    id: 3,
+    id: 38,
     name: "Chuka Ika Sansai salat",
     img: images.chukaIka,
     bgColor: "#fff",
@@ -327,7 +327,7 @@ export const supisted = [
     type: "merevetika salat kalmaari ja ingveriga",
   },
   {
-    id: 4,
+    id: 39,
     name: "Wakame salat",
     img: images.merevetika,
     bgColor: "#fff",
@@ -335,7 +335,7 @@ export const supisted = [
     type: "merevetika salat",
   },
   {
-    id: 5,
+    id: 40,
     name: "Unagi kaste",
     img: images.unagikaste,
     bgColor: "#fff",
@@ -343,7 +343,7 @@ export const supisted = [
     type: "unagi kaste",
   },
   {
-    id: 6,
+    id: 41,
     name: "Terav kaste",
     img: images.teravkaste,
     bgColor: "#fff",
@@ -353,7 +353,7 @@ export const supisted = [
 ];
 export const joogid = [
   {
-    id: 0,
+    id: 42,
     name: "Coca-cola",
     img: images?.cola,
     bgColor: "#fff",
@@ -361,7 +361,7 @@ export const joogid = [
     type: "Coca-cola 33cl",
   },
   {
-    id: 1,
+    id: 43,
     name: "Coca-cola Zero",
     img: images?.colaZero,
     bgColor: "#fff",
@@ -369,7 +369,7 @@ export const joogid = [
     type: "Coca-cola 33cl",
   },
   {
-    id: 2,
+    id: 44,
     name: "Fanta",
     img: images?.fanta,
     bgColor: "#fff",
@@ -377,7 +377,7 @@ export const joogid = [
     type: "Fanta 33cl",
   },
   {
-    id: 3,
+    id: 45,
     name: "Sprite",
     img: images.sprite,
     bgColor: "#fff",
@@ -385,12 +385,46 @@ export const joogid = [
     type: "Sprite 33cl",
   },
   {
-    id: 4,
+    id: 46,
     name: "Mineraalvesi S.Pellegrino ",
     img: images.pellegrino,
     bgColor: "#fff",
     numericPrice: 2.5,
     type: "Mineraalvesi S.Pellegrino 50cl",
+  },
+];
+export const lisad = [
+  {
+    id: 47,
+    name: "Soja kaste",
+    img: images?.sojakaste,
+    bgColor: "#fff",
+    numericPrice: 0.3,
+    type: "soja kaste",
+  },
+  {
+    id: 48,
+    name: "Ingver",
+    img: images?.ingver,
+    bgColor: "#fff",
+    numericPrice: 0.2,
+    type: "roosa ingver",
+  },
+  {
+    id: 49,
+    name: "Wasabi",
+    img: images?.wasabi,
+    bgColor: "#fff",
+    numericPrice: 0.1,
+    type: "wasabi",
+  },
+  {
+    id: 50,
+    name: "Pulgad",
+    img: images?.pulgad,
+    bgColor: "#fff",
+    numericPrice: 0.1,
+    type: "wasabi",
   },
 ];
 export default {
@@ -401,4 +435,5 @@ export default {
   tempuraMaki,
   supisted,
   joogid,
+  lisad,
 };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   StyleSheet,
   View,
@@ -13,9 +13,25 @@ import {
 import { BlurView } from "expo-blur";
 import { Avatar, Badge } from "@rneui/themed";
 import { COLORS, SIZES, FONTS, images } from "../../constants";
+import QuantityPicker from "./Quantity";
+import { lisad } from "../../constants/menu/menuData";
+import OrderConfirmationModal from "./takeawayOption/OrderConfirmationModal";
 
-export default function Cart({ quantity, cartData, setCartData }) {
-  const [showAddToCartModal, setShowCartModal] = useState(false);
+import Forgot from "./forgot/Forgot";
+
+export default function Cart({
+  cartData,
+  setCartData,
+  setSelectedMenu,
+  setShowItemCartModal,
+  showCartModal,
+  setShowCartModal,
+}) {
+  // const [showCartModal, setShowCartModal] = React.useState(false);
+  const [showOrderConfirmationModal, setShowOrderConfirmationModal] =
+    React.useState(false);
+  const [showMissingLisadSection, setShowMissingLisadSection] =
+    React.useState(true);
 
   const formatPrice = (price: number) => {
     return price.toLocaleString("en-US", {
@@ -25,16 +41,46 @@ export default function Cart({ quantity, cartData, setCartData }) {
       maximumFractionDigits: 2,
     });
   };
-
   const calculateTotal = () => {
-    return cartData.reduce((total, item) => total + item.totalPrice, 0);
+    return cartData.reduce(
+      (total: any, item: any) => total + item.totalPrice,
+      0
+    );
   };
   const totalAmount = calculateTotal();
-
   const removeItem = (index) => {
     const updatedCartData = [...cartData];
     updatedCartData.splice(index, 1);
     setCartData(updatedCartData);
+  };
+  const updateCartItemQuantity = (index, newQuantity) => {
+    const updatedCartData = [...cartData];
+
+    const item = updatedCartData[index];
+
+    const totalPrice = item.numericPrice * newQuantity;
+
+    updatedCartData[index] = {
+      ...item,
+      quantity: newQuantity,
+      totalPrice: totalPrice,
+    };
+
+    setCartData(updatedCartData);
+  };
+  const forgotLisad = () => {
+    setShowCartModal(false);
+    setSelectedMenu(lisad);
+  };
+  const shouldShowLisadButton = () => {
+    const missingLisadItems = lisad.filter(
+      (item) => !cartData.some((cartItem) => cartItem.id === item.id)
+    );
+    const missingItemNames = missingLisadItems.map((item) => item.name);
+    return {
+      showButton: missingItemNames.length > 0,
+      missingItemNames: missingItemNames.join(", "),
+    };
   };
 
   return (
@@ -50,13 +96,19 @@ export default function Cart({ quantity, cartData, setCartData }) {
       >
         <TouchableOpacity onPress={() => setShowCartModal(true)}>
           <Avatar source={images.cart} size={40} />
+
+          <Badge
+            value={formatPrice(calculateTotal())}
+            containerStyle={{
+              position: "absolute",
+              top: 10,
+              right: 35,
+              width: 60,
+            }}
+            badgeStyle={{ backgroundColor: COLORS.lightGray }}
+            textStyle={{ color: COLORS.darkGray }}
+          />
         </TouchableOpacity>
-        <Badge
-          value={formatPrice(calculateTotal())}
-          containerStyle={{ position: "absolute", top: 10, right: 35 }}
-          badgeStyle={{ backgroundColor: COLORS.lightGray }}
-          textStyle={{ color: COLORS.darkGray }}
-        />
       </View>
       <TouchableOpacity
         style={styles.absolute}
@@ -66,11 +118,7 @@ export default function Cart({ quantity, cartData, setCartData }) {
       ></TouchableOpacity>
 
       {/* Cart Modal */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={showAddToCartModal}
-      >
+      <Modal animationType="slide" transparent={true} visible={showCartModal}>
         <BlurView style={styles.blur} tint="light" intensity={20}>
           <TouchableOpacity
             style={styles.absolute}
@@ -82,13 +130,29 @@ export default function Cart({ quantity, cartData, setCartData }) {
           <ScrollView
             style={{
               borderRadius: 10,
-              width: "85%",
+              width: "100%",
               backgroundColor: COLORS.white,
-              maxHeight: 700,
+              maxHeight: "100%",
             }}
             contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
             showsVerticalScrollIndicator={false}
           >
+            <TouchableOpacity
+              style={[styles.buttonBack, styles.absoluteChoose]}
+              onPress={() => setShowCartModal(false)}
+            >
+              <View>
+                <Image
+                  source={images.back}
+                  resizeMode="contain"
+                  style={{
+                    width: 55,
+                    height: 55,
+                  }}
+                />
+              </View>
+            </TouchableOpacity>
+
             <View>
               <Image
                 source={images.logo}
@@ -100,28 +164,39 @@ export default function Cart({ quantity, cartData, setCartData }) {
               />
             </View>
 
-            <View style={{ display: "flex", alignItems: "center" }}>
+            <View style={{ display: "flex", margin: 20 }}>
               {cartData.map((item, index) => (
-                <View key={index} style={{ flexDirection: "row" }}>
+                <View
+                  key={index}
+                  style={{ flexDirection: "row", marginBottom: 8 }}
+                >
+                  <QuantityPicker
+                    quantity={item.quantity || 0}
+                    min={1}
+                    max={99}
+                    onQuantityChange={(newQuantity) =>
+                      updateCartItemQuantity(index, newQuantity)
+                    }
+                  />
                   <Text
                     style={
                       {
-                        marginBottom: 20,
+                        marginTop: 4,
                         marginLeft: 10,
                         color: COLORS.black,
-                        ...FONTS.h3,
+                        ...FONTS.h4,
                       } as StyleProp<TextStyle>
                     }
                   >
-                    {item.name} ({item.quantity}tk.) -{" "}
-                    {formatPrice(item.totalPrice)}
+                    {item.name} - {formatPrice(item.totalPrice)}
                   </Text>
+
                   <TouchableOpacity onPress={() => removeItem(index)}>
                     <Text
                       style={
                         {
-                          marginLeft: 4,
-                          marginTop: 7,
+                          marginLeft: 5,
+                          marginTop: 10,
                           color: COLORS.red,
                           ...FONTS.h3,
                         } as StyleProp<TextStyle>
@@ -139,6 +214,7 @@ export default function Cart({ quantity, cartData, setCartData }) {
                 </View>
               ))}
             </View>
+
             <View
               style={{
                 alignItems: "center",
@@ -162,8 +238,28 @@ export default function Cart({ quantity, cartData, setCartData }) {
                       } as StyleProp<TextStyle>
                     }
                   >
-                    KOKKU: {formatPrice(calculateTotal())}
+                    {totalAmount === 0 ? (
+                      <Text>Ostukorv on tühi</Text>
+                    ) : (
+                      <Text>KOKKU: {formatPrice(calculateTotal())}</Text>
+                    )}
                   </Text>
+                  {shouldShowLisadButton().showButton &&
+                    showMissingLisadSection && (
+                      <View>
+                        {totalAmount === 0 ? (
+                          <Text></Text>
+                        ) : (
+                          <Forgot
+                            forgotLisad={forgotLisad}
+                            shouldShowLisadButton={shouldShowLisadButton}
+                            setShowMissingLisadSection={
+                              setShowMissingLisadSection
+                            }
+                          />
+                        )}
+                      </View>
+                    )}
                 </View>
               </View>
             </View>
@@ -183,36 +279,31 @@ export default function Cart({ quantity, cartData, setCartData }) {
                       } as StyleProp<TextStyle>
                     }
                   >
-                    Tagasi menüüsse
+                    Menüüsse
                   </Text>
                 </TouchableOpacity>
               </View>
             ) : (
               <View style={{ flexDirection: "row" }}>
                 <TouchableOpacity
-                  style={styles.shopButton}
-                  onPress={() => {
-                    setShowCartModal(false);
-                  }}
-                >
-                  <Text
-                    style={
-                      {
-                        color: COLORS.white,
-                        ...FONTS.h3,
-                      } as StyleProp<TextStyle>
-                    }
-                  >
-                    Tühistada
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
                   style={styles.buttonConfirm}
                   onPress={() => {
                     // order logic
-                    setShowCartModal(false);
+                    setShowOrderConfirmationModal(true);
                   }}
                 >
+                  {showOrderConfirmationModal && (
+                    <OrderConfirmationModal
+                      cartData={cartData}
+                      setCartData={setCartData}
+                      onClose={() => setShowOrderConfirmationModal(false)}
+                      setShowOrderConfirmationModal={
+                        setShowOrderConfirmationModal
+                      }
+                      showCartModal={showCartModal}
+                      setShowCartModal={setShowCartModal}
+                    />
+                  )}
                   <Text
                     style={
                       {
@@ -221,7 +312,7 @@ export default function Cart({ quantity, cartData, setCartData }) {
                       } as StyleProp<TextStyle>
                     }
                   >
-                    Kinnita
+                    Kinnita tellimus
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -234,9 +325,26 @@ export default function Cart({ quantity, cartData, setCartData }) {
 }
 
 const styles = StyleSheet.create({
-  buttonConfirm: {
+  absoluteChoose: {
+    position: "absolute",
+    top: 80,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  buttonBack: {
     flex: 2,
-    marginLeft: 5,
+    marginHorizontal: 10,
+    height: 40,
+    width: 60,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 16,
+  },
+  buttonConfirm: {
+    marginBottom: 20,
+    flex: 2,
+    marginHorizontal: 10,
     height: 40,
     justifyContent: "center",
     alignItems: "center",
@@ -244,8 +352,9 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   shopButton: {
+    marginBottom: 20,
     flex: 1,
-    marginLeft: 5,
+    marginHorizontal: 10,
     height: 40,
     justifyContent: "center",
     alignItems: "center",

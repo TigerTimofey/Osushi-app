@@ -1,6 +1,5 @@
 import { Dimensions } from "react-native";
 import { Colors, Fonts, Sizes, Theme } from "./types";
-import { useState } from "react";
 const { width, height } = Dimensions.get("window");
 
 export const COLORS: Colors = {
@@ -8,11 +7,13 @@ export const COLORS: Colors = {
   white: "#FFFFFF",
   darknessGray: "#232423",
   lightGray: "#f3f3f7",
+  mediumGray: "#E4E4E7",
   darkGray: "#85888f",
   gray: "#BEC1D2",
   red: "#c73036",
   green: "#8ca93d",
   purple: "#a681de",
+  yellow: "#f0d45d",
 };
 
 export const SIZES: Sizes = {
