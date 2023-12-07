@@ -15,10 +15,8 @@ import {
 import { COLORS, FONTS, images } from "../../../../constants";
 import Time from "../timeDate/Time";
 import DateChoose from "../timeDate/DateChoose";
-import LottieView from "lottie-react-native";
-import Success from "../../../../../assets/success/done.json";
-import Congratuations from "../../../../../assets/success/cong.json";
-import SuccessModal from "./SuccessModal";
+
+import SuccessModal from "../orderPlaced/SuccessModal";
 
 const Takeaway = ({
   showCartModal,
@@ -187,7 +185,7 @@ const Takeaway = ({
               cartData={cartData}
               setCartData={setCartData}
               onClose={onClose}
-              setShowTakeAway={setShowTakeAway}
+              // setShowTakeAway={setShowTakeAway}
               setShowOrderConfirmationModal={setShowOrderConfirmationModal}
               setShowCartModal={setShowCartModal}
               setIsSuccessModalVisible={setIsSuccessModalVisible}

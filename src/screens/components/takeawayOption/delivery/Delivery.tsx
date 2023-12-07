@@ -1,112 +1,311 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Image,
   Modal,
+  ScrollView,
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
   TextStyle,
   StyleProp,
-  ScrollView,
 } from "react-native";
-import { View, Text, TouchableOpacity } from "react-native";
-import { COLORS, SIZES, images, FONTS } from "../../../../constants";
-// import GooglePlacesInput from "./form/GooglePlacesInput";
+
+import { COLORS, FONTS, images } from "../../../../constants";
+import Time from "../timeDate/Time";
+import DateChoose from "../timeDate/DateChoose";
+
+import SuccessModal from "../orderPlaced/SuccessModal";
 
 const Delivery = ({
+  showCartModal,
   cartData,
   setCartData,
   onClose,
   setShowDelivery,
   setShowOrderConfirmationModal,
-
   setShowCartModal,
+  isDelivery,
+  setIsDelivery,
 }) => {
-  // Your modal content here
-  console.log("cartData DELIVERY", cartData);
+  const [openTime, setOpenTime] = useState(false);
+  const [openDate, setOpenDate] = useState(false);
+  const [userAdress, setUserAdress] = useState("");
+  const [userNumber, setUserNumber] = useState("");
+  const [order, setOrder] = useState(null);
+
+  const currentDate = new Date();
+  const formattedTime = `${String(currentDate.getHours()).padStart(
+    2,
+    "0"
+  )}:${String(currentDate.getMinutes()).padStart(2, "0")}`;
+  const formattedDate = `${String(currentDate.getDate()).padStart(
+    2,
+    "0"
+  )}.${String(currentDate.getMonth() + 1).padStart(2, "0")}.${String(
+    currentDate.getFullYear()
+  ).slice(-2)}`;
+
+  const [selectedTime, setSelectedTime] = useState("VALI AEG");
+  const [selectedDate, setSelectedDate] = useState("VALI PÄEV");
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
+
+  const handleTimeSelection = (time) => {
+    setSelectedTime(time);
+    setOpenTime(false);
+  };
+
+  const handleDateSelection = (date) => {
+    setSelectedDate(date);
+    setOpenDate(false);
+    setOpenTime(true);
+  };
+
+  const handleSendData = () => {
+    const orderDetails = {
+      userAdress,
+      userNumber,
+      selectedDate,
+      selectedTime,
+      cartData,
+    };
+
+    //Order
+    console.log("Order", orderDetails);
+    // Total price of order
+    const totalNumericPrice = orderDetails.cartData.reduce(
+      (sum, item) => sum + item.numericPrice * item.quantity,
+      0
+    );
+
+    if (isDelivery) {
+      const [hours, minutes] = selectedTime.split(":");
+      const newHours = String(Number(hours) + 1).padStart(2, "0");
+      const adjustedTime = `${newHours}:${minutes}`;
+      orderDetails.selectedTime = adjustedTime;
+    }
+
+    console.log("totalNumericPrice", totalNumericPrice);
+
+    setOrder(orderDetails);
+    setIsSuccessModalVisible(true);
+  };
+
   return (
     <View>
-      {/* Modal content */}
-      {/* ... */}
-      <TouchableOpacity onPress={onClose}>
-        <Modal animationType="slide" transparent={true}>
-          {/* Modal content */}
+      <Modal animationType="slide" transparent={true}>
+        <ScrollView
+          style={{
+            borderRadius: 10,
+            width: "100%",
+            backgroundColor: COLORS.white,
+            maxHeight: "100%",
+          }}
+          contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+          showsVerticalScrollIndicator={false}
+        >
+          <View>
+            <Image
+              source={images.logo}
+              resizeMode="contain"
+              style={{
+                width: "100%",
+                height: 200,
+              }}
+            />
+          </View>
 
-          <ScrollView
-            style={{
-              borderRadius: 10,
-              width: "100%",
-              backgroundColor: COLORS.yellow,
-              maxHeight: "100%",
-            }}
-            contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
-            showsVerticalScrollIndicator={false}
-          >
-            {/* "Tagasi" button at the top left */}
-            <TouchableOpacity
-              style={[styles.buttonBack, styles.absolute]}
-              onPress={() => setShowDelivery(false)}
-            >
-              <Text
-                style={
-                  { color: COLORS.white, ...FONTS.h3 } as StyleProp<TextStyle>
+          <>
+            {/* Form for User's Name */}
+            <View style={styles.formContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder="Telefoninumber"
+                placeholderTextColor={COLORS.darkGray}
+                textAlign="center"
+                autoComplete="tel"
+                maxLength={8}
+                keyboardType="numeric"
+                value={userNumber}
+                onChangeText={(text) =>
+                  setUserNumber(text.replace(/[^0-9]/g, ""))
                 }
-              >
-                Tagasi
-              </Text>
-            </TouchableOpacity>
-
-            <View>
-              <Image
-                source={images.logo}
-                resizeMode="contain"
-                style={{
-                  width: "100%",
-                  height: 200,
-                }}
               />
             </View>
 
-            <View style={{ display: "flex", margin: 20 }}></View>
-
-            <View
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <View
-                style={{
-                  flexDirection: "row",
-                  marginTop: SIZES.radius,
-                  marginHorizontal: SIZES.padding,
-                }}
-              >
-                <Text>Delivery LOGIC MODAL</Text>
-              </View>
-
-              <TouchableOpacity
-                style={[styles.buttonBack, styles.absolute]}
-                onPress={() => setShowDelivery(false)}
-              >
-                <View>
-                  <Image
-                    source={images.back}
-                    resizeMode="contain"
-                    style={{
-                      width: 55,
-                      height: 55,
-                    }}
-                  />
-                </View>
-              </TouchableOpacity>
+            {/* Form for User's Number */}
+            <View style={styles.formContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder="Teie aadress"
+                placeholderTextColor={COLORS.darkGray}
+                autoCapitalize="words"
+                textAlign="center"
+                value={userAdress}
+                onChangeText={(text) => setUserAdress(text)}
+              />
             </View>
-          </ScrollView>
-        </Modal>
-      </TouchableOpacity>
+
+            {/* Date and Time Selection */}
+            <View style={styles.container}>
+              <TouchableOpacity onPress={() => setOpenDate(true)}>
+                <Text
+                  style={
+                    {
+                      backgroundColor: COLORS.yellow,
+                      padding: 10,
+                      color: COLORS.darknessGray,
+                      ...FONTS.h3,
+                      textAlign: "center",
+                    } as StyleProp<TextStyle>
+                  }
+                >
+                  {selectedDate === "VALI PÄEV"
+                    ? "VALI PÄEV"
+                    : selectedDate === formattedDate
+                    ? `TÄNA KELL ${selectedTime}`
+                    : ` ${selectedDate} KELL ${selectedTime}`}
+                </Text>
+              </TouchableOpacity>
+
+              <Time
+                openTime={openTime}
+                onSelectTime={(selectedTime) =>
+                  handleTimeSelection(selectedTime)
+                }
+                selectedDate={selectedDate}
+                formattedDate={formattedDate}
+                setOpenDate={setOpenDate}
+                isDelivery={isDelivery}
+              />
+              <DateChoose
+                openDate={openDate}
+                onSelectDate={(selectedDate) =>
+                  handleDateSelection(selectedDate)
+                }
+              />
+            </View>
+          </>
+
+          {/* Lottie */}
+          {isSuccessModalVisible && (
+            <SuccessModal
+              showCartModal={showCartModal}
+              cartData={cartData}
+              setCartData={setCartData}
+              onClose={onClose}
+              // setShowDelivery={setShowDelivery}
+              setShowOrderConfirmationModal={setShowOrderConfirmationModal}
+              setShowCartModal={setShowCartModal}
+              setIsSuccessModalVisible={setIsSuccessModalVisible}
+              orderDetails={order}
+            />
+          )}
+
+          <>
+            {/* Button to Send Data */}
+            <TouchableOpacity
+              onPress={handleSendData}
+              style={[
+                styles.buttonConfirm,
+                (!userAdress ||
+                  !userNumber ||
+                  selectedDate === "VALI PÄEV" ||
+                  selectedTime === "VALI KELL" ||
+                  userNumber.length < 8) &&
+                  styles.disabledButtonStyle,
+              ]}
+              // disabled={
+              //   !userAdress ||
+              //   !userNumber ||
+              //   selectedDate === "VALI PÄEV" ||
+              //   selectedTime === "VALI KELL" ||
+              //   userNumber.length < 8
+              // }
+            >
+              <Text
+                style={
+                  {
+                    color: COLORS.white,
+                    ...FONTS.h2,
+                  } as StyleProp<TextStyle>
+                }
+              >
+                SAADA TELLIMUS
+              </Text>
+            </TouchableOpacity>
+          </>
+
+          {/* Close button */}
+
+          <TouchableOpacity
+            style={[styles.buttonBack, styles.absolute]}
+            onPress={() => setShowDelivery(false)}
+          >
+            <View>
+              <Image
+                source={images.back}
+                resizeMode="contain"
+                style={{
+                  width: 55,
+                  height: 55,
+                }}
+              />
+            </View>
+          </TouchableOpacity>
+          {/* )} */}
+        </ScrollView>
+      </Modal>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  buttonConfirm: {
+    marginTop: 20,
+    flex: 2,
+    marginHorizontal: 10,
+    maxHeight: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(5, 180, 37, 0.58)",
+    borderRadius: 16,
+    color: COLORS.white,
+    ...FONTS.h3,
+  },
+  disabledButtonStyle: {
+    marginTop: 20,
+    flex: 2,
+    marginHorizontal: 10,
+    maxHeight: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: COLORS.gray,
+    borderRadius: 16,
+    color: COLORS.white,
+    ...FONTS.h3,
+  },
+  formContainer: {
+    padding: 10,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: COLORS.gray,
+    borderRadius: 6,
+    padding: 10,
+    marginBottom: 15,
+    width: 280,
+  },
+  container: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    marginVertical: 15,
+  },
   buttonBack: {
     flex: 2,
     marginHorizontal: 10,
@@ -114,35 +313,15 @@ const styles = StyleSheet.create({
     width: 60,
     justifyContent: "center",
     alignItems: "center",
-
     borderRadius: 16,
   },
   absolute: {
     position: "absolute",
-    top: -450,
+    top: 90,
     left: 0,
     right: 0,
     bottom: 0,
     zIndex: 1,
-  },
-  recentSearchShadow: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.29,
-    shadowRadius: 4.65,
-    elevation: 7,
-  },
-  recentSearches: {
-    width: "100%",
-    transform: [{ rotateY: "180deg" }],
-  },
-  blur: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
   },
 });
 

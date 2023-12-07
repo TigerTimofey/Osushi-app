@@ -26,6 +26,7 @@ const OrderConfirmationModal = ({
 }) => {
   const [showDelivery, setShowDelivery] = React.useState(false);
   const [showTakeAway, setShowTakeAway] = React.useState(false);
+  const [isDelivery, setIsDelivery] = React.useState(false);
 
   return (
     <View>
@@ -97,6 +98,7 @@ const OrderConfirmationModal = ({
                   onPress={() => {
                     setShowDelivery(true);
                     setShowTakeAway(false);
+                    setIsDelivery(true);
                   }}
                 >
                   <Text
@@ -153,6 +155,9 @@ const OrderConfirmationModal = ({
             <View>
               {showDelivery && (
                 <Delivery
+                  isDelivery={isDelivery}
+                  setIsDelivery={setShowDelivery}
+                  showCartModal={showCartModal}
                   cartData={cartData}
                   setCartData={setCartData}
                   onClose={onClose}

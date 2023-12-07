@@ -17,64 +17,46 @@ const Time = ({
   formattedDate,
   selectedDate,
   setOpenDate,
+  isDelivery,
 }) => {
   const generateTimeIntervals = () => {
-    if (formattedDate === selectedDate) {
-      const currentHour = new Date().getHours();
-      const currentMinute = new Date().getMinutes();
-      const nextWholeHour =
-        currentMinute >= 30 ? currentHour + 2 : currentHour + 1;
-      const timeIntervals = [];
-      for (
-        let hour = nextWholeHour;
-        hour <= restoranWorkData[0].workEndTime;
-        hour++
-      ) {
-        for (let minute = 0; minute < 60; minute += 30) {
-          const isBefore10_30 =
-            hour < restoranWorkData[0].workStartTime ||
-            (hour === restoranWorkData[0].workStartTime && minute === 0);
-          if (
-            !isBefore10_30 &&
-            !(hour === restoranWorkData[0].workEndTime && minute === 30)
-          ) {
-            const formattedHour = hour.toString().padStart(2, "0");
-            const formattedMinute = minute.toString().padStart(2, "0");
-            timeIntervals.push(`${formattedHour}:${formattedMinute}`);
-          }
+    const currentHour = new Date().getHours();
+    const currentMinute = new Date().getMinutes();
+    const nextWholeHour =
+      currentMinute >= 30 ? currentHour + 2 : currentHour + 1;
+
+    const addDeliveryTime = (hour) => {
+      return isDelivery
+        ? hour + restoranWorkData[0].timeForDeliveryExtraHours
+        : hour;
+    };
+
+    const timeIntervals = [];
+    for (
+      let hour = addDeliveryTime(nextWholeHour);
+      hour <= restoranWorkData[0].workEndTime;
+      hour++
+    ) {
+      for (let minute = 0; minute < 60; minute += 30) {
+        const isBefore10_30 =
+          hour < restoranWorkData[0].workStartTime ||
+          (hour === restoranWorkData[0].workStartTime && minute === 0);
+
+        if (
+          !isBefore10_30 &&
+          !(hour === restoranWorkData[0].workEndTime && minute === 30)
+        ) {
+          const formattedHour = hour.toString().padStart(2, "0");
+          const formattedMinute = minute.toString().padStart(2, "0");
+          timeIntervals.push(`${formattedHour}:${formattedMinute}`);
         }
       }
-      return timeIntervals;
-    } else {
-      const timeIntervals = [];
-      for (
-        let hour = restoranWorkData[0].workStartTime;
-        hour <= restoranWorkData[0].workEndTime;
-        hour++
-      ) {
-        for (let minute = 0; minute < 60; minute += 30) {
-          const isBefore10_30 =
-            hour === 10 &&
-            minute === 0 &&
-            restoranWorkData[0].workStartTime !==
-              restoranWorkData[0].workStartTime;
-          const isAfter10_30 =
-            hour === restoranWorkData[0].workStartTime && minute === 0;
-          if (
-            !isBefore10_30 &&
-            !isAfter10_30 &&
-            !(hour === restoranWorkData[0].workEndTime && minute === 30)
-          ) {
-            const formattedHour = hour.toString().padStart(2, "0");
-            const formattedMinute = minute.toString().padStart(2, "0");
-            timeIntervals.push(`${formattedHour}:${formattedMinute}`);
-          }
-        }
-      }
-      return timeIntervals;
     }
+
+    return timeIntervals;
   };
 
+  console.log(isDelivery);
   const timeIntervals = generateTimeIntervals();
 
   return (
