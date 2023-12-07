@@ -10,6 +10,7 @@ import {
   TextInput,
   TextStyle,
   StyleProp,
+  Linking,
 } from "react-native";
 
 import LottieView from "lottie-react-native";
@@ -17,6 +18,8 @@ import Success from "../../../../../assets/success/done.json";
 import Congratuations from "../../../../../assets/success/cong.json";
 import { COLORS, FONTS } from "../../../../constants";
 import Recieve from "./Recieve";
+
+import restoranWorkData from "../../../../constants/menu/timeStatesData";
 
 const SuccessModal = ({
   showCartModal,
@@ -36,10 +39,7 @@ const SuccessModal = ({
     const updatedCartData = [];
     setCartData(updatedCartData);
     setIsSuccessModalVisible(false);
-    // setShowTakeAway(false);
     setShowOrderConfirmationModal(false);
-    // setShowCartModal(false);
-    // Additional logic to reset any other relevant state variables
   };
   return (
     <View>
@@ -95,29 +95,93 @@ const SuccessModal = ({
               </Text>
 
               <View style={styles.container}>
-                <TouchableOpacity
-                  onPress={() => {
-                    // setIsSuccessModalVisible(false);
-                    setOpenRecieve(true);
-                  }}
-                >
-                  <Text
-                    style={
-                      {
-                        backgroundColor: COLORS.yellow,
-                        padding: 10,
-                        color: COLORS.darknessGray,
-                        ...FONTS.h2,
-                        textAlign: "center",
-                        position: "absolute",
-                        left: 135,
-                        top: 150,
-                      } as StyleProp<TextStyle>
-                    }
-                  >
-                    Vaata arve
-                  </Text>
-                </TouchableOpacity>
+                {!openRecieve && (
+                  <>
+                    <TouchableOpacity
+                      onPress={() => {
+                        const phoneNumberString = `+${restoranWorkData[0].placePhoneNumberEstonia}`;
+                        const phoneNumberNum = parseInt(
+                          phoneNumberString.replace(/\D/g, ""),
+                          10
+                        );
+                        Linking.openURL(`tel:${phoneNumberNum}`).catch((err) =>
+                          console.error("An error occurred", err)
+                        );
+                      }}
+                    >
+                      <Text
+                        style={
+                          {
+                            backgroundColor: COLORS.yellow,
+                            padding: 10,
+                            color: COLORS.darknessGray,
+                            ...FONTS.h3,
+                            textAlign: "center",
+                            // position: "absolute",
+                            // left: 152,
+                            // top: 150,
+                            top: 150,
+                          } as StyleProp<TextStyle>
+                        }
+                      >
+                        Helista meile
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setOpenRecieve(true);
+                      }}
+                    >
+                      <Text
+                        style={
+                          {
+                            backgroundColor: COLORS.yellow,
+                            padding: 10,
+                            color: COLORS.darknessGray,
+                            ...FONTS.h3,
+                            textAlign: "center",
+                            // position: "absolute",
+                            // left: 112,
+                            top: 150,
+                            marginLeft: 10,
+                          } as StyleProp<TextStyle>
+                        }
+                      >
+                        Vaata arve
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => {
+                        const googleMapsLink =
+                          "https://goo.gl/maps/Eb2gLiVVzdKZ7U2F6";
+
+                        // Use Linking to open the Google Maps link
+                        Linking.openURL(googleMapsLink).catch((err) =>
+                          console.error("An error occurred", err)
+                        );
+                      }}
+                    >
+                      <Text
+                        style={
+                          {
+                            backgroundColor: COLORS.yellow,
+                            padding: 10,
+                            color: COLORS.darknessGray,
+                            ...FONTS.h3,
+                            textAlign: "center",
+                            // position: "absolute",
+
+                            // top: 200,
+                            top: 150,
+                            marginLeft: 10,
+                          } as StyleProp<TextStyle>
+                        }
+                      >
+                        Tee meieni
+                      </Text>
+                    </TouchableOpacity>
+                  </>
+                )}
                 {openRecieve && (
                   <Recieve
                     openRecieve={openRecieve}
@@ -129,29 +193,31 @@ const SuccessModal = ({
               </View>
 
               {/* Close Button */}
-              <TouchableOpacity
-                style={{
-                  backgroundColor: COLORS.gray,
-                  marginTop: 600,
-                  borderRadius: 10,
-                  position: "absolute",
-                  bottom: -350,
-                }}
-                onPress={handleCloseModal}
-              >
-                <Text
-                  style={
-                    {
-                      color: COLORS.white,
-                      ...FONTS.h1,
-                      alignContent: "center",
-                      margin: 10,
-                    } as StyleProp<TextStyle>
-                  }
+              {!openRecieve && (
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: COLORS.gray,
+                    marginTop: 600,
+                    borderRadius: 10,
+                    position: "absolute",
+                    bottom: -350,
+                  }}
+                  onPress={handleCloseModal}
                 >
-                  SULGE
-                </Text>
-              </TouchableOpacity>
+                  <Text
+                    style={
+                      {
+                        color: COLORS.white,
+                        ...FONTS.h1,
+                        alignContent: "center",
+                        margin: 10,
+                      } as StyleProp<TextStyle>
+                    }
+                  >
+                    SULGE
+                  </Text>
+                </TouchableOpacity>
+              )}
             </View>
           )}
         </ScrollView>

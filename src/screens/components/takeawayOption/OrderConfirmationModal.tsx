@@ -10,6 +10,9 @@ import {
 import { View, Text, TouchableOpacity } from "react-native";
 import { COLORS, SIZES, FONTS, images } from "../../../constants";
 
+import LottieView from "lottie-react-native";
+import Conveer from "../../../../assets/success/conv.json";
+
 import Takeaway from "./takeaway/Takeaway";
 import Delivery from "./delivery/Delivery";
 
@@ -32,7 +35,7 @@ const OrderConfirmationModal = ({
         <Modal
           animationType="slide"
           // transparent={true}
-          style={{ width: "100%", height: "100%" }}
+          style={{ width: "40%", height: "100%" }}
         >
           {/* Modal content */}
           <ScrollView
@@ -40,7 +43,7 @@ const OrderConfirmationModal = ({
               borderRadius: 10,
               width: "100%",
               backgroundColor: COLORS.white,
-              maxHeight: 700,
+              maxHeight: "100%",
             }}
             contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
             showsVerticalScrollIndicator={false}
@@ -52,6 +55,7 @@ const OrderConfirmationModal = ({
                 style={{
                   width: "100%",
                   height: 80,
+                  marginTop: 100,
                 }}
               />
             </View>
@@ -130,6 +134,20 @@ const OrderConfirmationModal = ({
                   </Text>
                 </TouchableOpacity>
               </View>
+            </View>
+
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <LottieView
+                source={Conveer}
+                autoPlay
+                // loop={false}
+                style={{
+                  width: "100%",
+                  height: 400,
+                  // position: "realitive",
+                  top: 110,
+                }}
+              />
             </View>
 
             <View>

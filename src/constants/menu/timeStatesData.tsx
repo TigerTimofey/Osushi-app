@@ -9,6 +9,7 @@ export const restoranWorkData = [
     closeForOrderTimeEnd: 1,
     preOrderDays: 6,
     countryTax: 22,
+    placePhoneNumberEstonia: 37258556778,
   },
 ];
 
