@@ -14,11 +14,20 @@ import {
 import { COLORS, FONTS, SIZES, images } from "../../../../constants";
 import restoranWorkData from "../../../../constants/menu/timeStatesData";
 
-const Recieve = ({ openRecieve, orderDetails, cartData, setOpenRecieve }) => {
-  const totalNumericPrice = orderDetails.cartData.reduce(
+const Recieve = ({
+  openRecieve,
+  orderDetails,
+  cartData,
+  setOpenRecieve,
+  isDelivery,
+}) => {
+  let totalNumericPrice = orderDetails.cartData.reduce(
     (sum, item) => sum + item.numericPrice * item.quantity,
     0
   );
+  if (isDelivery) {
+    totalNumericPrice += restoranWorkData[0].deliveryFee;
+  }
   console.log("orderDetails ARVE", orderDetails);
   console.log("TOTAL ", totalNumericPrice);
 
@@ -94,6 +103,22 @@ const Recieve = ({ openRecieve, orderDetails, cartData, setOpenRecieve }) => {
                   </Text>
                 </View>
               ))}
+              {isDelivery && (
+                <View
+                  style={{ alignItems: "center", justifyContent: "center" }}
+                >
+                  <Text
+                    style={
+                      {
+                        ...FONTS.h4,
+                        color: COLORS.darknessGray,
+                      } as StyleProp<TextStyle>
+                    }
+                  >
+                    Kojuvedu - {formatPrice(restoranWorkData[0].deliveryFee)}
+                  </Text>
+                </View>
+              )}
             </ScrollView>
             {/* Black Horizontal Line */}
             <View

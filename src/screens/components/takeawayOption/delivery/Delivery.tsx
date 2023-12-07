@@ -32,6 +32,7 @@ const Delivery = ({
   const [openTime, setOpenTime] = useState(false);
   const [openDate, setOpenDate] = useState(false);
   const [userAdress, setUserAdress] = useState("");
+  const [userApartment, setUserApartment] = useState("");
   const [userNumber, setUserNumber] = useState("");
   const [order, setOrder] = useState(null);
 
@@ -137,13 +138,22 @@ const Delivery = ({
             {/* Form for User's Number */}
             <View style={styles.formContainer}>
               <TextInput
-                style={styles.input}
+                style={styles.inputAdress}
                 placeholder="Teie aadress"
                 placeholderTextColor={COLORS.darkGray}
-                autoCapitalize="words"
+                // autoCapitalize="words"
                 textAlign="center"
                 value={userAdress}
                 onChangeText={(text) => setUserAdress(text)}
+              />
+              <TextInput
+                style={styles.inputApartment}
+                placeholder="Korter"
+                placeholderTextColor={COLORS.darkGray}
+                // autoCapitalize="words"
+                textAlign="center"
+                value={userApartment}
+                onChangeText={(text) => setUserApartment(text)}
               />
             </View>
 
@@ -191,6 +201,7 @@ const Delivery = ({
           {/* Lottie */}
           {isSuccessModalVisible && (
             <SuccessModal
+              isDelivery={isDelivery}
               showCartModal={showCartModal}
               cartData={cartData}
               setCartData={setCartData}
@@ -299,6 +310,24 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 15,
     width: 280,
+  },
+  inputAdress: {
+    borderWidth: 1,
+    borderColor: COLORS.gray,
+    borderRadius: 6,
+    padding: 10,
+    marginBottom: 15,
+    marginLeft: 45,
+    width: 200,
+  },
+  inputApartment: {
+    borderWidth: 1,
+    borderColor: COLORS.gray,
+    borderRadius: 6,
+    padding: 10,
+    marginBottom: 15,
+    marginRight: 45,
+    width: 70,
   },
   container: {
     flexDirection: "row",

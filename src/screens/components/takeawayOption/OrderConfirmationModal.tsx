@@ -119,6 +119,7 @@ const OrderConfirmationModal = ({
                   onPress={() => {
                     setShowTakeAway(true);
                     setShowDelivery(false);
+                    setIsDelivery(false);
                   }}
                 >
                   <Text
@@ -168,6 +169,8 @@ const OrderConfirmationModal = ({
               )}
               {showTakeAway && (
                 <Takeaway
+                  isDelivery={isDelivery}
+                  setIsDelivery={setShowDelivery}
                   showCartModal={showCartModal}
                   cartData={cartData}
                   setCartData={setCartData}

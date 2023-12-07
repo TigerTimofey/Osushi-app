@@ -11,6 +11,7 @@ export const restoranWorkData = [
     countryTax: 22,
     timeForDeliveryExtraHours: 1,
     placePhoneNumberEstonia: 37258556778,
+    deliveryFee: 6.9,
   },
 ];
 

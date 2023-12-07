@@ -5,6 +5,8 @@ import {
   ScrollView,
   View,
   Text,
+  StyleProp,
+  TextStyle,
   TouchableOpacity,
 } from "react-native";
 import { BlurView } from "expo-blur";
@@ -56,7 +58,6 @@ const Time = ({
     return timeIntervals;
   };
 
-  console.log(isDelivery);
   const timeIntervals = generateTimeIntervals();
 
   return (
@@ -66,7 +67,15 @@ const Time = ({
           <View style={styles.container}>
             {timeIntervals.length === 0 ? (
               <>
-                <Text style={styles.noTimeText}>
+                <Text
+                  style={
+                    {
+                      color: COLORS.darknessGray,
+                      ...FONTS.h3,
+                      padding: 0,
+                    } as StyleProp<TextStyle>
+                  }
+                >
                   Oleme täna suletud, palun valige mõni muu päev
                 </Text>
                 <TouchableOpacity
@@ -76,7 +85,17 @@ const Time = ({
                   }}
                   style={styles.closeButton}
                 >
-                  <Text style={styles.closeButtonText}>VALI PÄEV</Text>
+                  <Text
+                    style={
+                      {
+                        color: COLORS.darknessGray,
+                        ...FONTS.h3,
+                        padding: 0,
+                      } as StyleProp<TextStyle>
+                    }
+                  >
+                    VALI PÄEV
+                  </Text>
                 </TouchableOpacity>
               </>
             ) : (
@@ -86,7 +105,17 @@ const Time = ({
                   onPress={() => onSelectTime(time)}
                   style={styles.timeButton}
                 >
-                  <Text style={styles.timeButtonText}>{time}</Text>
+                  <Text
+                    style={
+                      {
+                        color: COLORS.darknessGray,
+                        ...FONTS.h3,
+                        padding: 0,
+                      } as StyleProp<TextStyle>
+                    }
+                  >
+                    {time}
+                  </Text>
                 </TouchableOpacity>
               ))
             )}
@@ -118,11 +147,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.lightGray,
     color: COLORS.red,
   },
-  timeButtonText: {
-    color: COLORS.darknessGray,
-    ...FONTS.h3,
-    padding: 0,
-  },
+
   blur: {
     flex: 1,
     alignItems: "center",
@@ -144,11 +169,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: COLORS.lightGray,
     marginLeft: 70,
-  },
-  closeButtonText: {
-    color: COLORS.darknessGray,
-    ...FONTS.h3,
-    padding: 0,
   },
 });
 

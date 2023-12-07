@@ -22,6 +22,7 @@ import Recieve from "./Recieve";
 import restoranWorkData from "../../../../constants/menu/timeStatesData";
 
 const SuccessModal = ({
+  isDelivery,
   showCartModal,
   cartData,
   setCartData,
@@ -185,6 +186,7 @@ const SuccessModal = ({
                 )}
                 {openRecieve && (
                   <Recieve
+                    isDelivery={isDelivery}
                     openRecieve={openRecieve}
                     orderDetails={orderDetails}
                     cartData={cartData}

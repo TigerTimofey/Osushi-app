@@ -19,6 +19,8 @@ import DateChoose from "../timeDate/DateChoose";
 import SuccessModal from "../orderPlaced/SuccessModal";
 
 const Takeaway = ({
+  isDelivery,
+  setIsDelivery,
   showCartModal,
   cartData,
   setCartData,
@@ -161,6 +163,7 @@ const Takeaway = ({
               </TouchableOpacity>
 
               <Time
+                isDelivery={isDelivery}
                 openTime={openTime}
                 onSelectTime={(selectedTime) =>
                   handleTimeSelection(selectedTime)
@@ -181,6 +184,7 @@ const Takeaway = ({
           {/* Lottie */}
           {isSuccessModalVisible && (
             <SuccessModal
+              isDelivery={isDelivery}
               showCartModal={showCartModal}
               cartData={cartData}
               setCartData={setCartData}
