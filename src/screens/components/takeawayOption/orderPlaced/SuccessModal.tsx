@@ -23,16 +23,17 @@ import restoranWorkData from "../../../../constants/menu/timeStatesData";
 
 const SuccessModal = ({
   isDelivery,
-  showCartModal,
+  // showCartModal,
   cartData,
   setCartData,
-  onClose,
+  // onClose,
   // setShowTakeAway,
   // setShowDelivery,
   setShowOrderConfirmationModal,
-  setShowCartModal,
+  // setShowCartModal,
   setIsSuccessModalVisible,
   orderDetails,
+  distance,
 }) => {
   const [lottieAnimationFinished, setLottieAnimationFinished] = useState(false);
   const [openRecieve, setOpenRecieve] = useState(false);
@@ -191,6 +192,7 @@ const SuccessModal = ({
                     orderDetails={orderDetails}
                     cartData={cartData}
                     setOpenRecieve={setOpenRecieve}
+                    distance={distance}
                   />
                 )}
               </View>

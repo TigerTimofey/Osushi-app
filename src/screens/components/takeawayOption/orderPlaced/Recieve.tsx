@@ -20,13 +20,27 @@ const Recieve = ({
   cartData,
   setOpenRecieve,
   isDelivery,
+  distance,
 }) => {
+  console.log("Recieve isDelivery", isDelivery);
+  const distancePrice = Number(
+    (
+      Math.round(
+        (restoranWorkData[0].minimumOrderFeeEur +
+          (distance / 1000) * restoranWorkData[0].centsPerKilometer) *
+          20
+      ) / 20
+    ).toFixed(2)
+  );
+
   let totalNumericPrice = orderDetails.cartData.reduce(
     (sum, item) => sum + item.numericPrice * item.quantity,
+    // isDelivery ? -0.1 : 0
     0
   );
+
   if (isDelivery) {
-    totalNumericPrice += restoranWorkData[0].deliveryFee;
+    totalNumericPrice += distancePrice;
   }
   console.log("orderDetails ARVE", orderDetails);
   console.log("TOTAL ", totalNumericPrice);
@@ -48,7 +62,7 @@ const Recieve = ({
             style={
               {
                 backgroundColor: COLORS.yellow,
-                paddingTop: 50,
+                paddingTop: 35,
                 paddingBottom: 50,
                 paddingHorizontal: 150,
                 color: COLORS.darknessGray,
@@ -115,7 +129,7 @@ const Recieve = ({
                       } as StyleProp<TextStyle>
                     }
                   >
-                    Kojuvedu - {formatPrice(restoranWorkData[0].deliveryFee)}
+                    Kohaletoimetamine - {formatPrice(distancePrice)}
                   </Text>
                 </View>
               )}

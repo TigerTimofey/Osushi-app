@@ -21,41 +21,49 @@ const Time = ({
   setOpenDate,
   isDelivery,
 }) => {
+  // console.log("formattedDate", formattedDate);
+  // console.log("selectedDate", selectedDate);
   const generateTimeIntervals = () => {
-    const currentHour = new Date().getHours();
-    const currentMinute = new Date().getMinutes();
-    const nextWholeHour =
-      currentMinute >= 30 ? currentHour + 2 : currentHour + 1;
+    const isSameDate = selectedDate === formattedDate;
 
-    const addDeliveryTime = (hour) => {
-      return isDelivery
-        ? hour + restoranWorkData[0].timeForDeliveryExtraHours
-        : hour;
-    };
+    if (isSameDate) {
+      const currentHour = new Date().getHours();
+      const currentMinute = new Date().getMinutes();
+      const nextWholeHour =
+        currentMinute >= 30 ? currentHour + 2 : currentHour + 1;
 
-    const timeIntervals = [];
-    for (
-      let hour = addDeliveryTime(nextWholeHour);
-      hour <= restoranWorkData[0].workEndTime;
-      hour++
-    ) {
-      for (let minute = 0; minute < 60; minute += 30) {
-        const isBefore10_30 =
-          hour < restoranWorkData[0].workStartTime ||
-          (hour === restoranWorkData[0].workStartTime && minute === 0);
+      const addDeliveryTime = (hour) => {
+        return isDelivery
+          ? hour + restoranWorkData[0].timeForDeliveryExtraHours
+          : hour;
+      };
 
-        if (
-          !isBefore10_30 &&
-          !(hour === restoranWorkData[0].workEndTime && minute === 30)
-        ) {
+      const timeIntervals = [];
+      for (
+        let hour = addDeliveryTime(nextWholeHour);
+        hour <= restoranWorkData[0].workEndTime;
+        hour++
+      ) {
+        for (let minute = 0; minute < 60; minute += 30) {
           const formattedHour = hour.toString().padStart(2, "0");
           const formattedMinute = minute.toString().padStart(2, "0");
           timeIntervals.push(`${formattedHour}:${formattedMinute}`);
         }
       }
-    }
 
-    return timeIntervals;
+      return timeIntervals;
+    } else {
+      // If selected date is different, show all time from 10 AM to 10 PM
+      const allTimeIntervals = [];
+      for (let hour = 10; hour <= 22; hour++) {
+        for (let minute = 0; minute < 60; minute += 30) {
+          const formattedHour = hour.toString().padStart(2, "0");
+          const formattedMinute = minute.toString().padStart(2, "0");
+          allTimeIntervals.push(`${formattedHour}:${formattedMinute}`);
+        }
+      }
+      return allTimeIntervals;
+    }
   };
 
   const timeIntervals = generateTimeIntervals();

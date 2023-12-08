@@ -17,6 +17,9 @@ import Time from "../timeDate/Time";
 import DateChoose from "../timeDate/DateChoose";
 
 import SuccessModal from "../orderPlaced/SuccessModal";
+import restoranWorkData from "../../../../constants/menu/timeStatesData";
+
+import SelectDropdown from "react-native-select-dropdown";
 
 const Delivery = ({
   showCartModal,
@@ -29,12 +32,40 @@ const Delivery = ({
   isDelivery,
   setIsDelivery,
 }) => {
+  const countries = ["Tallinn", "Maardu", "Muuga"];
   const [openTime, setOpenTime] = useState(false);
   const [openDate, setOpenDate] = useState(false);
+  const [userCity, setUserCity] = useState(countries);
   const [userAdress, setUserAdress] = useState("");
   const [userApartment, setUserApartment] = useState("");
   const [userNumber, setUserNumber] = useState("");
   const [order, setOrder] = useState(null);
+  const [distance, setDistance] = useState(null);
+  const [selectedTime, setSelectedTime] = useState("VALI AEG");
+  const [selectedDate, setSelectedDate] = useState("VALI PÄEV");
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
+  const [deliveryCost, setDeliveryCost] = useState(
+    "Daada kohaletoimetamise tasu"
+  );
+  const [userClicked, setUserClicked] = useState(false);
+
+  const formatPrice = (price: number) => {
+    return price.toLocaleString("en-US", {
+      style: "currency",
+      currency: "EUR",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  };
+  const distancePrice = Number(
+    (
+      Math.round(
+        (restoranWorkData[0].minimumOrderFeeEur +
+          (distance / 1000) * restoranWorkData[0].centsPerKilometer) *
+          20
+      ) / 20
+    ).toFixed(2)
+  );
 
   const currentDate = new Date();
   const formattedTime = `${String(currentDate.getHours()).padStart(
@@ -48,10 +79,6 @@ const Delivery = ({
     currentDate.getFullYear()
   ).slice(-2)}`;
 
-  const [selectedTime, setSelectedTime] = useState("VALI AEG");
-  const [selectedDate, setSelectedDate] = useState("VALI PÄEV");
-  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
-
   const handleTimeSelection = (time) => {
     setSelectedTime(time);
     setOpenTime(false);
@@ -63,34 +90,106 @@ const Delivery = ({
     setOpenTime(true);
   };
 
-  const handleSendData = () => {
+  const handleSendData = async () => {
     const orderDetails = {
+      userCity,
       userAdress,
       userNumber,
       selectedDate,
       selectedTime,
       cartData,
+      distance,
     };
 
-    //Order
-    console.log("Order", orderDetails);
-    // Total price of order
-    const totalNumericPrice = orderDetails.cartData.reduce(
-      (sum, item) => sum + item.numericPrice * item.quantity,
-      0
-    );
+    console.log("Order Details:", orderDetails);
 
-    if (isDelivery) {
-      const [hours, minutes] = selectedTime.split(":");
-      const newHours = String(Number(hours) + 1).padStart(2, "0");
-      const adjustedTime = `${newHours}:${minutes}`;
-      orderDetails.selectedTime = adjustedTime;
+    const origin = encodeURIComponent(orderDetails.userAdress + userCity);
+    const destination = encodeURIComponent("Punane 56, 13619 Tallinn");
+    const apiKey = "AIzaSyAF8V1XAka-1huxvk4i_JBEesow45GeF2s";
+    const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=${apiKey}`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log("Distance Matrix API Full Response:", data);
+
+      if (data.status === "OK" && data.rows[0].elements[0].distance) {
+        const distanceText = data.rows[0].elements[0].distance.text;
+        const distanceValue = data.rows[0].elements[0].distance.value;
+
+        console.log("Distance:", distanceText); // Logs the distance in text format (e.g., "5.2 km")
+        console.log("Distance Value (in meters):", distanceValue);
+
+        const totalNumericPrice = orderDetails.cartData.reduce(
+          (sum, item) => sum + item.numericPrice * item.quantity,
+          0
+        );
+
+        if (isDelivery) {
+          const [hours, minutes] = selectedTime.split(":");
+          const newHours = String(Number(hours) + 1).padStart(2, "0");
+          const adjustedTime = `${newHours}:${minutes}`;
+          orderDetails.selectedTime = adjustedTime;
+        }
+
+        orderDetails.distance = distanceValue;
+        console.log("Order", orderDetails);
+        console.log("totalNumericPrice", totalNumericPrice);
+
+        setOrder(orderDetails);
+        setIsSuccessModalVisible(true);
+      } else {
+        console.error("Google Maps Distance Matrix API error:", data.status);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const handlePriceForDelivery = async () => {
+    const orderDetails = {
+      userCity,
+      userAdress,
+      userNumber,
+      selectedDate,
+      selectedTime,
+      cartData,
+      distance,
+    };
+
+    const origin = encodeURIComponent(orderDetails.userAdress + userCity);
+    const destination = encodeURIComponent("Punane 56, 13619 Tallinn");
+    const apiKey = "AIzaSyAF8V1XAka-1huxvk4i_JBEesow45GeF2s";
+    const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=${apiKey}`;
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log("Distance Matrix API Full Response:", data);
+
+      if (data.status === "OK" && data.rows[0].elements[0].distance) {
+        const distanceText = data.rows[0].elements[0].distance.text;
+        const distanceValue = data.rows[0].elements[0].distance.value;
+        orderDetails.distance;
+        console.log("Distance Value (in meters):", distanceValue);
+
+        if (isDelivery) {
+          const [hours, minutes] = selectedTime.split(":");
+          const newHours = String(Number(hours) + 1).padStart(2, "0");
+          const adjustedTime = `${newHours}:${minutes}`;
+          orderDetails.selectedTime = adjustedTime;
+        }
+
+        orderDetails.distance = distanceValue;
+        setDistance(distanceValue);
+      } else {
+        console.error("Google Maps Distance Matrix API error:", data.status);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
 
-    console.log("totalNumericPrice", totalNumericPrice);
-
-    setOrder(orderDetails);
-    setIsSuccessModalVisible(true);
+    setUserClicked(true);
   };
 
   return (
@@ -137,11 +236,31 @@ const Delivery = ({
 
             {/* Form for User's Number */}
             <View style={styles.formContainer}>
+              <SelectDropdown
+                buttonStyle={styles.inputCity}
+                buttonTextStyle={styles.inputCityText}
+                // dropdownStyle={{ backgroundColor: "white", borderRadius: 10,  }}
+
+                dropdownStyle={styles.dropdownCity}
+                dropdownIconPosition="left"
+                defaultButtonText="Vali linn"
+                data={countries}
+                rowTextStyle={styles.dropdownCity}
+                rowStyle={styles.dropdownCity}
+                onSelect={(selectedItem) => {
+                  setUserCity(selectedItem);
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  return selectedItem;
+                }}
+                rowTextForSelection={(item, index) => {
+                  return item;
+                }}
+              />
               <TextInput
                 style={styles.inputAdress}
-                placeholder="Teie aadress"
+                placeholder="Aadress"
                 placeholderTextColor={COLORS.darkGray}
-                // autoCapitalize="words"
                 textAlign="center"
                 value={userAdress}
                 onChangeText={(text) => setUserAdress(text)}
@@ -150,12 +269,33 @@ const Delivery = ({
                 style={styles.inputApartment}
                 placeholder="Korter"
                 placeholderTextColor={COLORS.darkGray}
-                // autoCapitalize="words"
                 textAlign="center"
                 value={userApartment}
                 onChangeText={(text) => setUserApartment(text)}
               />
             </View>
+            {userCity && userAdress && userApartment && (
+              <View style={styles.containerGetPrice}>
+                <TouchableOpacity onPress={() => handlePriceForDelivery()}>
+                  <Text
+                    style={
+                      {
+                        backgroundColor: COLORS.yellow,
+                        padding: 10,
+                        minWidth: 165,
+                        color: COLORS.darknessGray,
+                        ...FONTS.h3,
+                        textAlign: "center",
+                      } as StyleProp<TextStyle>
+                    }
+                  >
+                    {userClicked
+                      ? formatPrice(distancePrice)
+                      : "KINNITA AADRESS"}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
 
             {/* Date and Time Selection */}
             <View style={styles.container}>
@@ -164,7 +304,9 @@ const Delivery = ({
                   style={
                     {
                       backgroundColor: COLORS.yellow,
+                      marginTop: 10,
                       padding: 10,
+                      minWidth: 165,
                       color: COLORS.darknessGray,
                       ...FONTS.h3,
                       textAlign: "center",
@@ -202,15 +344,16 @@ const Delivery = ({
           {isSuccessModalVisible && (
             <SuccessModal
               isDelivery={isDelivery}
-              showCartModal={showCartModal}
+              // showCartModal={showCartModal}
               cartData={cartData}
               setCartData={setCartData}
-              onClose={onClose}
+              // onClose={onClose}
               // setShowDelivery={setShowDelivery}
               setShowOrderConfirmationModal={setShowOrderConfirmationModal}
-              setShowCartModal={setShowCartModal}
+              // setShowCartModal={setShowCartModal}
               setIsSuccessModalVisible={setIsSuccessModalVisible}
               orderDetails={order}
+              distance={distance}
             />
           )}
 
@@ -227,13 +370,14 @@ const Delivery = ({
                   userNumber.length < 8) &&
                   styles.disabledButtonStyle,
               ]}
-              // disabled={
-              //   !userAdress ||
-              //   !userNumber ||
-              //   selectedDate === "VALI PÄEV" ||
-              //   selectedTime === "VALI KELL" ||
-              //   userNumber.length < 8
-              // }
+              disabled={
+                !userAdress ||
+                !userNumber ||
+                !userClicked ||
+                selectedDate === "VALI PÄEV" ||
+                selectedTime === "VALI KELL" ||
+                userNumber.length < 8
+              }
             >
               <Text
                 style={
@@ -265,7 +409,6 @@ const Delivery = ({
               />
             </View>
           </TouchableOpacity>
-          {/* )} */}
         </ScrollView>
       </Modal>
     </View>
@@ -302,6 +445,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
+    marginBottom: 10,
   },
   input: {
     borderWidth: 1,
@@ -311,14 +455,34 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     width: 280,
   },
+  inputCity: {
+    borderWidth: 1,
+    borderColor: COLORS.gray,
+    backgroundColor: COLORS.white,
+    borderRadius: 6,
+    // padding: 10,
+    marginBottom: 15,
+    marginLeft: 40,
+    width: 90,
+    height: 40,
+  },
+  inputCityText: {
+    color: COLORS.darkGray,
+    fontSize: 14,
+  },
+  dropdownCity: {
+    fontSize: 14,
+    backgroundColor: COLORS.white,
+    borderRadius: 6,
+    color: COLORS.darknessGray,
+  },
   inputAdress: {
     borderWidth: 1,
     borderColor: COLORS.gray,
     borderRadius: 6,
     padding: 10,
     marginBottom: 15,
-    marginLeft: 45,
-    width: 200,
+    width: 120,
   },
   inputApartment: {
     borderWidth: 1,
@@ -327,13 +491,22 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 15,
     marginRight: 45,
-    width: 70,
+    width: 65,
+  },
+  containerGetPrice: {
+    position: "absolute",
+    top: 500,
+    left: 115,
+    alignItems: "center",
+
+    marginVertical: 15,
   },
   container: {
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
-    marginVertical: 15,
+    marginTop: 35,
+    marginBottom: 15,
   },
   buttonBack: {
     flex: 2,

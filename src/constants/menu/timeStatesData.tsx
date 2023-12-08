@@ -11,7 +11,8 @@ export const restoranWorkData = [
     countryTax: 22,
     timeForDeliveryExtraHours: 1,
     placePhoneNumberEstonia: 37258556778,
-    deliveryFee: 6.9,
+    minimumOrderFeeEur: 6,
+    centsPerKilometer: 0.4,
   },
 ];
 
