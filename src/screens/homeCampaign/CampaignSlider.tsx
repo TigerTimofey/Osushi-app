@@ -68,9 +68,7 @@ const CampaignSlider = () => {
       const totalPrice = selectedItem.numericPrice;
 
       if (existingCartItemIndex !== -1) {
-        // Если товар уже есть в корзине, обновим его количество
       } else {
-        // Если товара нет в корзине, добавим новый элемент
         const cartItem = {
           id: selectedItem.id,
           name: selectedItem.name,
