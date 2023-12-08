@@ -185,13 +185,13 @@ const Takeaway = ({
           {isSuccessModalVisible && (
             <SuccessModal
               isDelivery={isDelivery}
-              showCartModal={showCartModal}
+              // showCartModal={showCartModal}
               cartData={cartData}
               setCartData={setCartData}
-              onClose={onClose}
+              // onClose={onClose}
               // setShowTakeAway={setShowTakeAway}
               setShowOrderConfirmationModal={setShowOrderConfirmationModal}
-              setShowCartModal={setShowCartModal}
+              // setShowCartModal={setShowCartModal}
               setIsSuccessModalVisible={setIsSuccessModalVisible}
               orderDetails={order}
             />
