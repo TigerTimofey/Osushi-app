@@ -89,6 +89,8 @@ const Delivery = ({
     setOpenDate(false);
     setOpenTime(true);
   };
+  const apiKey = process.env.REACT_PUBLIC_API_KEY;
+  console.log("apikey", apiKey);
 
   const handleSendData = async () => {
     const orderDetails = {
@@ -105,7 +107,7 @@ const Delivery = ({
 
     const origin = encodeURIComponent(orderDetails.userAdress + userCity);
     const destination = encodeURIComponent("Punane 56, 13619 Tallinn");
-    const apiKey = "AIzaSyAF8V1XAka-1huxvk4i_JBEesow45GeF2s";
+    const apiKey = process.env.REACT_PUBLIC_API_KEY;
     const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=${apiKey}`;
 
     try {
@@ -159,7 +161,7 @@ const Delivery = ({
 
     const origin = encodeURIComponent(orderDetails.userAdress + userCity);
     const destination = encodeURIComponent("Punane 56, 13619 Tallinn");
-    const apiKey = "AIzaSyAF8V1XAka-1huxvk4i_JBEesow45GeF2s";
+    const apiKey = process.env.REACT_APP_GOOGLE_APP_API_KEY;
     const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=${apiKey}`;
 
     try {
