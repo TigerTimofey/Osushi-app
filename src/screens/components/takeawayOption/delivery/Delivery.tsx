@@ -20,6 +20,7 @@ import SuccessModal from "../orderPlaced/SuccessModal";
 import restoranWorkData from "../../../../constants/menu/timeStatesData";
 
 import SelectDropdown from "react-native-select-dropdown";
+import { REACT_PUBLIC_API_KEY } from "@env";
 
 const Delivery = ({
   showCartModal,
@@ -89,8 +90,9 @@ const Delivery = ({
     setOpenDate(false);
     setOpenTime(true);
   };
-  const apiKey = process.env.REACT_PUBLIC_API_KEY;
-  console.log("apikey", apiKey);
+  // const apiKey = REACT_PUBLIC_API_KEY;
+  // console.log("apikey", apiKey);
+  // console.log(typeof apiKey);
 
   const handleSendData = async () => {
     const orderDetails = {
@@ -107,7 +109,7 @@ const Delivery = ({
 
     const origin = encodeURIComponent(orderDetails.userAdress + userCity);
     const destination = encodeURIComponent("Punane 56, 13619 Tallinn");
-    const apiKey = process.env.REACT_PUBLIC_API_KEY;
+    const apiKey = REACT_PUBLIC_API_KEY;
     const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=${apiKey}`;
 
     try {
@@ -161,7 +163,7 @@ const Delivery = ({
 
     const origin = encodeURIComponent(orderDetails.userAdress + userCity);
     const destination = encodeURIComponent("Punane 56, 13619 Tallinn");
-    const apiKey = process.env.REACT_APP_GOOGLE_APP_API_KEY;
+    const apiKey = REACT_PUBLIC_API_KEY;
     const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=${apiKey}`;
 
     try {
@@ -247,6 +249,7 @@ const Delivery = ({
                 dropdownIconPosition="left"
                 defaultButtonText="Vali linn"
                 data={countries}
+                selectedRowTextStyle={{ color: COLORS.darknessGray }}
                 rowTextStyle={styles.dropdownCity}
                 rowStyle={styles.dropdownCity}
                 onSelect={(selectedItem) => {
