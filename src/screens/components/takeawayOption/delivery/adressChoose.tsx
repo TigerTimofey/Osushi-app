@@ -155,6 +155,7 @@ const styles = StyleSheet.create({
     right: -10,
     color: COLORS.darknessGray,
     opacity: 0.7,
+
     ...FONTS.h1,
   },
   absolute: {
@@ -174,10 +175,13 @@ const styles = StyleSheet.create({
   buttonConfirm: {
     backgroundColor: "rgba(5, 180, 37, 0.58)",
     borderRadius: 16,
+    bottom: 5,
+    right: 25,
     minWidth: 150,
+
     marginTop: 60,
     color: COLORS.white,
-    ...FONTS.h3,
+    ...FONTS.h2,
   },
   formContainer: {
     padding: 10,

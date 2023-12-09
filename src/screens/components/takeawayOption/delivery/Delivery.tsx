@@ -10,6 +10,7 @@ import {
   TextInput,
   TextStyle,
   StyleProp,
+  Alert,
 } from "react-native";
 
 import { COLORS, FONTS, images } from "../../../../constants";
@@ -95,6 +96,19 @@ const Delivery = ({
   // console.log("apikey", apiKey);
   // console.log(typeof apiKey);
 
+  const createTwoButtonAlert = () =>
+    Alert.alert("Oops!", "Palun sisesta õige aadress", [
+      {
+        text: "SELGE",
+        onPress: () => {
+          setUserClicked(false);
+          setUserAdress("");
+          setUserApartment("");
+          setAdressChooose(true);
+        },
+      },
+    ]);
+
   const handlePriceForDelivery = async () => {
     const orderDetails = {
       userCity,
@@ -140,6 +154,7 @@ const Delivery = ({
         // Specific logic from handleSendData
         if (isDelivery) {
           setOrder(orderDetails);
+          setUserClicked(true);
         } else {
           console.error("This logic is specific to handleSendData");
         }
@@ -147,14 +162,17 @@ const Delivery = ({
         console.log("Order", orderDetails);
         console.log("totalNumericPrice", totalNumericPrice);
       } else {
-        console.error("Google Maps Distance Matrix API error:", data.status);
-        console.log(" HERE WE WILL UPDATE THIS FUCKING STATE");
+        // console.error("Google Maps Distance Matrix API error:", data.status);
+        // alert("PALUN SISESTA ÕIGE AADRESS");
+        createTwoButtonAlert();
+        // setUserClicked(false);
+        // setUserAdress("");
+        // setUserApartment("");
+        // setAdressChooose(true);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-
-    setUserClicked(true);
   };
 
   return (
@@ -198,70 +216,6 @@ const Delivery = ({
                 }
               />
             </View>
-
-            {/* Form for User's Number */}
-            {/* <View style={styles.formContainer}>
-              <SelectDropdown
-                buttonStyle={styles.inputCity}
-                buttonTextStyle={styles.inputCityText}
-                // dropdownStyle={{ backgroundColor: "white", borderRadius: 10,  }}
-
-                dropdownStyle={styles.dropdownCity}
-                dropdownIconPosition="left"
-                defaultButtonText="Vali linn"
-                data={countries}
-                selectedRowTextStyle={{ color: COLORS.darknessGray }}
-                rowTextStyle={styles.dropdownCity}
-                rowStyle={styles.dropdownCity}
-                onSelect={(selectedItem) => {
-                  setUserCity(selectedItem);
-                }}
-                buttonTextAfterSelection={(selectedItem, index) => {
-                  return selectedItem;
-                }}
-                rowTextForSelection={(item, index) => {
-                  return item;
-                }}
-              />
-              <TextInput
-                style={styles.inputAdress}
-                placeholder="Aadress"
-                placeholderTextColor={COLORS.darkGray}
-                textAlign="center"
-                value={userAdress}
-                onChangeText={(text) => setUserAdress(text)}
-              />
-              <TextInput
-                style={styles.inputApartment}
-                placeholder="Korter"
-                placeholderTextColor={COLORS.darkGray}
-                textAlign="center"
-                value={userApartment}
-                onChangeText={(text) => setUserApartment(text)}
-              />
-            </View> */}
-            {/* {userCity && userAdress && userApartment && (
-              <View style={styles.containerGetPrice}>
-                <TouchableOpacity onPress={() => setAdressChooose(true)}>
-                  <Text
-                    style={
-                      {
-                        backgroundColor: COLORS.yellow,
-                        padding: 10,
-                        minWidth: 165,
-                        color: COLORS.darknessGray,
-                        ...FONTS.h3,
-                        textAlign: "center",
-                      } as StyleProp<TextStyle>
-                    }
-                  >
-                    {userClicked
-                      ? formatPrice(distancePrice)
-                      : "KINNITA AADRESS"}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            )} */}
 
             <View style={styles.containerGetPrice}>
               <TouchableOpacity onPress={() => setAdressChooose(true)}>
@@ -366,6 +320,7 @@ const Delivery = ({
                 styles.buttonConfirm,
                 (!userAdress ||
                   !userNumber ||
+                  !userClicked ||
                   selectedDate === "VALI PÄEV" ||
                   selectedTime === "VALI KELL" ||
                   userNumber.length < 8) &&
