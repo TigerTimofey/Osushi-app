@@ -80,151 +80,155 @@ const SuccessModal = ({
             />
           </View>
 
-          {lottieAnimationFinished && (
-            // Show additional button and message
-            <View style={{ alignItems: "center", justifyContent: "center" }}>
-              {/* Info text */}
-              <Text
-                style={
-                  {
-                    ...FONTS.h1,
-                    color: COLORS.darknessGray,
-                    top: 50,
-                    position: "absolute",
-                  } as StyleProp<TextStyle>
-                }
-              >
-                Tellimus vastu võetud
-              </Text>
+          {/* {lottieAnimationFinished && ( */}
+          <View style={{ alignItems: "center", justifyContent: "center" }}>
+            {/* Info text */}
+            <Text
+              style={
+                {
+                  ...FONTS.h1,
+                  color: COLORS.darknessGray,
+                  top: 50,
+                  position: "absolute",
+                } as StyleProp<TextStyle>
+              }
+            >
+              Tellimus vastu võetud
+            </Text>
 
-              <View style={styles.container}>
-                {!openRecieve && (
-                  <>
-                    <TouchableOpacity
-                      onPress={() => {
-                        const phoneNumberString = `+${restoranWorkData[0].placePhoneNumberEstonia}`;
-                        const phoneNumberNum = parseInt(
-                          phoneNumberString.replace(/\D/g, ""),
-                          10
-                        );
-                        Linking.openURL(`tel:${phoneNumberNum}`).catch((err) =>
-                          console.error("An error occurred", err)
-                        );
-                      }}
-                    >
-                      <Text
-                        style={
-                          {
-                            backgroundColor: COLORS.yellow,
-                            padding: 10,
-                            color: COLORS.darknessGray,
-                            ...FONTS.h3,
-                            textAlign: "center",
-                            // position: "absolute",
-                            // left: 152,
-                            // top: 150,
-                            top: 150,
-                          } as StyleProp<TextStyle>
-                        }
-                      >
-                        Helista meile
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => {
-                        setOpenRecieve(true);
-                      }}
-                    >
-                      <Text
-                        style={
-                          {
-                            backgroundColor: COLORS.yellow,
-                            padding: 10,
-                            color: COLORS.darknessGray,
-                            ...FONTS.h3,
-                            textAlign: "center",
-                            // position: "absolute",
-                            // left: 112,
-                            top: 150,
-                            marginLeft: 10,
-                          } as StyleProp<TextStyle>
-                        }
-                      >
-                        Vaata arve
-                      </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => {
-                        const googleMapsLink =
-                          "https://goo.gl/maps/Eb2gLiVVzdKZ7U2F6";
-
-                        // Use Linking to open the Google Maps link
-                        Linking.openURL(googleMapsLink).catch((err) =>
-                          console.error("An error occurred", err)
-                        );
-                      }}
-                    >
-                      <Text
-                        style={
-                          {
-                            backgroundColor: COLORS.yellow,
-                            padding: 10,
-                            color: COLORS.darknessGray,
-                            ...FONTS.h3,
-                            textAlign: "center",
-                            // position: "absolute",
-
-                            // top: 200,
-                            top: 150,
-                            marginLeft: 10,
-                          } as StyleProp<TextStyle>
-                        }
-                      >
-                        Tee meieni
-                      </Text>
-                    </TouchableOpacity>
-                  </>
-                )}
-                {openRecieve && (
-                  <Recieve
-                    isDelivery={isDelivery}
-                    openRecieve={openRecieve}
-                    orderDetails={orderDetails}
-                    cartData={cartData}
-                    setOpenRecieve={setOpenRecieve}
-                    distance={distance}
-                  />
-                )}
-              </View>
-
-              {/* Close Button */}
+            <View style={styles.container}>
               {!openRecieve && (
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: COLORS.gray,
-                    marginTop: 600,
-                    borderRadius: 10,
-                    position: "absolute",
-                    bottom: -350,
-                  }}
-                  onPress={handleCloseModal}
-                >
-                  <Text
-                    style={
-                      {
-                        color: COLORS.white,
-                        ...FONTS.h1,
-                        alignContent: "center",
-                        margin: 10,
-                      } as StyleProp<TextStyle>
-                    }
+                <>
+                  <TouchableOpacity
+                    onPress={() => {
+                      const phoneNumberString = `+${restoranWorkData[0].placePhoneNumberEstonia}`;
+                      const phoneNumberNum = parseInt(
+                        phoneNumberString.replace(/\D/g, ""),
+                        10
+                      );
+                      Linking.openURL(`tel:${phoneNumberNum}`).catch((err) =>
+                        console.error("An error occurred", err)
+                      );
+                    }}
                   >
-                    SULGE
-                  </Text>
-                </TouchableOpacity>
+                    <Text
+                      style={
+                        {
+                          backgroundColor: COLORS.yellow,
+                          padding: 10,
+                          color: COLORS.darknessGray,
+                          ...FONTS.h3,
+                          textAlign: "center",
+                          // position: "absolute",
+                          // left: 152,
+                          // top: 150,
+                          top: 150,
+                        } as StyleProp<TextStyle>
+                      }
+                    >
+                      Helista meile
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setOpenRecieve(true);
+                    }}
+                  >
+                    <Text
+                      style={
+                        {
+                          backgroundColor: COLORS.yellow,
+                          padding: 10,
+                          color: COLORS.darknessGray,
+                          ...FONTS.h3,
+                          textAlign: "center",
+                          // position: "absolute",
+                          // left: 112,
+                          top: 150,
+                          marginLeft: 10,
+                        } as StyleProp<TextStyle>
+                      }
+                    >
+                      Vaata arve
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      const googleMapsLink =
+                        "https://goo.gl/maps/Eb2gLiVVzdKZ7U2F6";
+
+                      // Use Linking to open the Google Maps link
+                      Linking.openURL(googleMapsLink).catch((err) =>
+                        console.error("An error occurred", err)
+                      );
+                    }}
+                  >
+                    <Text
+                      style={
+                        {
+                          backgroundColor: COLORS.yellow,
+                          padding: 10,
+                          color: COLORS.darknessGray,
+                          ...FONTS.h3,
+                          textAlign: "center",
+                          // position: "absolute",
+
+                          // top: 200,
+                          top: 150,
+                          marginLeft: 10,
+                        } as StyleProp<TextStyle>
+                      }
+                    >
+                      Tee meieni
+                    </Text>
+                  </TouchableOpacity>
+                </>
+              )}
+              {openRecieve && (
+                <Recieve
+                  isDelivery={isDelivery}
+                  openRecieve={openRecieve}
+                  orderDetails={orderDetails}
+                  cartData={cartData}
+                  setOpenRecieve={setOpenRecieve}
+                  distance={distance}
+                />
               )}
             </View>
-          )}
+
+            {/* Close Button */}
+            {!openRecieve && (
+              <TouchableOpacity
+                style={{
+                  backgroundColor: COLORS.gray,
+                  marginTop: 600,
+                  borderRadius: 10,
+                  position: "absolute",
+                  bottom: -350,
+                }}
+                onPress={handleCloseModal}
+              >
+                <Text
+                  style={
+                    {
+                      backgroundColor: COLORS.darkGray,
+                      color: COLORS.white,
+                      ...FONTS.h1,
+                      alignContent: "center",
+                      position: "absolute",
+                      padding: 10,
+
+                      bottom: 50,
+                      left: -60,
+                    } as StyleProp<TextStyle>
+                  }
+                >
+                  SULGE
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
+          {/* )} */}
         </ScrollView>
       </Modal>
     </View>
