@@ -11,6 +11,7 @@ import {
   TextStyle,
   StyleProp,
   Image,
+  TouchableWithoutFeedback,
 } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 import { BlurView } from "expo-blur";
@@ -118,9 +119,13 @@ const AdressChooose = ({
                 </>
               )}
             </View>
+
             {userCity && userAdress && userApartment && (
               <View style={styles.containerGetPrice}>
-                <TouchableOpacity
+                <TouchableWithoutFeedback
+                  onPressIn={() => {
+                    handlePriceForDelivery();
+                  }}
                   onPress={() => {
                     setAdressChooose(false);
                     handlePriceForDelivery();
@@ -138,7 +143,7 @@ const AdressChooose = ({
                   >
                     SAADA TARNEHIND
                   </Text>
-                </TouchableOpacity>
+                </TouchableWithoutFeedback>
               </View>
             )}
           </View>
@@ -195,12 +200,9 @@ const styles = StyleSheet.create({
 
   inputCity: {
     borderWidth: 1,
-    borderColor: COLORS.gray,
+    borderColor: COLORS.darkGray,
     backgroundColor: COLORS.white,
     borderRadius: 6,
-
-    // padding: 10,
-    marginBottom: 15,
     width: 200,
     height: 40,
   },
@@ -222,7 +224,6 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: SIZES.h3,
     marginRight: 50,
-    // marginBottom: 15,
     width: 200,
   },
   inputApartment: {
@@ -233,16 +234,15 @@ const styles = StyleSheet.create({
     padding: 10,
     marginRight: -15,
     fontSize: SIZES.h3,
-    // marginBottom: 15,
 
     width: 85,
   },
   containerGetPrice: {
     position: "absolute",
-    top: 125,
+    top: 145,
     left: 110,
     alignItems: "center",
-    marginVertical: 15,
+    // marginVertical: 15,
   },
 
   container: {
