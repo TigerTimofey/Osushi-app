@@ -54,7 +54,7 @@ const Delivery = ({
   const formatPrice = (price: number) => {
     return price.toLocaleString("en-US", {
       style: "currency",
-      currency: "EUR",
+      currency: restoranWorkData[0].countryCurrency,
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
@@ -95,62 +95,6 @@ const Delivery = ({
   // console.log("apikey", apiKey);
   // console.log(typeof apiKey);
 
-  const handleSendData = async () => {
-    const orderDetails = {
-      userCity,
-      userAdress,
-      userNumber,
-      selectedDate,
-      selectedTime,
-      cartData,
-      distance,
-    };
-
-    console.log("Order Details:", orderDetails);
-
-    const origin = encodeURIComponent(orderDetails.userAdress + userCity);
-    const destination = encodeURIComponent("Punane 56, 13619 Tallinn");
-    const apiKey = REACT_PUBLIC_API_KEY;
-    const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=${apiKey}`;
-
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      console.log("Distance Matrix API Full Response:", data);
-
-      if (data.status === "OK" && data.rows[0].elements[0].distance) {
-        const distanceText = data.rows[0].elements[0].distance.text;
-        const distanceValue = data.rows[0].elements[0].distance.value;
-
-        console.log("Distance:", distanceText); // Logs the distance in text format (e.g., "5.2 km")
-        console.log("Distance Value (in meters):", distanceValue);
-
-        const totalNumericPrice = orderDetails.cartData.reduce(
-          (sum, item) => sum + item.numericPrice * item.quantity,
-          0
-        );
-
-        if (isDelivery) {
-          const [hours, minutes] = selectedTime.split(":");
-          const newHours = String(Number(hours) + 1).padStart(2, "0");
-          const adjustedTime = `${newHours}:${minutes}`;
-          orderDetails.selectedTime = adjustedTime;
-        }
-
-        orderDetails.distance = distanceValue;
-        console.log("Order", orderDetails);
-        console.log("totalNumericPrice", totalNumericPrice);
-
-        setOrder(orderDetails);
-        setIsSuccessModalVisible(true);
-      } else {
-        console.error("Google Maps Distance Matrix API error:", data.status);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
   const handlePriceForDelivery = async () => {
     const orderDetails = {
       userCity,
@@ -173,10 +117,7 @@ const Delivery = ({
       console.log("Distance Matrix API Full Response:", data);
 
       if (data.status === "OK" && data.rows[0].elements[0].distance) {
-        const distanceText = data.rows[0].elements[0].distance.text;
         const distanceValue = data.rows[0].elements[0].distance.value;
-        orderDetails.distance;
-        console.log("Distance Value (in meters):", distanceValue);
 
         if (isDelivery) {
           const [hours, minutes] = selectedTime.split(":");
@@ -186,7 +127,25 @@ const Delivery = ({
         }
 
         orderDetails.distance = distanceValue;
-        setDistance(distanceValue);
+        console.log("Distance Value (in meters):", distanceValue);
+
+        setDistance(distanceValue); // Update distance state
+
+        // Common logic
+        const totalNumericPrice = orderDetails.cartData.reduce(
+          (sum, item) => sum + item.numericPrice * item.quantity,
+          0
+        );
+
+        // Specific logic from handleSendData
+        if (isDelivery) {
+          setOrder(orderDetails);
+        } else {
+          console.error("This logic is specific to handleSendData");
+        }
+
+        console.log("Order", orderDetails);
+        console.log("totalNumericPrice", totalNumericPrice);
       } else {
         console.error("Google Maps Distance Matrix API error:", data.status);
         console.log(" HERE WE WILL UPDATE THIS FUCKING STATE");
@@ -320,7 +279,7 @@ const Delivery = ({
                 >
                   {userClicked && userAdress !== ""
                     ? `TARNEHIND ${formatPrice(distancePrice)}`
-                    : "SAADA TARNEHIND"}
+                    : "VALI AADRESS"}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -402,7 +361,7 @@ const Delivery = ({
           <>
             {/* Button to Send Data */}
             <TouchableOpacity
-              onPress={handleSendData}
+              onPress={() => setIsSuccessModalVisible(true)}
               style={[
                 styles.buttonConfirm,
                 (!userAdress ||
@@ -538,7 +497,7 @@ const styles = StyleSheet.create({
   containerGetPrice: {
     position: "absolute",
     top: 460,
-    left: 112,
+    left: 115,
     alignItems: "center",
     marginVertical: 15,
   },

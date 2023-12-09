@@ -25,6 +25,7 @@ import {
   joogid,
   lisad,
 } from "../../constants/menu/menuData";
+import restoranWorkData from "../../constants/menu/timeStatesData";
 
 const CampaignSlider = () => {
   const [selectedMenu, setSelectedMenu] = React.useState(assortii);
@@ -38,7 +39,7 @@ const CampaignSlider = () => {
   const formatPrice = (price: number) => {
     return price.toLocaleString("en-US", {
       style: "currency",
-      currency: "EUR",
+      currency: restoranWorkData[0].countryCurrency,
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });

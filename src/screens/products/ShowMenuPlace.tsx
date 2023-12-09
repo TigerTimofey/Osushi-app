@@ -15,6 +15,7 @@ import Cart from "../components/Cart";
 import QuantityPicker from "../components/Quantity";
 
 import { COLORS, SIZES, FONTS } from "../../constants";
+import restoranWorkData from "../../constants/menu/timeStatesData";
 
 const ShowMenuPlace = ({
   selectedMenu,
@@ -86,7 +87,7 @@ const ShowMenuPlace = ({
   const formatPrice = (price: number) => {
     return price.toLocaleString("en-US", {
       style: "currency",
-      currency: "EUR",
+      currency: restoranWorkData[0].countryCurrency,
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });

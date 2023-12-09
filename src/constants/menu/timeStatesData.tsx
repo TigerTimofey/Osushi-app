@@ -13,6 +13,7 @@ export const restoranWorkData = [
     placePhoneNumberEstonia: 37258556778,
     minimumOrderFeeEur: 6,
     centsPerKilometer: 0.4,
+    countryCurrency: "EUR",
   },
 ];
 
