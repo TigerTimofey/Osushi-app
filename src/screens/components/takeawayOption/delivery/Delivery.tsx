@@ -21,6 +21,7 @@ import restoranWorkData from "../../../../constants/menu/timeStatesData";
 
 import SelectDropdown from "react-native-select-dropdown";
 import { REACT_PUBLIC_API_KEY } from "@env";
+import AdressChooose from "./adressChoose";
 
 const Delivery = ({
   showCartModal,
@@ -45,10 +46,10 @@ const Delivery = ({
   const [selectedTime, setSelectedTime] = useState("VALI AEG");
   const [selectedDate, setSelectedDate] = useState("VALI PÄEV");
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
-  const [deliveryCost, setDeliveryCost] = useState(
-    "Daada kohaletoimetamise tasu"
-  );
+  const [deliveryButtonText, setDeliveryButtonText] =
+    useState("KINNITA AADRESS");
   const [userClicked, setUserClicked] = useState(false);
+  const [adressChooose, setAdressChooose] = useState(false);
 
   const formatPrice = (price: number) => {
     return price.toLocaleString("en-US", {
@@ -188,6 +189,7 @@ const Delivery = ({
         setDistance(distanceValue);
       } else {
         console.error("Google Maps Distance Matrix API error:", data.status);
+        console.log(" HERE WE WILL UPDATE THIS FUCKING STATE");
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -239,7 +241,7 @@ const Delivery = ({
             </View>
 
             {/* Form for User's Number */}
-            <View style={styles.formContainer}>
+            {/* <View style={styles.formContainer}>
               <SelectDropdown
                 buttonStyle={styles.inputCity}
                 buttonTextStyle={styles.inputCityText}
@@ -278,10 +280,10 @@ const Delivery = ({
                 value={userApartment}
                 onChangeText={(text) => setUserApartment(text)}
               />
-            </View>
-            {userCity && userAdress && userApartment && (
+            </View> */}
+            {/* {userCity && userAdress && userApartment && (
               <View style={styles.containerGetPrice}>
-                <TouchableOpacity onPress={() => handlePriceForDelivery()}>
+                <TouchableOpacity onPress={() => setAdressChooose(true)}>
                   <Text
                     style={
                       {
@@ -300,7 +302,28 @@ const Delivery = ({
                   </Text>
                 </TouchableOpacity>
               </View>
-            )}
+            )} */}
+
+            <View style={styles.containerGetPrice}>
+              <TouchableOpacity onPress={() => setAdressChooose(true)}>
+                <Text
+                  style={
+                    {
+                      backgroundColor: COLORS.yellow,
+                      padding: 10,
+                      minWidth: 165,
+                      color: COLORS.darknessGray,
+                      ...FONTS.h3,
+                      textAlign: "center",
+                    } as StyleProp<TextStyle>
+                  }
+                >
+                  {userClicked && userAdress !== ""
+                    ? `TARNEHIND ${formatPrice(distancePrice)}`
+                    : "SAADA TARNEHIND"}
+                </Text>
+              </TouchableOpacity>
+            </View>
 
             {/* Date and Time Selection */}
             <View style={styles.container}>
@@ -341,6 +364,20 @@ const Delivery = ({
                 onSelectDate={(selectedDate) =>
                   handleDateSelection(selectedDate)
                 }
+              />
+              <AdressChooose
+                adressChooose={adressChooose}
+                setAdressChooose={setAdressChooose}
+                handlePriceForDelivery={handlePriceForDelivery}
+                setUserCity={setUserCity}
+                setUserAdress={setUserAdress}
+                setUserApartment={setUserApartment}
+                userClicked={userClicked}
+                userAdress={userAdress}
+                userApartment={userApartment}
+                userCity={userCity}
+                formatPrice={formatPrice}
+                distancePrice={distancePrice}
               />
             </View>
           </>
@@ -500,10 +537,9 @@ const styles = StyleSheet.create({
   },
   containerGetPrice: {
     position: "absolute",
-    top: 500,
-    left: 115,
+    top: 460,
+    left: 112,
     alignItems: "center",
-
     marginVertical: 15,
   },
   container: {
