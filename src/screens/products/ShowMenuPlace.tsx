@@ -15,6 +15,7 @@ import Cart from "../components/Cart";
 import QuantityPicker from "../components/Quantity";
 
 import { COLORS, SIZES, FONTS } from "../../constants";
+import restoranWorkData from "../../constants/menu/timeStatesData";
 
 const ShowMenuPlace = ({
   selectedMenu,
@@ -24,6 +25,13 @@ const ShowMenuPlace = ({
   itemQuantities,
   setItemQuantities,
 }) => {
+  const flatListRef = React.useRef(null);
+
+  React.useEffect(() => {
+    // Scroll to the top when selectedMenu changes
+    flatListRef.current?.scrollToOffset({ animated: false, offset: 0 });
+  }, [selectedMenu]);
+
   const [selectedItem, setSelectedItem] = React.useState(null);
   const [showItemCartModal, setShowItemCartModal] = React.useState(false);
   const [showCartModal, setShowCartModal] = React.useState(false);
@@ -57,12 +65,10 @@ const ShowMenuPlace = ({
       const totalPrice = selectedItem.numericPrice * newQuantity;
 
       if (existingCartItemIndex !== -1) {
-        // Если товар уже есть в корзине, обновим его количество
         const existingCartItem = updatedCartData[existingCartItemIndex];
         existingCartItem.quantity = newQuantity;
         existingCartItem.totalPrice = totalPrice;
       } else {
-        // Если товара нет в корзине, добавим новый элемент
         const cartItem = {
           id: selectedItem.id,
           name: selectedItem.name,
@@ -81,7 +87,7 @@ const ShowMenuPlace = ({
   const formatPrice = (price: number) => {
     return price.toLocaleString("en-US", {
       style: "currency",
-      currency: "EUR",
+      currency: restoranWorkData[0].countryCurrency,
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
@@ -169,6 +175,7 @@ const ShowMenuPlace = ({
       >
         <View style={{ flex: 1, paddingBottom: SIZES.padding }}>
           <FlatList
+            ref={flatListRef}
             showsVerticalScrollIndicator={false}
             data={selectedMenu}
             keyExtractor={(item) => item.id.toString()}

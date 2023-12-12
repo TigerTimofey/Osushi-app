@@ -10,6 +10,7 @@ import {
   TextInput,
   TextStyle,
   StyleProp,
+  Alert,
 } from "react-native";
 
 import { COLORS, FONTS, images } from "../../../../constants";
@@ -21,6 +22,7 @@ import restoranWorkData from "../../../../constants/menu/timeStatesData";
 
 import SelectDropdown from "react-native-select-dropdown";
 import { REACT_PUBLIC_API_KEY } from "@env";
+import AdressChooose from "./adressChoose";
 
 const Delivery = ({
   showCartModal,
@@ -45,15 +47,15 @@ const Delivery = ({
   const [selectedTime, setSelectedTime] = useState("VALI AEG");
   const [selectedDate, setSelectedDate] = useState("VALI PÄEV");
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
-  const [deliveryCost, setDeliveryCost] = useState(
-    "Daada kohaletoimetamise tasu"
-  );
+  const [deliveryButtonText, setDeliveryButtonText] =
+    useState("KINNITA AADRESS");
   const [userClicked, setUserClicked] = useState(false);
+  const [adressChooose, setAdressChooose] = useState(false);
 
   const formatPrice = (price: number) => {
     return price.toLocaleString("en-US", {
       style: "currency",
-      currency: "EUR",
+      currency: restoranWorkData[0].countryCurrency,
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
@@ -94,61 +96,18 @@ const Delivery = ({
   // console.log("apikey", apiKey);
   // console.log(typeof apiKey);
 
-  const handleSendData = async () => {
-    const orderDetails = {
-      userCity,
-      userAdress,
-      userNumber,
-      selectedDate,
-      selectedTime,
-      cartData,
-      distance,
-    };
-
-    console.log("Order Details:", orderDetails);
-
-    const origin = encodeURIComponent(orderDetails.userAdress + userCity);
-    const destination = encodeURIComponent("Punane 56, 13619 Tallinn");
-    const apiKey = REACT_PUBLIC_API_KEY;
-    const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=${apiKey}`;
-
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      console.log("Distance Matrix API Full Response:", data);
-
-      if (data.status === "OK" && data.rows[0].elements[0].distance) {
-        const distanceText = data.rows[0].elements[0].distance.text;
-        const distanceValue = data.rows[0].elements[0].distance.value;
-
-        console.log("Distance:", distanceText); // Logs the distance in text format (e.g., "5.2 km")
-        console.log("Distance Value (in meters):", distanceValue);
-
-        const totalNumericPrice = orderDetails.cartData.reduce(
-          (sum, item) => sum + item.numericPrice * item.quantity,
-          0
-        );
-
-        if (isDelivery) {
-          const [hours, minutes] = selectedTime.split(":");
-          const newHours = String(Number(hours) + 1).padStart(2, "0");
-          const adjustedTime = `${newHours}:${minutes}`;
-          orderDetails.selectedTime = adjustedTime;
-        }
-
-        orderDetails.distance = distanceValue;
-        console.log("Order", orderDetails);
-        console.log("totalNumericPrice", totalNumericPrice);
-
-        setOrder(orderDetails);
-        setIsSuccessModalVisible(true);
-      } else {
-        console.error("Google Maps Distance Matrix API error:", data.status);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  const createTwoButtonAlert = () =>
+    Alert.alert("Oops!", "Palun sisesta õige aadress", [
+      {
+        text: "SELGE",
+        onPress: () => {
+          setUserClicked(false);
+          setUserAdress("");
+          setUserApartment("");
+          setAdressChooose(true);
+        },
+      },
+    ]);
 
   const handlePriceForDelivery = async () => {
     const orderDetails = {
@@ -172,10 +131,7 @@ const Delivery = ({
       console.log("Distance Matrix API Full Response:", data);
 
       if (data.status === "OK" && data.rows[0].elements[0].distance) {
-        const distanceText = data.rows[0].elements[0].distance.text;
         const distanceValue = data.rows[0].elements[0].distance.value;
-        orderDetails.distance;
-        console.log("Distance Value (in meters):", distanceValue);
 
         if (isDelivery) {
           const [hours, minutes] = selectedTime.split(":");
@@ -185,15 +141,38 @@ const Delivery = ({
         }
 
         orderDetails.distance = distanceValue;
-        setDistance(distanceValue);
+        console.log("Distance Value (in meters):", distanceValue);
+
+        setDistance(distanceValue); // Update distance state
+
+        // Common logic
+        const totalNumericPrice = orderDetails.cartData.reduce(
+          (sum, item) => sum + item.numericPrice * item.quantity,
+          0
+        );
+
+        // Specific logic from handleSendData
+        if (isDelivery) {
+          setOrder(orderDetails);
+          setUserClicked(true);
+        } else {
+          console.error("This logic is specific to handleSendData");
+        }
+
+        console.log("Order", orderDetails);
+        console.log("totalNumericPrice", totalNumericPrice);
       } else {
-        console.error("Google Maps Distance Matrix API error:", data.status);
+        // console.error("Google Maps Distance Matrix API error:", data.status);
+        // alert("PALUN SISESTA ÕIGE AADRESS");
+        createTwoButtonAlert();
+        // setUserClicked(false);
+        // setUserAdress("");
+        // setUserApartment("");
+        // setAdressChooose(true);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-
-    setUserClicked(true);
   };
 
   return (
@@ -238,69 +217,26 @@ const Delivery = ({
               />
             </View>
 
-            {/* Form for User's Number */}
-            <View style={styles.formContainer}>
-              <SelectDropdown
-                buttonStyle={styles.inputCity}
-                buttonTextStyle={styles.inputCityText}
-                // dropdownStyle={{ backgroundColor: "white", borderRadius: 10,  }}
-
-                dropdownStyle={styles.dropdownCity}
-                dropdownIconPosition="left"
-                defaultButtonText="Vali linn"
-                data={countries}
-                selectedRowTextStyle={{ color: COLORS.darknessGray }}
-                rowTextStyle={styles.dropdownCity}
-                rowStyle={styles.dropdownCity}
-                onSelect={(selectedItem) => {
-                  setUserCity(selectedItem);
-                }}
-                buttonTextAfterSelection={(selectedItem, index) => {
-                  return selectedItem;
-                }}
-                rowTextForSelection={(item, index) => {
-                  return item;
-                }}
-              />
-              <TextInput
-                style={styles.inputAdress}
-                placeholder="Aadress"
-                placeholderTextColor={COLORS.darkGray}
-                textAlign="center"
-                value={userAdress}
-                onChangeText={(text) => setUserAdress(text)}
-              />
-              <TextInput
-                style={styles.inputApartment}
-                placeholder="Korter"
-                placeholderTextColor={COLORS.darkGray}
-                textAlign="center"
-                value={userApartment}
-                onChangeText={(text) => setUserApartment(text)}
-              />
+            <View style={styles.containerGetPrice}>
+              <TouchableOpacity onPress={() => setAdressChooose(true)}>
+                <Text
+                  style={
+                    {
+                      backgroundColor: COLORS.yellow,
+                      padding: 10,
+                      minWidth: 165,
+                      color: COLORS.darknessGray,
+                      ...FONTS.h3,
+                      textAlign: "center",
+                    } as StyleProp<TextStyle>
+                  }
+                >
+                  {userClicked && userAdress !== ""
+                    ? `TARNEHIND ${formatPrice(distancePrice)}`
+                    : "VALI AADRESS"}
+                </Text>
+              </TouchableOpacity>
             </View>
-            {userCity && userAdress && userApartment && (
-              <View style={styles.containerGetPrice}>
-                <TouchableOpacity onPress={() => handlePriceForDelivery()}>
-                  <Text
-                    style={
-                      {
-                        backgroundColor: COLORS.yellow,
-                        padding: 10,
-                        minWidth: 165,
-                        color: COLORS.darknessGray,
-                        ...FONTS.h3,
-                        textAlign: "center",
-                      } as StyleProp<TextStyle>
-                    }
-                  >
-                    {userClicked
-                      ? formatPrice(distancePrice)
-                      : "KINNITA AADRESS"}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            )}
 
             {/* Date and Time Selection */}
             <View style={styles.container}>
@@ -342,6 +278,20 @@ const Delivery = ({
                   handleDateSelection(selectedDate)
                 }
               />
+              <AdressChooose
+                adressChooose={adressChooose}
+                setAdressChooose={setAdressChooose}
+                handlePriceForDelivery={handlePriceForDelivery}
+                setUserCity={setUserCity}
+                setUserAdress={setUserAdress}
+                setUserApartment={setUserApartment}
+                userClicked={userClicked}
+                userAdress={userAdress}
+                userApartment={userApartment}
+                userCity={userCity}
+                formatPrice={formatPrice}
+                distancePrice={distancePrice}
+              />
             </View>
           </>
 
@@ -365,11 +315,12 @@ const Delivery = ({
           <>
             {/* Button to Send Data */}
             <TouchableOpacity
-              onPress={handleSendData}
+              onPress={() => setIsSuccessModalVisible(true)}
               style={[
                 styles.buttonConfirm,
                 (!userAdress ||
                   !userNumber ||
+                  !userClicked ||
                   selectedDate === "VALI PÄEV" ||
                   selectedTime === "VALI KELL" ||
                   userNumber.length < 8) &&
@@ -500,10 +451,9 @@ const styles = StyleSheet.create({
   },
   containerGetPrice: {
     position: "absolute",
-    top: 500,
+    top: 460,
     left: 115,
     alignItems: "center",
-
     marginVertical: 15,
   },
   container: {

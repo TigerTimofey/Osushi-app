@@ -26,7 +26,14 @@ const Time = ({
   const generateTimeIntervals = () => {
     const isSameDate = selectedDate === formattedDate;
 
-    if (isSameDate) {
+    const currentHour = new Date().getHours();
+    const currentMinute = new Date().getMinutes();
+
+    if (
+      isSameDate &&
+      !(currentHour >= 22 && currentMinute >= 30) &&
+      !(currentHour < 10)
+    ) {
       const currentHour = new Date().getHours();
       const currentMinute = new Date().getMinutes();
       const nextWholeHour =

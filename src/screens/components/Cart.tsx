@@ -18,6 +18,7 @@ import { lisad } from "../../constants/menu/menuData";
 import OrderConfirmationModal from "./takeawayOption/OrderConfirmationModal";
 
 import Forgot from "./forgot/Forgot";
+import restoranWorkData from "../../constants/menu/timeStatesData";
 
 export default function Cart({
   cartData,
@@ -36,7 +37,7 @@ export default function Cart({
   const formatPrice = (price: number) => {
     return price.toLocaleString("en-US", {
       style: "currency",
-      currency: "EUR",
+      currency: restoranWorkData[0].countryCurrency,
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
