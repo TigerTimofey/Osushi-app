@@ -31,19 +31,22 @@ const Delivery = ({
   isDelivery,
 }) => {
   const countries = ["Tallinn", "Maardu", "Muuga"];
-  const [openTime, setOpenTime] = useState(false);
-  const [openDate, setOpenDate] = useState(false);
-  const [userCity, setUserCity] = useState(countries);
-  const [userAdress, setUserAdress] = useState("");
-  const [userApartment, setUserApartment] = useState("");
-  const [userNumber, setUserNumber] = useState("");
-  const [order, setOrder] = useState(null);
-  const [distance, setDistance] = useState(null);
-  const [selectedTime, setSelectedTime] = useState("VALI AEG");
-  const [selectedDate, setSelectedDate] = useState("VALI PÄEV");
-  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
-  const [userClicked, setUserClicked] = useState(false);
-  const [adressChooose, setAdressChooose] = useState(false);
+  const [openTime, setOpenTime] = React.useState(false);
+  const [openDate, setOpenDate] = React.useState(false);
+  const [userCity, setUserCity] = React.useState(countries);
+  const [userAdress, setUserAdress] = React.useState("");
+  const [userApartment, setUserApartment] = React.useState("");
+  const [userNumber, setUserNumber] = React.useState("");
+  const [order, setOrder] = React.useState(null);
+  const [distance, setDistance] = React.useState(null);
+  const [selectedTime, setSelectedTime] = React.useState("VALI AEG");
+  const [selectedDate, setSelectedDate] = React.useState("VALI PÄEV");
+  const [isSuccessModalVisible, setIsSuccessModalVisible] =
+    React.useState(false);
+  const [userClicked, setUserClicked] = React.useState(false);
+  const [adressChooose, setAdressChooose] = React.useState(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    React.useState(null);
 
   const formatPrice = (price: number) => {
     return price.toLocaleString("en-US", {
@@ -205,6 +208,8 @@ const Delivery = ({
                     {
                       backgroundColor: COLORS.yellow,
                       padding: 10,
+                      position: "absolute",
+                      bottom: -20,
                       minWidth: 165,
                       color: COLORS.darknessGray,
                       ...FONTS.h3,
@@ -226,7 +231,8 @@ const Delivery = ({
                   style={
                     {
                       backgroundColor: COLORS.yellow,
-                      marginTop: 10,
+                      position: "absolute",
+                      left: 115,
                       padding: 10,
                       minWidth: 165,
                       color: COLORS.darknessGray,
@@ -270,6 +276,76 @@ const Delivery = ({
                 userApartment={userApartment}
                 userCity={userCity}
               />
+            </View>
+            <View style={styles.container}>
+              <TouchableOpacity
+                onPress={() => {
+                  console.log("MAKSAN SULARAHA clicked");
+                  setSelectedPaymentMethod("MAKSAN SULARAHA");
+                }}
+              >
+                <Text
+                  style={
+                    {
+                      backgroundColor:
+                        selectedPaymentMethod === "MAKSAN SULARAHA"
+                          ? "green"
+                          : COLORS.yellow,
+                      marginTop: 10,
+                      padding: 5,
+                      minWidth: 165,
+                      color:
+                        selectedPaymentMethod === "MAKSAN SULARAHA"
+                          ? COLORS.white
+                          : COLORS.darknessGray,
+                      ...FONTS.h4,
+                      textAlign: "center",
+                    } as StyleProp<TextStyle>
+                  }
+                >
+                  MAKSAN SULARAHA
+                </Text>
+              </TouchableOpacity>
+              <Text
+                style={
+                  {
+                    color: COLORS.darknessGray,
+                    opacity: 0.7,
+                    ...FONTS.h2,
+                    marginTop: 8,
+                  } as StyleProp<TextStyle>
+                }
+              >
+                &
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  console.log("MAKSAN KAARDIGA clicked");
+                  setSelectedPaymentMethod("MAKSAN KAARDIGA");
+                }}
+              >
+                <Text
+                  style={
+                    {
+                      backgroundColor:
+                        selectedPaymentMethod === "MAKSAN KAARDIGA"
+                          ? "green"
+                          : COLORS.yellow,
+                      marginTop: 10,
+                      padding: 5,
+                      minWidth: 165,
+                      color:
+                        selectedPaymentMethod === "MAKSAN KAARDIGA"
+                          ? COLORS.white
+                          : COLORS.darknessGray,
+                      ...FONTS.h4,
+                      textAlign: "center",
+                    } as StyleProp<TextStyle>
+                  }
+                >
+                  MAKSAN KAARDIGA
+                </Text>
+              </TouchableOpacity>
             </View>
           </>
 
@@ -381,7 +457,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.gray,
     borderRadius: 6,
     padding: 10,
-    marginBottom: 15,
+    marginBottom: 20,
     width: 280,
   },
   containerGetPrice: {
