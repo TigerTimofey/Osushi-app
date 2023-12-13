@@ -28,7 +28,6 @@ const ShowMenuPlace = ({
   const flatListRef = React.useRef(null);
 
   React.useEffect(() => {
-    // Scroll to the top when selectedMenu changes
     flatListRef.current?.scrollToOffset({ animated: false, offset: 0 });
   }, [selectedMenu]);
 
@@ -152,7 +151,6 @@ const ShowMenuPlace = ({
           cartData={cartData}
           setCartData={setCartData}
           setSelectedMenu={setSelectedMenu}
-          setShowItemCartModal={setShowItemCartModal}
           showCartModal={showCartModal}
           setShowCartModal={setShowCartModal}
         />

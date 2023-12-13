@@ -33,11 +33,7 @@ const OrderConfirmationModal = ({
       {/* Modal content */}
 
       <TouchableOpacity onPress={onClose}>
-        <Modal
-          animationType="slide"
-          // transparent={true}
-          style={{ width: "40%", height: "100%" }}
-        >
+        <Modal animationType="slide" style={{ width: "40%", height: "100%" }}>
           {/* Modal content */}
           <ScrollView
             style={{
@@ -157,27 +153,19 @@ const OrderConfirmationModal = ({
               {showDelivery && (
                 <Delivery
                   isDelivery={isDelivery}
-                  setIsDelivery={setShowDelivery}
-                  showCartModal={showCartModal}
                   cartData={cartData}
                   setCartData={setCartData}
-                  onClose={onClose}
                   setShowDelivery={setShowDelivery}
                   setShowOrderConfirmationModal={setShowOrderConfirmationModal}
-                  setShowCartModal={setShowCartModal}
                 />
               )}
               {showTakeAway && (
                 <Takeaway
                   isDelivery={isDelivery}
-                  setIsDelivery={setShowDelivery}
-                  showCartModal={showCartModal}
                   cartData={cartData}
                   setCartData={setCartData}
-                  onClose={onClose}
                   setShowTakeAway={setShowTakeAway}
                   setShowOrderConfirmationModal={setShowOrderConfirmationModal}
-                  setShowCartModal={setShowCartModal}
                 />
               )}
             </View>
@@ -198,73 +186,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 16,
   },
-  absolute: {
-    position: "absolute",
-    top: -450,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 1,
-  },
-  buttonConfirm: {
-    flex: 2,
-    marginHorizontal: 10,
-    height: 40,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(5, 180, 37, 0.58)",
-    borderRadius: 16,
-  },
-  shopButton: {
-    flex: 1,
-    marginHorizontal: 10,
-    height: 40,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: COLORS.red,
-    borderRadius: 16,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContent: {
-    backgroundColor: COLORS.white,
-    padding: 20,
-    borderRadius: 10,
-    width: "80%",
-    maxHeight: "80%",
-  },
-  closeButton: {
-    marginTop: 20,
-  },
+
   absoluteChoose: {
     position: "absolute",
     top: 80,
     left: 0,
     right: 0,
     bottom: 0,
-  },
-  recentSearchShadow: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.29,
-    shadowRadius: 4.65,
-    elevation: 7,
-  },
-  recentSearches: {
-    width: "100%",
-    transform: [{ rotateY: "180deg" }],
-  },
-  blur: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
   },
 });
 

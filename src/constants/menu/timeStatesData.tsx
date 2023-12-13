@@ -14,6 +14,8 @@ export const restoranWorkData = [
     minimumOrderFeeEur: 6,
     centsPerKilometer: 0.4,
     countryCurrency: "EUR",
+    restoranAdress: "Punane 56, 13619 Tallinn",
+    deliveryCities: ["Tallinn", "Maardu", "Muuga"],
   },
 ];
 

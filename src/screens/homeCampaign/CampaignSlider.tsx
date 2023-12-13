@@ -30,7 +30,6 @@ import restoranWorkData from "../../constants/menu/timeStatesData";
 const CampaignSlider = () => {
   const [selectedMenu, setSelectedMenu] = React.useState(assortii);
   const [selectedItem, setSelectedItem] = React.useState(null);
-  const [selectedSize, setSelectedSize] = React.useState("");
   const [showCartModal, setshowCartModal] = React.useState(false);
   const [featured, setFeatured] = React.useState(campaignData);
   const [cartData, setCartData] = React.useState([]);
@@ -54,8 +53,6 @@ const CampaignSlider = () => {
     { menuType: supisted, label: "Supisted" },
     { menuType: joogid, label: "Joogid" },
     { menuType: lisad, label: "Lisad" },
-
-    // Add more menu items as needed
   ];
   const handleAddToCart = () => {
     if (selectedItem) {
@@ -208,7 +205,6 @@ const CampaignSlider = () => {
               style={style.absolute}
               onPress={() => {
                 setSelectedItem(null);
-                setSelectedSize("");
                 setshowCartModal(false);
               }}
             ></TouchableOpacity>
@@ -308,7 +304,6 @@ const CampaignSlider = () => {
                   }}
                   onPress={() => {
                     setSelectedItem(null);
-                    setSelectedSize("");
                     setshowCartModal(false);
                     handleAddToCart();
                   }}
@@ -374,20 +369,6 @@ const style = StyleSheet.create({
     textAlign: "center",
     marginLeft: 45,
     marginBottom: 8,
-  },
-  recentSearchShadow: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.29,
-    shadowRadius: 4.65,
-    elevation: 7,
-  },
-  recentSearches: {
-    width: "100%",
-    transform: [{ rotateY: "180deg" }],
   },
   blur: {
     flex: 1,

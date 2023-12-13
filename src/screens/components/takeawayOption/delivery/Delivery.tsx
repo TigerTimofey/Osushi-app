@@ -20,37 +20,33 @@ import DateChoose from "../timeDate/DateChoose";
 import SuccessModal from "../orderPlaced/SuccessModal";
 import restoranWorkData from "../../../../constants/menu/timeStatesData";
 
-import SelectDropdown from "react-native-select-dropdown";
 import { REACT_PUBLIC_API_KEY } from "@env";
 import AdressChooose from "./adressChoose";
 
 const Delivery = ({
-  showCartModal,
   cartData,
   setCartData,
-  onClose,
   setShowDelivery,
   setShowOrderConfirmationModal,
-  setShowCartModal,
   isDelivery,
-  setIsDelivery,
 }) => {
   const countries = ["Tallinn", "Maardu", "Muuga"];
-  const [openTime, setOpenTime] = useState(false);
-  const [openDate, setOpenDate] = useState(false);
-  const [userCity, setUserCity] = useState(countries);
-  const [userAdress, setUserAdress] = useState("");
-  const [userApartment, setUserApartment] = useState("");
-  const [userNumber, setUserNumber] = useState("");
-  const [order, setOrder] = useState(null);
-  const [distance, setDistance] = useState(null);
-  const [selectedTime, setSelectedTime] = useState("VALI AEG");
-  const [selectedDate, setSelectedDate] = useState("VALI PÄEV");
-  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
-  const [deliveryButtonText, setDeliveryButtonText] =
-    useState("KINNITA AADRESS");
-  const [userClicked, setUserClicked] = useState(false);
-  const [adressChooose, setAdressChooose] = useState(false);
+  const [openTime, setOpenTime] = React.useState(false);
+  const [openDate, setOpenDate] = React.useState(false);
+  const [userCity, setUserCity] = React.useState(countries);
+  const [userAdress, setUserAdress] = React.useState("");
+  const [userApartment, setUserApartment] = React.useState("");
+  const [userNumber, setUserNumber] = React.useState("");
+  const [order, setOrder] = React.useState(null);
+  const [distance, setDistance] = React.useState(null);
+  const [selectedTime, setSelectedTime] = React.useState("VALI AEG");
+  const [selectedDate, setSelectedDate] = React.useState("VALI PÄEV");
+  const [isSuccessModalVisible, setIsSuccessModalVisible] =
+    React.useState(false);
+  const [userClicked, setUserClicked] = React.useState(false);
+  const [adressChooose, setAdressChooose] = React.useState(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    React.useState(null);
 
   const formatPrice = (price: number) => {
     return price.toLocaleString("en-US", {
@@ -92,9 +88,6 @@ const Delivery = ({
     setOpenDate(false);
     setOpenTime(true);
   };
-  // const apiKey = REACT_PUBLIC_API_KEY;
-  // console.log("apikey", apiKey);
-  // console.log(typeof apiKey);
 
   const createTwoButtonAlert = () =>
     Alert.alert("Oops!", "Palun sisesta õige aadress", [
@@ -121,7 +114,7 @@ const Delivery = ({
     };
 
     const origin = encodeURIComponent(orderDetails.userAdress + userCity);
-    const destination = encodeURIComponent("Punane 56, 13619 Tallinn");
+    const destination = encodeURIComponent(restoranWorkData[0].restoranAdress);
     const apiKey = REACT_PUBLIC_API_KEY;
     const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${origin}&destinations=${destination}&key=${apiKey}`;
 
@@ -143,15 +136,11 @@ const Delivery = ({
         orderDetails.distance = distanceValue;
         console.log("Distance Value (in meters):", distanceValue);
 
-        setDistance(distanceValue); // Update distance state
-
-        // Common logic
+        setDistance(distanceValue);
         const totalNumericPrice = orderDetails.cartData.reduce(
           (sum, item) => sum + item.numericPrice * item.quantity,
           0
         );
-
-        // Specific logic from handleSendData
         if (isDelivery) {
           setOrder(orderDetails);
           setUserClicked(true);
@@ -162,13 +151,8 @@ const Delivery = ({
         console.log("Order", orderDetails);
         console.log("totalNumericPrice", totalNumericPrice);
       } else {
-        // console.error("Google Maps Distance Matrix API error:", data.status);
-        // alert("PALUN SISESTA ÕIGE AADRESS");
+        console.error("Google Maps Distance Matrix API error:", data.status);
         createTwoButtonAlert();
-        // setUserClicked(false);
-        // setUserAdress("");
-        // setUserApartment("");
-        // setAdressChooose(true);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -224,6 +208,8 @@ const Delivery = ({
                     {
                       backgroundColor: COLORS.yellow,
                       padding: 10,
+                      position: "absolute",
+                      bottom: -20,
                       minWidth: 165,
                       color: COLORS.darknessGray,
                       ...FONTS.h3,
@@ -245,7 +231,8 @@ const Delivery = ({
                   style={
                     {
                       backgroundColor: COLORS.yellow,
-                      marginTop: 10,
+                      position: "absolute",
+                      left: 115,
                       padding: 10,
                       minWidth: 165,
                       color: COLORS.darknessGray,
@@ -285,13 +272,80 @@ const Delivery = ({
                 setUserCity={setUserCity}
                 setUserAdress={setUserAdress}
                 setUserApartment={setUserApartment}
-                userClicked={userClicked}
                 userAdress={userAdress}
                 userApartment={userApartment}
                 userCity={userCity}
-                formatPrice={formatPrice}
-                distancePrice={distancePrice}
               />
+            </View>
+            <View style={styles.container}>
+              <TouchableOpacity
+                onPress={() => {
+                  console.log("MAKSAN SULARAHA clicked");
+                  setSelectedPaymentMethod("MAKSAN SULARAHA");
+                }}
+              >
+                <Text
+                  style={
+                    {
+                      backgroundColor:
+                        selectedPaymentMethod === "MAKSAN SULARAHA"
+                          ? "green"
+                          : COLORS.yellow,
+                      marginTop: 10,
+                      padding: 5,
+                      minWidth: 165,
+                      color:
+                        selectedPaymentMethod === "MAKSAN SULARAHA"
+                          ? COLORS.white
+                          : COLORS.darknessGray,
+                      ...FONTS.h4,
+                      textAlign: "center",
+                    } as StyleProp<TextStyle>
+                  }
+                >
+                  MAKSAN SULARAHA
+                </Text>
+              </TouchableOpacity>
+              <Text
+                style={
+                  {
+                    color: COLORS.darknessGray,
+                    opacity: 0.7,
+                    ...FONTS.h2,
+                    marginTop: 8,
+                  } as StyleProp<TextStyle>
+                }
+              >
+                &
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  console.log("MAKSAN KAARDIGA clicked");
+                  setSelectedPaymentMethod("MAKSAN KAARDIGA");
+                }}
+              >
+                <Text
+                  style={
+                    {
+                      backgroundColor:
+                        selectedPaymentMethod === "MAKSAN KAARDIGA"
+                          ? "green"
+                          : COLORS.yellow,
+                      marginTop: 10,
+                      padding: 5,
+                      minWidth: 165,
+                      color:
+                        selectedPaymentMethod === "MAKSAN KAARDIGA"
+                          ? COLORS.white
+                          : COLORS.darknessGray,
+                      ...FONTS.h4,
+                      textAlign: "center",
+                    } as StyleProp<TextStyle>
+                  }
+                >
+                  MAKSAN KAARDIGA
+                </Text>
+              </TouchableOpacity>
             </View>
           </>
 
@@ -299,13 +353,9 @@ const Delivery = ({
           {isSuccessModalVisible && (
             <SuccessModal
               isDelivery={isDelivery}
-              // showCartModal={showCartModal}
               cartData={cartData}
               setCartData={setCartData}
-              // onClose={onClose}
-              // setShowDelivery={setShowDelivery}
               setShowOrderConfirmationModal={setShowOrderConfirmationModal}
-              // setShowCartModal={setShowCartModal}
               setIsSuccessModalVisible={setIsSuccessModalVisible}
               orderDetails={order}
               distance={distance}
@@ -349,7 +399,6 @@ const Delivery = ({
           </>
 
           {/* Close button */}
-
           <TouchableOpacity
             style={[styles.buttonBack, styles.absolute]}
             onPress={() => setShowDelivery(false)}
@@ -408,46 +457,8 @@ const styles = StyleSheet.create({
     borderColor: COLORS.gray,
     borderRadius: 6,
     padding: 10,
-    marginBottom: 15,
+    marginBottom: 20,
     width: 280,
-  },
-  inputCity: {
-    borderWidth: 1,
-    borderColor: COLORS.gray,
-    backgroundColor: COLORS.white,
-    borderRadius: 6,
-    // padding: 10,
-    marginBottom: 15,
-    marginLeft: 40,
-    width: 90,
-    height: 40,
-  },
-  inputCityText: {
-    color: COLORS.darkGray,
-    fontSize: 14,
-  },
-  dropdownCity: {
-    fontSize: 14,
-    backgroundColor: COLORS.white,
-    borderRadius: 6,
-    color: COLORS.darknessGray,
-  },
-  inputAdress: {
-    borderWidth: 1,
-    borderColor: COLORS.gray,
-    borderRadius: 6,
-    padding: 10,
-    marginBottom: 15,
-    width: 120,
-  },
-  inputApartment: {
-    borderWidth: 1,
-    borderColor: COLORS.gray,
-    borderRadius: 6,
-    padding: 10,
-    marginBottom: 15,
-    marginRight: 45,
-    width: 65,
   },
   containerGetPrice: {
     position: "absolute",

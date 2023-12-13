@@ -24,11 +24,9 @@ export default function Cart({
   cartData,
   setCartData,
   setSelectedMenu,
-  setShowItemCartModal,
   showCartModal,
   setShowCartModal,
 }) {
-  // const [showCartModal, setShowCartModal] = React.useState(false);
   const [showOrderConfirmationModal, setShowOrderConfirmationModal] =
     React.useState(false);
   const [showMissingLisadSection, setShowMissingLisadSection] =
@@ -289,7 +287,6 @@ export default function Cart({
                 <TouchableOpacity
                   style={styles.buttonConfirm}
                   onPress={() => {
-                    // order logic
                     setShowOrderConfirmationModal(true);
                   }}
                 >
@@ -362,43 +359,12 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.red,
     borderRadius: 16,
   },
-
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContent: {
-    backgroundColor: COLORS.white,
-    padding: 20,
-    borderRadius: 10,
-    width: "80%",
-    maxHeight: "80%",
-  },
-  closeButton: {
-    marginTop: 20,
-  },
   absolute: {
     position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-  },
-  recentSearchShadow: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 0.29,
-    shadowRadius: 4.65,
-    elevation: 7,
-  },
-  recentSearches: {
-    width: "100%",
-    transform: [{ rotateY: "180deg" }],
   },
   blur: {
     flex: 1,
