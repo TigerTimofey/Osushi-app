@@ -20,14 +20,10 @@ import SuccessModal from "../orderPlaced/SuccessModal";
 
 const Takeaway = ({
   isDelivery,
-  setIsDelivery,
-  showCartModal,
   cartData,
   setCartData,
-  onClose,
   setShowTakeAway,
   setShowOrderConfirmationModal,
-  setShowCartModal,
 }) => {
   const [openTime, setOpenTime] = useState(false);
   const [openDate, setOpenDate] = useState(false);
@@ -70,10 +66,7 @@ const Takeaway = ({
       selectedTime,
       cartData,
     };
-
-    //Order
     console.log("Order", orderDetails);
-    // Total price of order
     const totalNumericPrice = orderDetails.cartData.reduce(
       (sum, item) => sum + item.numericPrice * item.quantity,
       0
@@ -185,15 +178,12 @@ const Takeaway = ({
           {isSuccessModalVisible && (
             <SuccessModal
               isDelivery={isDelivery}
-              // showCartModal={showCartModal}
               cartData={cartData}
               setCartData={setCartData}
-              // onClose={onClose}
-              // setShowTakeAway={setShowTakeAway}
               setShowOrderConfirmationModal={setShowOrderConfirmationModal}
-              // setShowCartModal={setShowCartModal}
               setIsSuccessModalVisible={setIsSuccessModalVisible}
               orderDetails={order}
+              distance={console.log("no distance, it is takeaway")}
             />
           )}
 
@@ -232,7 +222,6 @@ const Takeaway = ({
           </>
 
           {/* Close button */}
-
           <TouchableOpacity
             style={[styles.buttonBack, styles.absolute]}
             onPress={() => setShowTakeAway(false)}
@@ -248,7 +237,6 @@ const Takeaway = ({
               />
             </View>
           </TouchableOpacity>
-          {/* )} */}
         </ScrollView>
       </Modal>
     </View>

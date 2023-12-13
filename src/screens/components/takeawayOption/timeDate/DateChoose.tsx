@@ -1,4 +1,3 @@
-// Date.js
 import React from "react";
 import {
   StyleSheet,

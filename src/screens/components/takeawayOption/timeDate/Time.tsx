@@ -21,8 +21,6 @@ const Time = ({
   setOpenDate,
   isDelivery,
 }) => {
-  // console.log("formattedDate", formattedDate);
-  // console.log("selectedDate", selectedDate);
   const generateTimeIntervals = () => {
     const isSameDate = selectedDate === formattedDate;
 
@@ -60,7 +58,6 @@ const Time = ({
 
       return timeIntervals;
     } else {
-      // If selected date is different, show all time from 10 AM to 10 PM
       const allTimeIntervals = [];
       for (let hour = 10; hour <= 22; hour++) {
         for (let minute = 0; minute < 60; minute += 30) {
@@ -167,13 +164,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  noTimeText: {
-    color: COLORS.red,
-    ...FONTS.h3,
-    padding: 10,
-    textAlign: "center",
-    marginLeft: 30,
   },
   closeButton: {
     justifyContent: "center",

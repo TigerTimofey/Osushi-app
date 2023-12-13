@@ -1,4 +1,3 @@
-// Date.js
 import React from "react";
 import {
   StyleSheet,
@@ -23,24 +22,34 @@ const AdressChooose = ({
   setAdressChooose,
   handlePriceForDelivery,
   setUserCity,
-  userClicked,
   setUserAdress,
   userAdress,
   userApartment,
   userCity,
-  formatPrice,
-  distancePrice,
   setUserApartment,
 }) => {
   const [showCityDropdown, setShowCityDropdown] = React.useState(true);
-  const countries = ["Tallinn", "Maardu", "Muuga"];
+  const countries = restoranWorkData[0].deliveryCities;
   return (
     <Modal animationType="fade" transparent={true} visible={adressChooose}>
       <BlurView style={styles.blur} tint="light" intensity={5}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View style={styles.formContainer}>
-              <Text style={styles.infoText}>AADRESSI VALIMINE</Text>
+              <Text
+                style={
+                  {
+                    position: "absolute",
+                    top: -10,
+                    right: -10,
+                    color: COLORS.darknessGray,
+                    opacity: 0.7,
+                    ...FONTS.h1,
+                  } as StyleProp<TextStyle>
+                }
+              >
+                AADRESSI VALIMINE
+              </Text>
               {showCityDropdown ? (
                 <>
                   <TouchableOpacity
@@ -60,7 +69,6 @@ const AdressChooose = ({
                   <SelectDropdown
                     buttonStyle={styles.inputCity}
                     buttonTextStyle={styles.inputCityText}
-                    // dropdownStyle={{ backgroundColor: "white", borderRadius: 10,  }}
                     dropdownStyle={styles.dropdownCity}
                     dropdownIconPosition="left"
                     defaultButtonText="Vali linn"
@@ -154,15 +162,6 @@ const AdressChooose = ({
 };
 
 const styles = StyleSheet.create({
-  infoText: {
-    position: "absolute",
-    top: -10,
-    right: -10,
-    color: COLORS.darknessGray,
-    opacity: 0.7,
-
-    ...FONTS.h1,
-  },
   absolute: {
     position: "absolute",
     top: -50,
@@ -234,7 +233,6 @@ const styles = StyleSheet.create({
     padding: 10,
     marginRight: -15,
     fontSize: SIZES.h3,
-
     width: 85,
   },
   containerGetPrice: {
@@ -242,7 +240,6 @@ const styles = StyleSheet.create({
     top: 145,
     left: 110,
     alignItems: "center",
-    // marginVertical: 15,
   },
 
   container: {
@@ -253,20 +250,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.yellow,
     marginTop: 480,
     padding: 50,
-  },
-  dateButton: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: "30%",
-    height: 30,
-    marginVertical: 5,
-    borderRadius: 10,
-    backgroundColor: COLORS.lightGray,
-  },
-  dateButtonText: {
-    padding: 0,
-    color: COLORS.darknessGray,
-    ...FONTS.h3,
   },
 
   blur: {
