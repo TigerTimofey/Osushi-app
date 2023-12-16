@@ -28,10 +28,10 @@ export const campaignData = [
     name: "Kojuvedu 0€",
     img: images.delivery,
     bgColor: COLORS.purple,
-    numericPrice: 0,
+    numericPrice: "",
     info: "Üle 50 euro tellimustele kohaletoimetamine tasuta",
     type: "KAMPAANIA",
-    cost: true,
+    cost: false,
   },
   {
     id: 103,
