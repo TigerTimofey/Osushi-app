@@ -78,6 +78,7 @@ export const kampaania = require("../../assets/images/kampaania/kampaania.jpg");
 export const delivery = require("../../assets/images/kampaania/delivery.png");
 export const free = require("../../assets/images/kampaania/free.jpg");
 export const uks = require("../../assets/images/kampaania/uks.jpg");
+export const otellimus = require("../../assets/images/kampaania/otellimus.png");
 
 export const logo = require("../../assets/adaptive-icon.png");
 export const logoQuestion = require("../../assets/adaptive-icon-question.png");
@@ -157,10 +158,12 @@ export default {
   ingver,
   wasabi,
 
+  //Campaign
   kampaania,
   delivery,
   free,
   uks,
+  otellimus,
 
   logo,
   logoQuestion,

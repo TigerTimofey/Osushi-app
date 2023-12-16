@@ -368,7 +368,6 @@ const style = StyleSheet.create({
     display: "flex",
     textAlign: "center",
     marginLeft: 45,
-    marginBottom: 8,
   },
   blur: {
     flex: 1,
