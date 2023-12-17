@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
 
     backgroundColor: COLORS.yellow,
-    marginTop: 350,
+    marginTop: 280,
     padding: 50,
   },
   timeButton: {

@@ -213,8 +213,9 @@ const Delivery = ({
                       backgroundColor: COLORS.yellow,
                       padding: 10,
                       position: "absolute",
-                      bottom: -20,
+                      bottom: 5,
                       width: 175,
+                      left: -5,
                       color: COLORS.darknessGray,
                       ...FONTS.h3,
                       textAlign: "center",
@@ -236,7 +237,8 @@ const Delivery = ({
                     {
                       backgroundColor: COLORS.yellow,
                       position: "absolute",
-                      left: 115,
+
+                      left: 110,
                       padding: 10,
                       width: 175,
                       color: COLORS.darknessGray,

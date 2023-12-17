@@ -41,7 +41,7 @@ const AdressChooose = ({
                   {
                     position: "absolute",
                     top: -10,
-                    right: -10,
+                    right: 0,
                     color: COLORS.darknessGray,
                     opacity: 0.7,
                     ...FONTS.h1,
@@ -62,6 +62,7 @@ const AdressChooose = ({
                         resizeMode="contain"
                         style={{
                           width: 40,
+                          left: 12,
                         }}
                       />
                     </View>
@@ -104,6 +105,7 @@ const AdressChooose = ({
                         resizeMode="contain"
                         style={{
                           width: 40,
+                          left: 12,
                         }}
                       />
                     </View>
@@ -248,7 +250,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: COLORS.yellow,
-    marginTop: 480,
+    marginTop: 280,
     padding: 50,
   },
 

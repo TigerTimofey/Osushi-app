@@ -50,7 +50,7 @@ export const campaignData = [
     bgColor: COLORS.purple,
     numericPrice: 14.9,
     type: "KAMPAANIA",
-    info: "Philadelphia maki (10tk)\nKana tempura (10tk)",
+    info: "Philadelphia maki (10tk)\nKana tempura (10tk)\nKurgi maki (10tk)",
     cost: true,
   },
 ];
