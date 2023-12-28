@@ -1,6 +1,6 @@
 # Restaurant App
 
-![osushiApp](https://github.com/TigerTimofey/Osushi-app/assets/119110538/3d39d4bc-b4e0-42ae-8c4d-4d98398cba74)
+<img src="https://github.com/TigerTimofey/Osushi-app/assets/119110538/3d39d4bc-b4e0-42ae-8c4d-4d98398cba74" width="200" alt="osushiApp">
 
 
 ## `About project`
