@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: COLORS.yellow,
-    marginTop: 480,
+    marginTop: 320,
     padding: 50,
   },
   dateButton: {

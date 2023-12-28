@@ -22,6 +22,7 @@ import restoranWorkData from "../../../../constants/menu/timeStatesData";
 
 import { REACT_PUBLIC_API_KEY } from "@env";
 import AdressChooose from "./adressChoose";
+import MontonioPayment from "../montonio/MontonioPayment";
 
 const Delivery = ({
   cartData,
@@ -47,6 +48,8 @@ const Delivery = ({
   const [adressChooose, setAdressChooose] = React.useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     React.useState(null);
+  const [totalNumericPrice, setTotalNumericPrice] = React.useState(null);
+  const [montonioOpen, setMontonioOpen] = React.useState(false);
 
   const formatPrice = (price: number) => {
     return price.toLocaleString("en-US", {
@@ -149,6 +152,7 @@ const Delivery = ({
         }
 
         console.log("Order", orderDetails);
+        setTotalNumericPrice(totalNumericPrice);
         console.log("totalNumericPrice", totalNumericPrice);
       } else {
         console.error("Google Maps Distance Matrix API error:", data.status);
@@ -209,8 +213,9 @@ const Delivery = ({
                       backgroundColor: COLORS.yellow,
                       padding: 10,
                       position: "absolute",
-                      bottom: -20,
-                      minWidth: 165,
+                      bottom: 5,
+                      width: 175,
+                      left: -5,
                       color: COLORS.darknessGray,
                       ...FONTS.h3,
                       textAlign: "center",
@@ -232,9 +237,10 @@ const Delivery = ({
                     {
                       backgroundColor: COLORS.yellow,
                       position: "absolute",
-                      left: 115,
+
+                      left: 110,
                       padding: 10,
-                      minWidth: 165,
+                      width: 175,
                       color: COLORS.darknessGray,
                       ...FONTS.h3,
                       textAlign: "center",
@@ -275,6 +281,13 @@ const Delivery = ({
                 userAdress={userAdress}
                 userApartment={userApartment}
                 userCity={userCity}
+              />
+              <MontonioPayment
+                // orderDetails={orderDetails}
+                cartData={cartData}
+                montonioOpen={montonioOpen}
+                setMontonioOpen={setMontonioOpen}
+                totalNumericPrice={totalNumericPrice}
               />
             </View>
             <View style={styles.container}>
@@ -322,6 +335,7 @@ const Delivery = ({
                 onPress={() => {
                   console.log("MAKSAN KAARDIGA clicked");
                   setSelectedPaymentMethod("MAKSAN KAARDIGA");
+                  setMontonioOpen(true);
                 }}
               >
                 <Text

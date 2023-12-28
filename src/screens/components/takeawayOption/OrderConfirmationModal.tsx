@@ -142,9 +142,9 @@ const OrderConfirmationModal = ({
                 // loop={false}
                 style={{
                   width: "100%",
-                  height: 400,
+                  height: 390,
                   // position: "realitive",
-                  top: 110,
+                  top: 50,
                 }}
               />
             </View>

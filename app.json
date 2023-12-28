@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "osushi",
-    "slug": "osushi",
+    "slug": "osushi-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.osushi.osushi",
@@ -19,17 +21,30 @@
         "image": "./assets/splash.png",
         "resizeMode": "contain",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "runtimeVersion": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.osushi.osushi"
+      "package": "com.osushi.osushi",
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "fedd2cd2-263a-4d5d-9475-ccb49891681f"
+      }
+    },
+    "owner": "tigertimofey",
+    "updates": {
+      "url": "https://u.expo.dev/fedd2cd2-263a-4d5d-9475-ccb49891681f"
     }
   }
 }

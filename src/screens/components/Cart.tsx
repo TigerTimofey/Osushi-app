@@ -89,7 +89,7 @@ export default function Cart({
           flexDirection: "row",
           alignItems: "center",
           position: "absolute",
-          top: -316,
+          top: -312,
           right: 25,
         }}
       >

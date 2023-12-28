@@ -61,22 +61,26 @@ const SuccessModal = ({
 
           <View style={{ alignItems: "center", justifyContent: "center" }}>
             <LottieView
+              source={Congratuations}
+              autoPlay
+              loop={false}
+              style={{
+                width: "130%",
+                height: 900,
+                position: "absolute",
+                bottom: -600,
+              }}
+            />
+            <LottieView
               source={Success}
               autoPlay
               loop={false}
               style={{
                 width: "100%",
-                height: 300,
-                bottom: 5,
+                height: 200,
                 position: "absolute",
               }}
               onAnimationFinish={() => setLottieAnimationFinished(true)}
-            />
-            <LottieView
-              source={Congratuations}
-              autoPlay
-              loop={false}
-              style={{ width: "160%", height: 2000, position: "absolute" }}
             />
           </View>
 
@@ -219,7 +223,7 @@ const SuccessModal = ({
                       padding: 10,
 
                       bottom: 50,
-                      left: -60,
+                      left: -50,
                     } as StyleProp<TextStyle>
                   }
                 >
