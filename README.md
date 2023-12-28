@@ -2,7 +2,6 @@
 
 <img src="https://github.com/TigerTimofey/Osushi-app/assets/119110538/3d39d4bc-b4e0-42ae-8c4d-4d98398cba74" width="600" alt="osushiApp">
 
-
 ## `About project`
 The project is a full-fledged iOS application developed using modern technologies.
 
@@ -46,3 +45,5 @@ The project is highly adaptable for new restaurants, ensuring easy implementatio
 "react-native-select-dropdown": "^3.4.0",
 "react-native-vector-icons": "^10.0.2",
 "typescript": "^5.1.3"
+
+## `Video about the application (English): ` https://youtu.be/5SQEfZffCk8
