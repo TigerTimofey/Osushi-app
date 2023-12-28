@@ -75,7 +75,7 @@ const Recieve = ({
               } as StyleProp<TextStyle>
             }
           >
-            TELLIMUS
+            ARVE
           </Text>
           {/* Black Horizontal Line */}
           <View

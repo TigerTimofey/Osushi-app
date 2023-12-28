@@ -63,7 +63,7 @@ const SuccessModal = ({
             <LottieView
               source={Congratuations}
               autoPlay
-              // loop={false}
+              loop={false}
               style={{
                 width: "130%",
                 height: 900,
