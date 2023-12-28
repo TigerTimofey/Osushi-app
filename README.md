@@ -1,5 +1,8 @@
 # Restaurant App
 
+![osushiApp](https://github.com/TigerTimofey/Osushi-app/assets/119110538/3d39d4bc-b4e0-42ae-8c4d-4d98398cba74)
+
+
 ## `About project`
 The project is a full-fledged iOS application developed using modern technologies.
 
